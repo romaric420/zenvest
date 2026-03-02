@@ -1,0 +1,756 @@
+{
+  "nav": {
+    "home": "Home",
+    "investing": "Investing",
+    "trading": "Trading",
+    "simulator": "Simulator",
+    "progress": "My Progress",
+    "language": "FR",
+    "cta": "Get Started"
+  },
+  "hero": {
+    "badge": "Premium Training",
+    "title": "Master the Financial Markets",
+    "subtitle": "From beginner to expert: learn investing and trading with structured courses, hands-on exercises, and personalized progress tracking.",
+    "ctaPrimary": "Explore Courses",
+    "ctaSecondary": "View Curriculum",
+    "stats": {
+      "modules": "Modules",
+      "exercises": "Exercises",
+      "hours": "Hours of Content",
+      "certificate": "Certificate"
+    }
+  },
+  "home": {
+    "coursesTitle": "Our Learning Paths",
+    "coursesSubtitle": "Two comprehensive paths to master the financial markets, from beginner to advanced.",
+    "whyTitle": "Why Our Training?",
+    "whySubtitle": "A structured, progressive approach for real results.",
+    "features": [
+      {
+        "title": "Guided Progression",
+        "desc": "Modules unlock progressively for a structured and coherent learning experience."
+      },
+      {
+        "title": "Hands-on Exercises",
+        "desc": "Practice each concept with corrected exercises and real-world case studies."
+      },
+      {
+        "title": "Expert Content",
+        "desc": "Written by financial market professionals with 15+ years of experience."
+      },
+      {
+        "title": "Multi-level",
+        "desc": "From complete beginner to advanced trader, every level is covered in depth."
+      }
+    ],
+    "levelsTitle": "Three levels of expertise",
+    "levels": {
+      "beginner": {
+        "label": "Beginner",
+        "desc": "Fundamentals to start with confidence"
+      },
+      "intermediate": {
+        "label": "Intermediate",
+        "desc": "Deepen your strategies and analysis"
+      },
+      "advanced": {
+        "label": "Advanced",
+        "desc": "Professional techniques and advanced management"
+      }
+    }
+  },
+  "courseCard": {
+    "modules": "modules",
+    "exercises": "exercises",
+    "start": "Start the path",
+    "continue": "Continue",
+    "completed": "Completed"
+  },
+  "module": {
+    "locked": "Complete the previous module to unlock",
+    "unlocked": "Available",
+    "completed": "Completed",
+    "start": "Start this module",
+    "continue": "Continue",
+    "markComplete": "Mark as complete",
+    "nextModule": "Next module",
+    "prevModule": "Previous module",
+    "exerciseTitle": "Practical Exercise",
+    "showCorrection": "Show correction",
+    "hideCorrection": "Hide correction",
+    "correction": "Correction",
+    "quizTitle": "Validation Quiz",
+    "quizSubmit": "Submit answers",
+    "quizScore": "Score",
+    "quizPass": "Congratulations! Module validated!",
+    "quizFail": "Try again, you need at least 70% to validate.",
+    "keyPoints": "Key Takeaways",
+    "level": "Level"
+  },
+  "progress": {
+    "title": "My Progress",
+    "overall": "Overall Progress",
+    "investing": "Investing Path",
+    "trading": "Trading Path",
+    "completed": "Completed modules",
+    "remaining": "Remaining modules",
+    "reset": "Reset progress"
+  },
+  "footer": {
+    "tagline": "Your journey to mastering the financial markets starts here.",
+    "courses": "Courses",
+    "investing": "Investing",
+    "trading": "Trading",
+    "resources": "Resources",
+    "glossary": "Glossary",
+    "faq": "FAQ",
+    "blog": "Blog",
+    "legal": "Legal",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "disclaimer": "Disclaimer",
+    "disclaimerText": "⚠️ The training offered is for educational purposes only. Stock market investing involves risks of capital loss. Past performance does not guarantee future results.",
+    "rights": "All rights reserved."
+  },
+  "courses": {
+    "investing": {
+      "id": "investing",
+      "title": "Stock Market Investing",
+      "shortTitle": "Investing",
+      "description": "Learn to build and manage a high-performing investment portfolio. From basics to advanced wealth management strategies.",
+      "icon": "TrendingUp",
+      "color": "#59A52C",
+      "modules": [
+        {
+          "id": "inv-01",
+          "title": "Introduction to Financial Markets",
+          "level": "beginner",
+          "duration": "45 min",
+          "description": "Understand how stock markets work, their history, and their role in the economy.",
+          "content": [
+            {
+              "type": "text",
+              "title": "What is the Stock Market?",
+              "body": "The stock market is an organized marketplace where financial securities (stocks, bonds, etc.) are traded. It allows companies to raise capital and investors to grow their wealth. Major stock exchanges include the NYSE (New York Stock Exchange), NASDAQ, Euronext Paris (CAC 40), London Stock Exchange (FTSE 100), and Tokyo Stock Exchange (Nikkei 225).\n\nA stock's price is determined by supply and demand: if more people want to buy than sell, the price goes up, and vice versa. This mechanism reflects investors' expectations about a company's future financial health."
+            },
+            {
+              "type": "text",
+              "title": "Key Market Participants",
+              "body": "**Institutional investors**: Pension funds, insurance companies, sovereign wealth funds. They account for about 70% of trading volume.\n\n**Retail investors**: Individuals investing their personal savings through brokerage accounts.\n\n**Market makers**: They ensure market liquidity by continuously offering buy and sell prices.\n\n**Regulators**: The SEC in the US, FCA in the UK, AMF in France. They oversee market integrity and transparency."
+            },
+            {
+              "type": "text",
+              "title": "Why Invest in the Stock Market?",
+              "body": "Historically, the stock market offers the best long-term returns. The S&P 500 has delivered an annualized return of approximately 10% over the last 100 years (before inflation).\n\n**Advantages:**\n- Protection against inflation\n- Compound interest effect\n- Liquidity (ability to sell quickly)\n- Accessible diversification\n- Passive income (dividends)\n\n**Risks:**\n- Short-term volatility\n- Risk of capital loss\n- Currency risk (international investments)\n- Liquidity risk on small caps"
+            }
+          ],
+          "keyPoints": [
+            "The stock market is an organized marketplace for trading securities",
+            "Prices are determined by supply and demand",
+            "Institutional investors dominate trading volume",
+            "Historical average return is approximately 10% per year",
+            "Investing carries risks of capital loss"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-01-1",
+              "question": "Explain in your own words the difference between the primary and secondary market. Give a concrete example for each.",
+              "correction": "**Primary market**: Where new securities are issued. When a company goes public (IPO) or issues new shares. Example: Facebook's IPO in 2012 at $38 per share.\n\n**Secondary market**: Where previously issued securities are traded between investors. This is what we commonly call 'the stock market'. Example: Buying Apple shares today on NASDAQ."
+            },
+            {
+              "id": "ex-inv-01-2",
+              "question": "An investor buys 100 shares at $50 each. Six months later, the share is worth $58 and they received $1.50 in dividends per share. Calculate the total return.",
+              "correction": "**Total return calculation:**\n- Initial investment: 100 × $50 = $5,000\n- Capital gain: 100 × ($58 - $50) = $800\n- Dividends: 100 × $1.50 = $150\n- Total gain: $800 + $150 = $950\n- Total return: $950 / $5,000 = 19%\n- Annualized return: (1 + 0.19)^(12/6) - 1 ≈ 41.6%"
+            }
+          ],
+          "quiz": [
+            {
+              "question": "What is the primary role of the stock market?",
+              "options": [
+                "To help banks lend money",
+                "To facilitate securities trading and corporate financing",
+                "To set interest rates",
+                "To regulate inflation"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "What historical annualized return has the S&P 500 delivered over 100 years?",
+              "options": [
+                "~3%",
+                "~5%",
+                "~10%",
+                "~15%"
+              ],
+              "correct": 2
+            },
+            {
+              "question": "Who represents approximately 70% of trading volume?",
+              "options": [
+                "Retail investors",
+                "Institutional investors",
+                "Market makers",
+                "Regulators"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "inv-02",
+          "title": "Asset Classes Overview",
+          "level": "beginner",
+          "duration": "60 min",
+          "description": "Stocks, bonds, commodities, REITs, cryptocurrencies: understand each asset class in depth.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Stocks (Equities)",
+              "body": "A stock represents ownership in a company. As a shareholder, you're entitled to:\n- Dividends (share of distributed profits)\n- Voting rights at general meetings\n- Capital gains if the price rises\n\n**Types of stocks:**\n- **Growth stocks**: High-growth companies reinvesting profits (e.g., Amazon, Tesla). High valuation, little or no dividends.\n- **Value/Income stocks**: Mature companies paying regular dividends (e.g., Coca-Cola, Johnson & Johnson). More reasonable valuation.\n- **Defensive stocks**: Sectors resistant to crises (healthcare, food, utilities). Less volatile.\n- **Cyclical stocks**: Performance tied to economic cycles (automotive, luxury, banks).\n- **Blue Chips**: Large-cap, sector leaders, considered the safest."
+            },
+            {
+              "type": "text",
+              "title": "Bonds (Fixed Income)",
+              "body": "A bond is a debt instrument. You lend money to an issuer (government, corporation) who repays you with interest.\n\n**Key characteristics:**\n- **Face value**: Amount borrowed (often $1,000)\n- **Coupon**: Interest paid periodically\n- **Maturity**: Repayment date\n- **Rating**: Credit rating (AAA = very safe, C = very risky)\n\n**Types of bonds:**\n- **Government bonds (Treasuries in US, Gilts in UK)**: Safest, lower yield\n- **Investment Grade corporate bonds**: Moderate risk, intermediate yield\n- **High Yield (junk bonds)**: High risk, high yield\n- **Convertible bonds**: Can be converted to shares\n- **Inflation-linked bonds (TIPS)**: Protection against inflation"
+            },
+            {
+              "type": "text",
+              "title": "Commodities, Real Estate & Alternatives",
+              "body": "**Commodities:**\n- Gold: Safe haven during uncertainty\n- Oil: Tied to economic cycles\n- Industrial metals: Copper, lithium (energy transition)\n- Agricultural products: Wheat, corn, coffee\n\nAccessible through ETFs, futures, or producer stocks.\n\n**REITs (Real Estate Investment Trusts):**\n- Companies holding real estate portfolios\n- Required to distribute a large portion of income\n- Sectors: offices, retail, logistics, healthcare\n- Examples: Prologis, Realty Income\n\n**Alternative assets:**\n- Cryptocurrencies (Bitcoin, Ethereum)\n- Private equity\n- Infrastructure\n- Art, wine, collectibles"
+            }
+          ],
+          "keyPoints": [
+            "Stocks offer the best long-term returns but are volatile",
+            "Bonds provide stability and regular income",
+            "Diversification across asset classes reduces overall risk",
+            "Each class has its own risk/return characteristics",
+            "Alternative assets complement a diversified portfolio"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-02-1",
+              "question": "Rank the following asset classes from least to most risky: Emerging market stocks, AAA Government bonds, Gold, Blue Chip stocks, High Yield bonds, Cryptocurrencies. Justify your ranking.",
+              "correction": "**From least to most risky:**\n1. AAA Government bonds - Minimal risk, government guarantee\n2. Gold - Safe haven, moderate volatility\n3. High Yield bonds - Higher default risk but still bonds\n4. Blue Chip stocks - Stock volatility but solid companies\n5. Emerging market stocks - Geopolitical + currency + volatility risk\n6. Cryptocurrencies - Extreme volatility, no intrinsic value\n\nThis ranking is approximate. Actual risk depends on investment horizon and market conditions."
+            }
+          ],
+          "quiz": [
+            {
+              "question": "What is the fundamental difference between a stock and a bond?",
+              "options": [
+                "The price",
+                "A stock is ownership, a bond is debt",
+                "Bonds always yield more",
+                "There is no difference"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Defensive stocks typically belong to which sector?",
+              "options": [
+                "Technology",
+                "Luxury",
+                "Healthcare and food",
+                "Automotive"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "inv-03",
+          "title": "Building Your Portfolio",
+          "level": "beginner",
+          "duration": "75 min",
+          "description": "Diversification principles, asset allocation, and building a portfolio tailored to your profile.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Your Investor Profile",
+              "body": "Before investing, you must determine your profile by assessing:\n\n**1. Your investment horizon:**\n- Short term (< 2 years): favor bonds and money market funds\n- Medium term (2-8 years): stock/bond mix\n- Long term (> 8 years): stock-dominant\n\n**2. Your risk tolerance:**\n- Conservative: accepts 5-10% volatility\n- Balanced: accepts 10-20% volatility\n- Dynamic: accepts > 20% volatility\n\n**3. Your goals:**\n- Capital growth\n- Regular income\n- Retirement planning\n- Specific project"
+            },
+            {
+              "type": "text",
+              "title": "Diversification: Your Best Protection",
+              "body": "Harry Markowitz, Nobel Prize in Economics, demonstrated that diversification is 'the only free lunch in finance'.\n\n**Multi-level diversification:**\n1. **By asset class**: Stocks + Bonds + Real Estate + Commodities\n2. **Geographic**: Europe + US + Asia + Emerging\n3. **Sectoral**: Tech + Healthcare + Finance + Energy + Consumer\n4. **By size**: Large caps + Mid caps + Small caps\n5. **By style**: Growth + Value + Blend\n\n**Correlation:**\nThe ideal is combining uncorrelated assets. When stocks fall, bonds often rise, creating a buffer effect."
+            },
+            {
+              "type": "text",
+              "title": "Classic Allocation Models",
+              "body": "**Conservative Portfolio:**\n- 30% Stocks (Blue Chips, dividends)\n- 50% Bonds (Government + Investment Grade)\n- 10% REITs\n- 10% Gold / Cash\n\n**Balanced Portfolio:**\n- 50% Stocks (geographically diversified)\n- 30% Bonds\n- 10% REITs\n- 10% Alternatives\n\n**Dynamic Portfolio:**\n- 70% Stocks (includes Growth and Small Caps)\n- 15% High Yield Bonds\n- 10% Commodities\n- 5% Cryptocurrencies\n\n**Aggressive Portfolio (Risk Taker):**\n- 85% Stocks (Growth, Small Caps, Emerging)\n- 10% Cryptocurrencies\n- 5% Options / Derivatives\n\n**Simple age-based rule:**\nBond % = Your age (e.g., 30 years old → 30% bonds, 70% stocks)"
+            }
+          ],
+          "keyPoints": [
+            "Define your profile before investing (horizon, risk, goals)",
+            "Diversification reduces risk without reducing expected return",
+            "Correlation between assets is as important as the assets themselves",
+            "Adapt your allocation to your age and situation",
+            "There is no universal perfect portfolio"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-03-1",
+              "question": "Marie, 35 years old, stable job, wants to prepare for retirement in 30 years. She has $50,000 to invest and doesn't like seeing her portfolio lose more than 15%. Propose a justified asset allocation.",
+              "correction": "**Marie's profile:**\n- Horizon: Long term (30 years) → favorable for stocks\n- Tolerance: Moderate (max -15%) → balanced profile\n- Objective: Retirement → capital growth\n\n**Proposed allocation:**\n- 55% Diversified stocks ($27,500)\n  - 30% World ETF (MSCI World)\n  - 15% US ETF (S&P 500)\n  - 10% Emerging Markets ETF\n- 25% Bonds ($12,500)\n  - 15% Government bonds\n  - 10% Investment Grade corporate\n- 10% REITs ($5,000)\n- 10% Gold ETF ($5,000)\n\nThis allocation limits maximum historical loss to approximately 15-20% while offering an expected return of 6-7% per year over 30 years."
+            }
+          ],
+          "quiz": [
+            {
+              "question": "According to the simplified rule, what bond allocation for a 40-year-old?",
+              "options": [
+                "20%",
+                "40%",
+                "60%",
+                "80%"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Which Nobel Prize winner theorized portfolio diversification?",
+              "options": [
+                "Paul Samuelson",
+                "Harry Markowitz",
+                "Eugene Fama",
+                "Robert Shiller"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "inv-04",
+          "title": "Active vs Passive vs Semi-Active Management",
+          "level": "intermediate",
+          "duration": "60 min",
+          "description": "Compare management styles, their pros and cons, and choose the one that suits you.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Passive (Index) Management",
+              "body": "Passive management consists of replicating a stock index without trying to beat it.\n\n**Principle:** Buy an ETF that faithfully reproduces the performance of an index like the S&P 500 or MSCI World.\n\n**Advantages:**\n- Very low fees (0.05% to 0.40% per year vs 1.5-2% for active)\n- Outperforms 85-90% of active managers over 10-20 years\n- Simplicity: no need to analyze companies\n- Immediate diversification\n- Optimized taxation (fewer transactions)\n\n**Disadvantages:**\n- No protection in bear markets\n- Performance equals the market, never higher\n- Concentration risk in cap-weighted indices\n\n**Famous advocates:** Warren Buffett recommends retail investors buy an S&P 500 ETF. John Bogle (Vanguard founder) popularized this approach."
+            },
+            {
+              "type": "text",
+              "title": "Active Management",
+              "body": "Active management aims to beat the market through stock selection or market timing.\n\n**Approaches:**\n- **Stock picking**: Selecting individual stocks\n- **Market timing**: Anticipating market movements\n- **Tactical allocation**: Overweighting/underweighting sectors\n\n**Advantages:**\n- Potential for outperformance\n- Possible protection in bear markets\n- Ability to avoid controversial companies\n\n**Disadvantages:**\n- High fees eroding performance\n- 85-90% of active managers underperform their index long-term\n- Requires time, skill, and discipline\n- Psychological biases (overconfidence, loss aversion)\n\n**When active management has an edge:**\n- Inefficient markets (small caps, emerging)\n- Crisis periods (ability to go to cash)\n- Specialized niches"
+            },
+            {
+              "type": "text",
+              "title": "Semi-Active Management (Smart Beta / Factor Investing)",
+              "body": "Semi-active management combines advantages of both approaches with systematic rules.\n\n**Academically proven performance factors:**\n- **Value**: Buying undervalued stocks (low P/E, low P/B)\n- **Momentum**: Following price trends\n- **Quality**: Profitable companies with solid balance sheets\n- **Size**: Overweighting small caps\n- **Low Volatility**: Less volatile stocks outperform risk-adjusted\n- **Dividends**: Growing dividend stocks\n\n**The Core-Satellite approach:**\nPopular strategy combining:\n- **Core (70-80%)**: Broad index ETFs (passive)\n- **Satellites (20-30%)**: Targeted active positions (stock picks, sector ETFs, thematic)\n\nThis provides a solid, low-cost base while allowing alpha-seeking on a controlled portion."
+            }
+          ],
+          "keyPoints": [
+            "Passive management beats 85-90% of active managers long-term",
+            "Fees are the most predictive factor of future performance",
+            "Smart Beta offers an interesting compromise",
+            "Core-Satellite combines the best of both worlds",
+            "No universal answer: choose based on your time and skills"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-04-1",
+              "question": "Pierre invests $10,000 in an active fund with 1.8% annual fees. Sophie invests the same in an ETF at 0.20% fees. If both achieve 8% gross annual return for 25 years, calculate the final difference.",
+              "correction": "**Pierre (active, 1.8% fees):**\nNet return: 8% - 1.8% = 6.2%/year\nFinal capital: $10,000 × (1.062)^25 = $45,381\n\n**Sophie (ETF, 0.20% fees):**\nNet return: 8% - 0.20% = 7.8%/year\nFinal capital: $10,000 × (1.078)^25 = $65,573\n\n**Difference: $20,192** or +44.5% in Sophie's favor!\n\nThis shows the massive impact of fees through compounding. Over 25 years, 1.6% extra annual fees cost over $20,000 on a $10,000 investment."
+            }
+          ],
+          "quiz": [
+            {
+              "question": "What percentage of active managers underperform their index long-term?",
+              "options": [
+                "50-60%",
+                "65-75%",
+                "85-90%",
+                "95-99%"
+              ],
+              "correct": 2
+            },
+            {
+              "question": "Which strategy combines a passive core with active satellites?",
+              "options": [
+                "Market timing",
+                "Core-Satellite",
+                "Pure Alpha",
+                "Dollar Cost Averaging"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "inv-05",
+          "title": "ETFs In-Depth",
+          "level": "intermediate",
+          "duration": "60 min",
+          "description": "Everything about ETFs: types, selection, fees, replication, taxation, and usage strategies.",
+          "content": [
+            {
+              "type": "text",
+              "title": "ETF Anatomy",
+              "body": "An ETF (Exchange Traded Fund) is a listed fund that replicates an index. Key features include continuous trading like stocks, very low management fees (TER), full transparency, and high liquidity. Replication methods include Physical (full), Optimized sampling, and Synthetic (swap-based)."
+            }
+          ],
+          "keyPoints": [
+            "TER is the most important fee metric",
+            "Prefer physical replication ETFs",
+            "AUM should exceed $100M",
+            "DCA on a World ETF is the simplest effective strategy"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "What is considered an 'excellent' TER?",
+              "options": [
+                "< 0.50%",
+                "< 0.30%",
+                "< 0.10%",
+                "< 1%"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "inv-06",
+          "title": "Fundamental Analysis & Valuation",
+          "level": "intermediate",
+          "duration": "90 min",
+          "description": "Learn to evaluate a company: financial ratios, balance sheet reading, valuation methods.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Key Ratios",
+              "body": "P/E Ratio, P/B, PEG, EV/EBITDA, Dividend Yield — understand each fundamental metric and how to use them for stock analysis."
+            }
+          ],
+          "keyPoints": [
+            "P/E alone isn't enough: cross multiple ratios",
+            "ROE and ROIC measure value creation",
+            "DCF is the most rigorous method",
+            "Always compare with same-sector companies"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "A P/E of 8x generally suggests:",
+              "options": [
+                "Expensive stock",
+                "Potentially undervalued",
+                "Company going bankrupt",
+                "High dividend"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "inv-07",
+          "title": "Macroeconomic Analysis",
+          "level": "advanced",
+          "duration": "75 min",
+          "description": "Impact of interest rates, inflation, economic cycles, and monetary policy on your investments.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Economic Cycles",
+              "body": "The economy evolves in 4 phases: Expansion, Peak, Contraction, and Trough. Each phase impacts different asset classes and sectors differently."
+            }
+          ],
+          "keyPoints": [
+            "Economic cycles dictate relative asset class performance",
+            "Interest rates are the most important macro factor",
+            "Yield curve inversion signals recession",
+            "Adapt sector allocation to cycle phase"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "A PMI of 52 indicates:",
+              "options": [
+                "Recession",
+                "Expansion",
+                "Inflation",
+                "Yield curve inversion"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "inv-08",
+          "title": "Investor Psychology & Discipline",
+          "level": "advanced",
+          "duration": "60 min",
+          "description": "Master cognitive biases, emotional management, and the discipline needed to perform.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Cognitive Biases in Investing",
+              "body": "Daniel Kahneman (Nobel Prize) demonstrated our brains aren't wired for rational investing. Key biases include loss aversion, confirmation bias, FOMO, and herd mentality."
+            }
+          ],
+          "keyPoints": [
+            "Cognitive biases are your worst enemy",
+            "Loss aversion leads to irrational decisions",
+            "A written plan and automation are your best tools",
+            "Discipline beats intelligence in investing"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "Loss aversion bias means:",
+              "options": [
+                "Hating to lose money",
+                "A loss weighs ~2x more psychologically than an equal gain",
+                "Never wanting risk",
+                "Always selling too early"
+              ],
+              "correct": 1
+            }
+          ]
+        }
+      ]
+    },
+    "trading": {
+      "id": "trading",
+      "title": "Trading & Technical Analysis",
+      "shortTitle": "Trading",
+      "description": "Master technical analysis, chart patterns, indicators, and professional trading strategies.",
+      "icon": "BarChart3",
+      "color": "#F5793B",
+      "modules": [
+        {
+          "id": "trd-01",
+          "title": "Trading Fundamentals",
+          "level": "beginner",
+          "duration": "45 min",
+          "description": "Trading basics: vocabulary, order types, timeframes, and first technical analysis concepts.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Trading vs Investing",
+              "body": "Trading and investing differ fundamentally. Trading focuses on short-term price fluctuations using technical analysis, while investing aims for long-term capital growth using fundamental analysis."
+            }
+          ],
+          "keyPoints": [
+            "Trading seeks to profit from short-term fluctuations",
+            "Stop loss is MANDATORY for every position",
+            "Always analyze at least 2-3 timeframes",
+            "Never trade against the higher timeframe trend"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "A 5% trailing stop on a $100 stock that rises to $120 triggers at:",
+              "options": [
+                "$95",
+                "$100",
+                "$114",
+                "$115"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "trd-02",
+          "title": "Japanese Candlesticks",
+          "level": "beginner",
+          "duration": "75 min",
+          "description": "Master candlestick reading: anatomy, reversal and continuation patterns.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Candlestick Anatomy",
+              "body": "Each candle represents 4 prices: Open, High, Low, Close. Green/white body = bullish, Red/black body = bearish. Wicks reveal price rejection zones."
+            }
+          ],
+          "keyPoints": [
+            "Wicks reveal price rejection zones",
+            "Reversal patterns are more reliable near support/resistance",
+            "Always wait for next-candle confirmation",
+            "Higher timeframes give more reliable signals"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "A Hammer at the top of an uptrend is called:",
+              "options": [
+                "Inverted Hammer",
+                "Hanging Man",
+                "Doji",
+                "Marubozu"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "trd-03",
+          "title": "Support, Resistance & Trends",
+          "level": "beginner",
+          "duration": "60 min",
+          "description": "Technical analysis foundations: identify key levels and market trends.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Support & Resistance",
+              "body": "Support is a price level where demand stops the decline. Resistance is where supply stops the rise. A broken support becomes resistance and vice versa (polarity)."
+            }
+          ],
+          "keyPoints": [
+            "Supports and resistances are ZONES, not lines",
+            "Broken support becomes resistance (and vice versa)",
+            "The trend is your friend",
+            "Volume confirms breakouts"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "A broken support becomes:",
+              "options": [
+                "A pivot",
+                "A resistance",
+                "A gap",
+                "A pullback"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "trd-04",
+          "title": "Essential Technical Indicators",
+          "level": "intermediate",
+          "duration": "90 min",
+          "description": "RSI, MACD, Moving Averages, Bollinger Bands, Volume: master the key indicators.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Moving Averages",
+              "body": "Moving averages smooth price to identify trends. Key ones: EMA 9/20 for short-term, SMA 50 for medium-term, SMA 200 for long-term. Golden Cross and Death Cross are major signals."
+            }
+          ],
+          "keyPoints": [
+            "SMA 200 is the long-term trend judge",
+            "RSI and MACD divergences are the most reliable signals",
+            "Bollinger Squeeze announces explosive moves",
+            "Maximum 2-3 indicators on your charts"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "A Golden Cross is the crossing of:",
+              "options": [
+                "SMA 20 and SMA 50",
+                "SMA 50 above SMA 200",
+                "RSI and its average",
+                "MACD and zero line"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "trd-05",
+          "title": "Chart Patterns & Figures",
+          "level": "intermediate",
+          "duration": "90 min",
+          "description": "Triangles, double tops, head and shoulders, flags: identify and trade chart patterns.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Reversal Patterns",
+              "body": "Head and Shoulders is the most reliable reversal pattern (~80%). Double Top/Bottom and Triple formations are also key reversal signals to master."
+            }
+          ],
+          "keyPoints": [
+            "Head and Shoulders is ~80% reliable",
+            "Triangles break in trend direction 75% of the time",
+            "Fibonacci golden zone (50-61.8%) is most watched",
+            "Always confirm patterns with volume"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "The Fibonacci Golden Ratio is at:",
+              "options": [
+                "23.6%",
+                "38.2%",
+                "50%",
+                "61.8%"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "trd-06",
+          "title": "Advanced Price Action",
+          "level": "advanced",
+          "duration": "90 min",
+          "description": "Pure Price Action trading: market structure, liquidity zones, order flow, and smart money concepts.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Market Structure",
+              "body": "Price Action analyzes raw price without indicators. Key concepts include Break of Structure (BOS), Change of Character (CHoCH), Order Blocks, and Smart Money Concepts."
+            }
+          ],
+          "keyPoints": [
+            "Markets are driven by institutional liquidity needs",
+            "CHoCH is the first sign of trend change",
+            "Order Blocks are institutional decision zones",
+            "Always trade HTF direction with LTF entry"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "A CHoCH indicates:",
+              "options": [
+                "Trend continuation",
+                "First sign of trend change",
+                "False breakout",
+                "Price gap"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "trd-07",
+          "title": "Professional Risk Management",
+          "level": "advanced",
+          "duration": "75 min",
+          "description": "Professional risk management techniques, position sizing, and capital protection.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Golden Rules of Risk Management",
+              "body": "Never risk more than 1-2% per trade. Always use stop losses. Minimum 1:2 risk/reward ratio. Set daily and weekly loss limits. Position sizing is the most important skill in trading."
+            }
+          ],
+          "keyPoints": [
+            "NEVER risk more than 1-2% per trade",
+            "Position sizing is the most important trading skill",
+            "1:2 R:R is profitable with just 40% win rate",
+            "Trading journal is mandatory for improvement"
+          ],
+          "exercises": [],
+          "quiz": [
+            {
+              "question": "With 1% risk per trade, how many consecutive losses to lose 10%?",
+              "options": [
+                "5",
+                "8",
+                "10",
+                "15"
+              ],
+              "correct": 2
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1038 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "investing": "Investissement",
+    "trading": "Trading",
+    "simulator": "Simulateur",
+    "progress": "Ma Progression",
+    "language": "EN",
+    "cta": "Commencer"
+  },
+  "hero": {
+    "badge": "Formation Premium",
+    "title": "Maîtrisez les Marchés Financiers",
+    "subtitle": "De débutant à expert : apprenez l'investissement et le trading avec des formations structurées, des exercices pratiques et un suivi de progression personnalisé.",
+    "ctaPrimary": "Découvrir les Formations",
+    "ctaSecondary": "Voir le programme",
+    "stats": {
+      "modules": "Modules",
+      "exercises": "Exercices",
+      "hours": "Heures de contenu",
+      "certificate": "Certificat"
+    }
+  },
+  "home": {
+    "coursesTitle": "Nos Parcours de Formation",
+    "coursesSubtitle": "Deux parcours complets pour maîtriser les marchés financiers, du débutant au confirmé.",
+    "whyTitle": "Pourquoi notre formation ?",
+    "whySubtitle": "Une approche structurée et progressive pour des résultats concrets.",
+    "features": [
+      {
+        "title": "Progression Guidée",
+        "desc": "Modules débloqués progressivement pour un apprentissage structuré et cohérent."
+      },
+      {
+        "title": "Exercices Pratiques",
+        "desc": "Mettez en pratique chaque concept avec des exercices corrigés et des cas réels."
+      },
+      {
+        "title": "Contenu Expert",
+        "desc": "Rédigé par des professionnels des marchés financiers avec +15 ans d'expérience."
+      },
+      {
+        "title": "Multi-niveaux",
+        "desc": "Du débutant complet au trader confirmé, chaque niveau est couvert en profondeur."
+      }
+    ],
+    "levelsTitle": "Trois niveaux d'expertise",
+    "levels": {
+      "beginner": {
+        "label": "Débutant",
+        "desc": "Les fondamentaux pour démarrer sereinement"
+      },
+      "intermediate": {
+        "label": "Intermédiaire",
+        "desc": "Approfondissez vos stratégies et analyses"
+      },
+      "advanced": {
+        "label": "Avancé",
+        "desc": "Techniques professionnelles et gestion avancée"
+      }
+    }
+  },
+  "courseCard": {
+    "modules": "modules",
+    "exercises": "exercices",
+    "start": "Commencer le parcours",
+    "continue": "Continuer",
+    "completed": "Terminé"
+  },
+  "module": {
+    "locked": "Complétez le module précédent pour débloquer",
+    "unlocked": "Disponible",
+    "completed": "Terminé",
+    "start": "Commencer ce module",
+    "continue": "Continuer",
+    "markComplete": "Marquer comme terminé",
+    "nextModule": "Module suivant",
+    "prevModule": "Module précédent",
+    "exerciseTitle": "Exercice pratique",
+    "showCorrection": "Voir la correction",
+    "hideCorrection": "Masquer la correction",
+    "correction": "Correction",
+    "quizTitle": "Quiz de validation",
+    "quizSubmit": "Valider mes réponses",
+    "quizScore": "Score",
+    "quizPass": "Félicitations ! Module validé !",
+    "quizFail": "Réessayez, il faut au moins 70% pour valider.",
+    "keyPoints": "Points clés à retenir",
+    "level": "Niveau"
+  },
+  "progress": {
+    "title": "Ma Progression",
+    "overall": "Progression globale",
+    "investing": "Parcours Investissement",
+    "trading": "Parcours Trading",
+    "completed": "Modules terminés",
+    "remaining": "Modules restants",
+    "reset": "Réinitialiser la progression"
+  },
+  "footer": {
+    "tagline": "Votre parcours vers la maîtrise des marchés financiers commence ici.",
+    "courses": "Formations",
+    "investing": "Investissement",
+    "trading": "Trading",
+    "resources": "Ressources",
+    "glossary": "Glossaire",
+    "faq": "FAQ",
+    "blog": "Blog",
+    "legal": "Légal",
+    "terms": "CGU",
+    "privacy": "Confidentialité",
+    "disclaimer": "Avertissement",
+    "disclaimerText": "⚠️ Les formations proposées ont un but éducatif uniquement. L'investissement en bourse comporte des risques de perte en capital. Les performances passées ne préjugent pas des performances futures.",
+    "rights": "Tous droits réservés."
+  },
+  "courses": {
+    "investing": {
+      "id": "investing",
+      "title": "Investissement en Bourse",
+      "shortTitle": "Investissement",
+      "description": "Apprenez à construire et gérer un portefeuille d'investissement performant. Des bases aux stratégies avancées de gestion de patrimoine.",
+      "icon": "TrendingUp",
+      "color": "#59A52C",
+      "modules": [
+        {
+          "id": "inv-01",
+          "title": "Introduction aux marchés financiers",
+          "level": "beginner",
+          "duration": "45 min",
+          "description": "Comprenez le fonctionnement des marchés boursiers, leur histoire et leur rôle dans l'économie.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Qu'est-ce que la Bourse ?",
+              "body": "La Bourse est un marché organisé où s'échangent des titres financiers (actions, obligations, etc.). Elle permet aux entreprises de lever des capitaux et aux investisseurs de placer leur épargne. Les principales places boursières mondiales incluent le NYSE (New York Stock Exchange), le NASDAQ, Euronext Paris (CAC 40), le London Stock Exchange (FTSE 100), et la Bourse de Tokyo (Nikkei 225).\n\nLe prix d'une action est déterminé par l'offre et la demande : si plus de personnes veulent acheter que vendre, le prix monte, et inversement. Ce mécanisme reflète les anticipations des investisseurs sur la santé financière future de l'entreprise."
+            },
+            {
+              "type": "text",
+              "title": "Les principaux acteurs du marché",
+              "body": "**Les investisseurs institutionnels** : Fonds de pension, compagnies d'assurance, fonds souverains. Ils représentent environ 70% des volumes échangés.\n\n**Les investisseurs particuliers** : Individus qui investissent leur épargne personnelle via un compte-titres ou un PEA (Plan d'Épargne en Actions en France).\n\n**Les market makers** : Ils assurent la liquidité du marché en proposant en permanence des prix d'achat et de vente.\n\n**Les régulateurs** : L'AMF en France, la SEC aux USA. Ils veillent au bon fonctionnement et à la transparence des marchés."
+            },
+            {
+              "type": "text",
+              "title": "Pourquoi investir en bourse ?",
+              "body": "Historiquement, la bourse offre le meilleur rendement sur le long terme. Le S&P 500 a délivré une performance annualisée d'environ 10% sur les 100 dernières années (avant inflation).\n\n**Les avantages :**\n- Protection contre l'inflation\n- Effet des intérêts composés\n- Liquidité (possibilité de vendre rapidement)\n- Diversification accessible\n- Revenus passifs (dividendes)\n\n**Les risques :**\n- Volatilité à court terme\n- Risque de perte en capital\n- Risque de change (investissement international)\n- Risque de liquidité sur les petites valeurs"
+            }
+          ],
+          "keyPoints": [
+            "La Bourse est un marché d'échange de titres financiers",
+            "Le prix est déterminé par l'offre et la demande",
+            "Les investisseurs institutionnels dominent les volumes",
+            "La performance historique moyenne est d'environ 10%/an",
+            "Investir comporte des risques de perte en capital"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-01-1",
+              "question": "Expliquez avec vos mots la différence entre le marché primaire et le marché secondaire. Donnez un exemple concret pour chacun.",
+              "correction": "**Marché primaire** : C'est le marché des émissions nouvelles. Lorsqu'une entreprise réalise son introduction en bourse (IPO) ou émet de nouvelles actions, cela se passe sur le marché primaire. Exemple : L'IPO de Facebook en 2012 à 38$ par action.\n\n**Marché secondaire** : C'est le marché où s'échangent les titres déjà émis entre investisseurs. C'est ce qu'on appelle communément 'la Bourse'. Exemple : Acheter des actions Apple aujourd'hui sur le NASDAQ."
+            },
+            {
+              "id": "ex-inv-01-2",
+              "question": "Un investisseur achète 100 actions à 50€ chacune. Six mois plus tard, l'action vaut 58€ et il a reçu 1,50€ de dividende par action. Calculez son rendement total.",
+              "correction": "**Calcul du rendement total :**\n- Investissement initial : 100 × 50€ = 5 000€\n- Plus-value : 100 × (58€ - 50€) = 800€\n- Dividendes : 100 × 1,50€ = 150€\n- Gain total : 800€ + 150€ = 950€\n- Rendement total : 950€ / 5 000€ = 19%\n- Rendement annualisé : (1 + 0,19)^(12/6) - 1 ≈ 41,6%"
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Quel est le rôle principal de la Bourse ?",
+              "options": [
+                "Permettre aux banques de prêter",
+                "Faciliter l'échange de titres financiers et le financement des entreprises",
+                "Fixer les taux d'intérêt",
+                "Réguler l'inflation"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Quelle performance annualisée historique offre le S&P 500 sur 100 ans ?",
+              "options": [
+                "~3%",
+                "~5%",
+                "~10%",
+                "~15%"
+              ],
+              "correct": 2
+            },
+            {
+              "question": "Qui représente environ 70% des volumes échangés en bourse ?",
+              "options": [
+                "Les particuliers",
+                "Les institutionnels",
+                "Les market makers",
+                "Les régulateurs"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "inv-02",
+          "title": "Les différentes classes d'actifs",
+          "level": "beginner",
+          "duration": "60 min",
+          "description": "Actions, obligations, matières premières, immobilier coté, cryptomonnaies : comprenez chaque classe d'actifs.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Les Actions",
+              "body": "Une action représente une part de propriété dans une entreprise. En tant qu'actionnaire, vous avez droit :\n- Aux dividendes (part des bénéfices distribuée)\n- Au droit de vote en assemblée générale\n- À la plus-value si le cours monte\n\n**Types d'actions :**\n- **Actions de croissance (Growth)** : Entreprises à forte croissance qui réinvestissent leurs bénéfices (ex: Amazon, Tesla). Valorisation élevée, peu ou pas de dividendes.\n- **Actions de rendement (Value/Income)** : Entreprises matures versant des dividendes réguliers (ex: Total, Air Liquide). Valorisation souvent plus raisonnable.\n- **Actions défensives** : Secteurs résistants aux crises (santé, alimentation, utilities). Moins volatiles.\n- **Actions cycliques** : Performances liées aux cycles économiques (automobile, luxe, banques).\n- **Blue Chips** : Grandes capitalisations, leaders de leur secteur, considérées comme les plus sûres."
+            },
+            {
+              "type": "text",
+              "title": "Les Obligations",
+              "body": "Une obligation est un titre de dette. Vous prêtez de l'argent à un émetteur (État, entreprise) qui vous rembourse avec des intérêts.\n\n**Caractéristiques :**\n- **Nominal** : Montant emprunté (souvent 1000€)\n- **Coupon** : Intérêt versé périodiquement\n- **Maturité** : Date de remboursement\n- **Rating** : Note de crédit (AAA = très sûr, C = très risqué)\n\n**Types d'obligations :**\n- **Obligations d'État (OAT en France, Treasuries aux USA)** : Les plus sûres, rendement faible\n- **Obligations d'entreprises Investment Grade** : Risque modéré, rendement intermédiaire\n- **High Yield (junk bonds)** : Risque élevé, rendement élevé\n- **Obligations convertibles** : Convertibles en actions\n- **Obligations indexées sur l'inflation** : Protection contre l'inflation"
+            },
+            {
+              "type": "text",
+              "title": "Matières premières, Immobilier & Alternatifs",
+              "body": "**Matières premières :**\n- Or : Valeur refuge en période d'incertitude\n- Pétrole : Lié aux cycles économiques\n- Métaux industriels : Cuivre, lithium (transition énergétique)\n- Produits agricoles : Blé, maïs, café\n\nAccessibles via ETF, futures, ou actions de producteurs.\n\n**Immobilier coté (REITs/SIIC) :**\n- Sociétés détenant des portefeuilles immobiliers\n- Obligation de distribuer une grande part des revenus\n- Secteurs : bureaux, commerces, logistique, santé\n- Exemple : Unibail-Rodamco, Prologis\n\n**Actifs alternatifs :**\n- Cryptomonnaies (Bitcoin, Ethereum)\n- Private equity\n- Infrastructure\n- Art, vin, forêts"
+            }
+          ],
+          "keyPoints": [
+            "Les actions offrent la meilleure performance long terme mais sont volatiles",
+            "Les obligations apportent stabilité et revenus réguliers",
+            "La diversification entre classes d'actifs réduit le risque global",
+            "Chaque classe a ses caractéristiques risque/rendement propres",
+            "Les actifs alternatifs complètent un portefeuille diversifié"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-02-1",
+              "question": "Classez les classes d'actifs suivantes du moins risqué au plus risqué : Actions émergentes, Obligations d'État AAA, Or, Actions Blue Chip, High Yield, Cryptomonnaies. Justifiez votre classement.",
+              "correction": "**Du moins au plus risqué :**\n1. Obligations d'État AAA - Risque minimal, garantie étatique\n2. Or - Valeur refuge, volatilité modérée\n3. High Yield - Risque de défaut plus élevé mais reste obligataire\n4. Actions Blue Chip - Volatilité actions mais entreprises solides\n5. Actions émergentes - Risque géopolitique + devise + volatilité\n6. Cryptomonnaies - Volatilité extrême, pas de valeur intrinsèque\n\nCe classement est une approximation. Le risque réel dépend de l'horizon de placement et des conditions de marché."
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Quelle est la différence fondamentale entre une action et une obligation ?",
+              "options": [
+                "Le prix",
+                "L'action est un titre de propriété, l'obligation un titre de dette",
+                "L'obligation rapporte toujours plus",
+                "Il n'y a pas de différence"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Les actions défensives appartiennent typiquement à quel secteur ?",
+              "options": [
+                "Technologies",
+                "Luxe",
+                "Santé et alimentation",
+                "Automobile"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "inv-03",
+          "title": "Construire son portefeuille",
+          "level": "beginner",
+          "duration": "75 min",
+          "description": "Les principes de diversification, allocation d'actifs, et construction d'un portefeuille adapté à votre profil.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Le profil investisseur",
+              "body": "Avant d'investir, vous devez déterminer votre profil en évaluant :\n\n**1. Votre horizon de placement :**\n- Court terme (< 2 ans) : privilégiez les obligations et fonds monétaires\n- Moyen terme (2-8 ans) : mix actions/obligations\n- Long terme (> 8 ans) : dominante actions\n\n**2. Votre tolérance au risque :**\n- Conservateur : accepte 5-10% de volatilité\n- Équilibré : accepte 10-20% de volatilité\n- Dynamique : accepte > 20% de volatilité\n\n**3. Vos objectifs :**\n- Constitution de capital\n- Revenus réguliers\n- Préparation retraite\n- Projet spécifique"
+            },
+            {
+              "type": "text",
+              "title": "La diversification : votre meilleure protection",
+              "body": "Harry Markowitz, Prix Nobel d'économie, a démontré que la diversification est 'le seul repas gratuit en finance'.\n\n**Diversification multi-niveaux :**\n1. **Par classes d'actifs** : Actions + Obligations + Immobilier + Matières premières\n2. **Géographique** : Europe + USA + Asie + Émergents\n3. **Sectorielle** : Technologie + Santé + Finance + Énergie + Consommation\n4. **Par taille** : Large caps + Mid caps + Small caps\n5. **Par style** : Growth + Value + Blend\n\n**La corrélation :**\nL'idéal est de combiner des actifs dont les performances ne sont pas corrélées. Quand les actions baissent, les obligations montent souvent, créant un effet amortisseur."
+            },
+            {
+              "type": "text",
+              "title": "Modèles d'allocation classiques",
+              "body": "**Portefeuille 'Bon père de famille' (Conservateur) :**\n- 30% Actions (Blue Chips, dividendes)\n- 50% Obligations (État + Investment Grade)\n- 10% Immobilier coté\n- 10% Or / Monétaire\n\n**Portefeuille Équilibré :**\n- 50% Actions (diversifiées géographiquement)\n- 30% Obligations\n- 10% Immobilier coté\n- 10% Alternatifs\n\n**Portefeuille Dynamique :**\n- 70% Actions (inclut Growth et Small Caps)\n- 15% Obligations High Yield\n- 10% Matières premières\n- 5% Cryptomonnaies\n\n**Portefeuille Agressif (Risk Taker) :**\n- 85% Actions (Growth, Small Caps, Émergents)\n- 10% Cryptomonnaies\n- 5% Options / Produits dérivés\n\n**Règle simple de répartition par âge :**\n% Obligations = Votre âge (ex: 30 ans → 30% obligations, 70% actions)"
+            }
+          ],
+          "keyPoints": [
+            "Définissez votre profil avant d'investir (horizon, risque, objectifs)",
+            "La diversification réduit le risque sans réduire le rendement espéré",
+            "La corrélation entre actifs est aussi importante que les actifs eux-mêmes",
+            "Adaptez votre allocation à votre âge et situation",
+            "Il n'existe pas de portefeuille universel parfait"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-03-1",
+              "question": "Marie, 35 ans, salariée stable, souhaite préparer sa retraite dans 30 ans. Elle a 50 000€ à investir et supporte mal de voir son portefeuille perdre plus de 15%. Proposez-lui une allocation d'actifs argumentée.",
+              "correction": "**Profil de Marie :**\n- Horizon : Long terme (30 ans) → favorable aux actions\n- Tolérance : Modérée (max -15%) → profil équilibré\n- Objectif : Retraite → capitalisation\n\n**Allocation proposée :**\n- 55% Actions diversifiées (27 500€)\n  - 30% ETF Monde (MSCI World)\n  - 15% ETF Europe (STOXX 600)\n  - 10% ETF Émergents\n- 25% Obligations (12 500€)\n  - 15% Obligations d'État\n  - 10% Corporate Investment Grade\n- 10% Immobilier coté / SCPI (5 000€)\n- 10% Or via ETF (5 000€)\n\nCette allocation limite la perte maximale historique à environ 15-20% tout en offrant un rendement espéré de 6-7%/an sur 30 ans."
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Selon la règle simplifiée, quelle part d'obligations pour un investisseur de 40 ans ?",
+              "options": [
+                "20%",
+                "40%",
+                "60%",
+                "80%"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Quel prix Nobel a théorisé la diversification de portefeuille ?",
+              "options": [
+                "Paul Samuelson",
+                "Harry Markowitz",
+                "Eugene Fama",
+                "Robert Shiller"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "inv-04",
+          "title": "Gestion active vs passive vs semi-active",
+          "level": "intermediate",
+          "duration": "60 min",
+          "description": "Comparez les styles de gestion, leurs avantages et inconvénients, et choisissez celui qui vous convient.",
+          "content": [
+            {
+              "type": "text",
+              "title": "La gestion passive (indicielle)",
+              "body": "La gestion passive consiste à répliquer un indice boursier sans essayer de le battre.\n\n**Principe :** Acheter un ETF (Exchange Traded Fund) qui reproduit fidèlement la performance d'un indice comme le CAC 40, le S&P 500 ou le MSCI World.\n\n**Avantages :**\n- Frais très faibles (0,05% à 0,40% par an vs 1,5-2% en gestion active)\n- Performance supérieure à 85-90% des gérants actifs sur 10-20 ans\n- Simplicité : pas besoin d'analyser des entreprises\n- Diversification immédiate\n- Fiscalité optimisée (moins de transactions)\n\n**Inconvénients :**\n- Aucune protection en marché baissier\n- Performance égale au marché, jamais supérieure\n- Risque de concentration dans les indices pondérés par capitalisation\n\n**Les défenseurs célèbres :** Warren Buffett recommande aux particuliers d'investir dans un ETF S&P 500. John Bogle (fondateur de Vanguard) a popularisé cette approche."
+            },
+            {
+              "type": "text",
+              "title": "La gestion active",
+              "body": "La gestion active vise à battre le marché en sélectionnant des titres ou en ajustant le timing.\n\n**Approches :**\n- **Stock picking** : Sélectionner des actions individuelles\n- **Market timing** : Anticiper les mouvements de marché\n- **Allocation tactique** : Surpondérer/sous-pondérer des secteurs\n\n**Avantages :**\n- Potentiel de surperformance\n- Protection possible en marché baissier\n- Possibilité d'éviter les entreprises controversées\n\n**Inconvénients :**\n- Frais élevés qui grèvent la performance\n- 85-90% des gérants actifs sous-performent leur indice sur le long terme\n- Demande du temps, des compétences et de la discipline\n- Biais psychologiques (excès de confiance, aversion aux pertes)\n\n**Quand la gestion active a un avantage :**\n- Marchés inefficients (small caps, émergents)\n- Périodes de crise (capacité à se mettre en cash)\n- Niches spécialisées"
+            },
+            {
+              "type": "text",
+              "title": "La gestion semi-active (Smart Beta / Factor Investing)",
+              "body": "La gestion semi-active combine les avantages des deux approches avec des règles systématiques.\n\n**Facteurs de performance prouvés académiquement :**\n- **Value** : Acheter des actions sous-évaluées (P/E bas, P/B bas)\n- **Momentum** : Suivre les tendances de prix\n- **Quality** : Entreprises rentables avec bilan solide\n- **Size** : Surpondérer les petites capitalisations\n- **Low Volatility** : Actions moins volatiles surperforment ajusté du risque\n- **Dividendes** : Actions à dividendes croissants\n\n**Le Core-Satellite :**\nStratégie populaire combinant :\n- **Cœur (70-80%)** : ETF indiciels larges (gestion passive)\n- **Satellites (20-30%)** : Positions actives ciblées (stock picking, ETF sectoriels, thématiques)\n\nCette approche offre une base solide à faible coût tout en permettant de chercher de la surperformance sur une partie contrôlée du portefeuille."
+            }
+          ],
+          "keyPoints": [
+            "La gestion passive bat 85-90% des gérants actifs sur le long terme",
+            "Les frais sont le facteur le plus prédictif de la performance future",
+            "Le Smart Beta offre un compromis intéressant",
+            "La stratégie Core-Satellite combine le meilleur des deux mondes",
+            "Il n'y a pas de réponse universelle : choisissez selon votre temps et vos compétences"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-04-1",
+              "question": "Pierre investit 10 000€ dans un fonds actif avec 1,8% de frais annuels. Sophie investit la même somme dans un ETF à 0,20% de frais. Si les deux obtiennent un rendement brut de 8%/an pendant 25 ans, calculez la différence finale.",
+              "correction": "**Pierre (gestion active, 1,8% de frais) :**\nRendement net : 8% - 1,8% = 6,2%/an\nCapital final : 10 000 × (1,062)^25 = 45 381€\n\n**Sophie (ETF, 0,20% de frais) :**\nRendement net : 8% - 0,20% = 7,8%/an\nCapital final : 10 000 × (1,078)^25 = 65 573€\n\n**Différence : 20 192€** soit +44,5% en faveur de Sophie !\n\nCe calcul montre l'impact considérable des frais grâce à l'effet composé. Sur 25 ans, 1,6% de frais supplémentaires par an coûtent plus de 20 000€ sur un investissement initial de seulement 10 000€."
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Quel pourcentage de gérants actifs sous-performent leur indice sur le long terme ?",
+              "options": [
+                "50-60%",
+                "65-75%",
+                "85-90%",
+                "95-99%"
+              ],
+              "correct": 2
+            },
+            {
+              "question": "Quelle stratégie combine un cœur passif et des satellites actifs ?",
+              "options": [
+                "Market timing",
+                "Core-Satellite",
+                "Pure Alpha",
+                "Dollar Cost Averaging"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "inv-05",
+          "title": "Les ETF en profondeur",
+          "level": "intermediate",
+          "duration": "60 min",
+          "description": "Tout savoir sur les ETF : types, sélection, frais, réplication, fiscalité et stratégies d'utilisation.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Anatomie d'un ETF",
+              "body": "Un ETF (Exchange Traded Fund) ou tracker est un fonds coté en bourse qui réplique un indice.\n\n**Caractéristiques clés :**\n- Coté en continu comme une action\n- Frais de gestion très faibles (TER : Total Expense Ratio)\n- Transparent (composition connue)\n- Liquidité élevée\n\n**Types de réplication :**\n- **Physique complète** : L'ETF détient tous les titres de l'indice. Le plus fidèle.\n- **Physique optimisée (échantillonnage)** : Détient un échantillon représentatif. Pour les indices larges.\n- **Synthétique (swap)** : Utilise des produits dérivés. Peut accéder à des marchés difficiles mais ajoute un risque de contrepartie.\n\n**ETF capitalisants vs distribuants :**\n- **Capitalisant (Acc)** : Réinvestit automatiquement les dividendes. Idéal pour la croissance.\n- **Distribuant (Dist)** : Verse les dividendes. Idéal pour les revenus."
+            },
+            {
+              "type": "text",
+              "title": "Choisir ses ETF : les critères essentiels",
+              "body": "**1. L'indice répliqué** : Choisissez d'abord votre exposition\n- Monde : MSCI World (1600+ actions, 23 pays développés)\n- USA : S&P 500 (500 plus grandes entreprises US)\n- Europe : STOXX 600 ou MSCI Europe\n- Émergents : MSCI Emerging Markets\n- Thématique : Clean Energy, AI, Healthcare...\n\n**2. Le TER (Total Expense Ratio)** :\n- < 0,10% : Excellent\n- 0,10-0,30% : Bon\n- 0,30-0,50% : Acceptable\n- > 0,50% : À éviter sauf thématiques spécifiques\n\n**3. L'encours (AUM)** : > 100M€ minimum pour la liquidité\n\n**4. Le tracking error** : Écart avec l'indice, le plus faible possible\n\n**5. Le domicile fiscal** : Irlande souvent optimal (convention fiscale US)\n\n**6. L'éligibilité PEA** : Pour la fiscalité française avantageuse\n\n**Émetteurs principaux** : iShares (BlackRock), Vanguard, Amundi, Lyxor, Xtrackers"
+            },
+            {
+              "type": "text",
+              "title": "Stratégies ETF populaires",
+              "body": "**1. DCA (Dollar Cost Averaging) sur ETF Monde :**\nInvestir un montant fixe chaque mois sur un ETF MSCI World. Simple, efficace, démontré académiquement.\n\n**2. Portefeuille Lazy (3-4 ETF) :**\n- 60% ETF MSCI World\n- 20% ETF Obligations Aggregate\n- 10% ETF Emerging Markets\n- 10% ETF Immobilier mondial\nRebalancing annuel.\n\n**3. Portefeuille All-Weather (Ray Dalio adapté) :**\n- 30% Actions (ETF MSCI World)\n- 40% Obligations long terme\n- 15% Obligations intermédiaires\n- 7,5% Or (ETF)\n- 7,5% Matières premières (ETF)\n\n**4. Stratégie Factor Tilting :**\nETF Smart Beta pour surpondérer les facteurs Value, Quality, Momentum.\n\n**Les frais de courtage :**\nAttention aux frais par transaction ! Privilégiez les courtiers avec ordres gratuits ou faibles sur ETF. Comparatif : Trade Republic, Degiro, Boursorama, Bourse Direct."
+            }
+          ],
+          "keyPoints": [
+            "Le TER est le critère de frais le plus important",
+            "Privilégiez les ETF à réplication physique quand possible",
+            "L'encours doit être supérieur à 100M€",
+            "Le DCA sur ETF Monde est la stratégie la plus simple et efficace",
+            "Vérifiez l'éligibilité PEA pour optimiser la fiscalité"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-05-1",
+              "question": "Construisez un portefeuille de 4 ETF pour un investisseur européen de 30 ans, horizon 30 ans, profil dynamique. Justifiez chaque choix avec le type de réplication, le TER approximatif, et l'allocation.",
+              "correction": "**Portefeuille proposé :**\n\n1. **iShares Core MSCI World UCITS ETF (IWDA)** - 60%\n   - Réplication : Physique optimisée\n   - TER : 0,20%\n   - Justification : Exposition mondiale diversifiée, 1600+ actions\n\n2. **iShares Core MSCI EM IMI UCITS ETF (EIMI)** - 15%\n   - Réplication : Physique optimisée\n   - TER : 0,18%\n   - Justification : Croissance émergents, décorrélation partielle\n\n3. **iShares MSCI World Small Cap UCITS ETF (WSML)** - 15%\n   - Réplication : Physique optimisée\n   - TER : 0,35%\n   - Justification : Prime de taille historique, complète le MSCI World\n\n4. **iShares Core Global Aggregate Bond UCITS ETF (AGGH)** - 10%\n   - Réplication : Physique échantillonnée\n   - TER : 0,10%\n   - Justification : Stabilisateur, même faible allocation utile\n\n**TER moyen pondéré : 0,21%/an**"
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Quel est le TER considéré comme 'excellent' pour un ETF ?",
+              "options": [
+                "< 0,50%",
+                "< 0,30%",
+                "< 0,10%",
+                "< 1%"
+              ],
+              "correct": 2
+            },
+            {
+              "question": "Qu'est-ce que le DCA ?",
+              "options": [
+                "Acheter au plus bas",
+                "Investir un montant fixe régulièrement",
+                "Vendre au plus haut",
+                "Diversifier son courtier"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "inv-06",
+          "title": "Analyse fondamentale et valorisation",
+          "level": "intermediate",
+          "duration": "90 min",
+          "description": "Apprenez à évaluer une entreprise : ratios financiers, lecture de bilans, méthodes de valorisation.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Les ratios fondamentaux",
+              "body": "**Ratios de valorisation :**\n\n- **PER (Price/Earnings Ratio)** : Prix / Bénéfice par action\n  - < 10 : Potentiellement sous-évalué\n  - 10-20 : Valorisation normale\n  - 20-30 : Premium (croissance attendue)\n  - > 30 : Cher, forte croissance nécessaire\n\n- **P/B (Price/Book)** : Prix / Valeur comptable\n  - < 1 : L'entreprise vaut moins que ses actifs nets\n  - Utile pour les financières et l'industrie\n\n- **PEG (PER / Growth)** : Intègre la croissance\n  - < 1 : Potentiellement sous-évalué au vu de la croissance\n\n- **EV/EBITDA** : Plus fiable que le PER car indépendant de la structure financière\n  - Compare des entreprises avec des niveaux d'endettement différents\n\n- **Dividend Yield** : Dividende / Prix\n  - Rendement en dividende, important pour les stratégies de revenus"
+            },
+            {
+              "type": "text",
+              "title": "Lire un bilan et un compte de résultat",
+              "body": "**Le Bilan (Balance Sheet) :**\n- **Actif** = Ce que l'entreprise possède (immobilisations, trésorerie, stocks)\n- **Passif** = Comment c'est financé (capitaux propres + dettes)\n- Actif = Passif (toujours)\n\n**Le Compte de résultat (Income Statement) :**\n- Chiffre d'affaires (Revenue)\n- - Coûts des ventes = Marge brute\n- - Charges opérationnelles = EBITDA\n- - Amortissements = EBIT (résultat opérationnel)\n- - Charges financières et impôts = Résultat net\n\n**Ratios de profitabilité :**\n- **Marge brute** : > 40% = excellente\n- **Marge opérationnelle** : > 15% = très bien\n- **ROE (Return on Equity)** : > 15% = création de valeur\n- **ROIC (Return on Invested Capital)** : Le plus pertinent, > coût du capital\n\n**Ratios de solidité financière :**\n- **Debt/Equity** : < 1 idéalement\n- **Interest Coverage** : > 5x confortable\n- **Current Ratio** : > 1,5 = bonne liquidité"
+            },
+            {
+              "type": "text",
+              "title": "Méthodes de valorisation",
+              "body": "**1. DCF (Discounted Cash Flow) :**\nMéthode la plus rigoureuse. Projette les flux de trésorerie futurs et les actualise.\nValeur = Σ (FCF / (1+r)^n) + Valeur terminale\n- FCF : Free Cash Flow projeté\n- r : Taux d'actualisation (WACC)\n- Valeur terminale : Valeur au-delà de la projection\n\n**2. Valorisation par les multiples (comparables) :**\nComparer le PER, EV/EBITDA à des entreprises similaires du secteur.\nSi le PER moyen du secteur est 18x et l'entreprise est à 12x, potentiel de revalorisation.\n\n**3. Valorisation par les actifs (Sum of Parts) :**\nUtile pour les conglomérats : évaluer chaque division séparément.\n\n**4. Dividend Discount Model (DDM) :**\nPour les entreprises à dividendes stables.\nValeur = D1 / (r - g)\n- D1 : Dividende attendu\n- r : Rendement exigé\n- g : Taux de croissance du dividende\n\n**En pratique :** Croisez toujours plusieurs méthodes pour obtenir une fourchette de valorisation."
+            }
+          ],
+          "keyPoints": [
+            "Le PER seul ne suffit pas : croisez plusieurs ratios",
+            "Le ROE et le ROIC mesurent la création de valeur",
+            "Le DCF est la méthode la plus rigoureuse mais sensible aux hypothèses",
+            "Comparez toujours avec les entreprises du même secteur",
+            "La marge de sécurité est essentielle : achetez en dessous de la valeur estimée"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-06-1",
+              "question": "L'entreprise XYZ affiche : CA = 500M€, Résultat net = 50M€, Capitalisation = 800M€, Dettes nettes = 200M€, EBITDA = 100M€, Nombre d'actions = 10M, Dividende = 2€/action. Calculez : PER, EV/EBITDA, Dividend Yield.",
+              "correction": "**Calculs :**\n\n**BPA (Bénéfice Par Action) :**\n50M€ / 10M = 5€\n\n**Prix par action :**\n800M€ / 10M = 80€\n\n**PER :**\n80€ / 5€ = **16x** (valorisation raisonnable)\n\n**Enterprise Value (EV) :**\n800M€ (capi) + 200M€ (dette nette) = 1 000M€\n\n**EV/EBITDA :**\n1 000M€ / 100M€ = **10x** (correct pour la plupart des secteurs)\n\n**Dividend Yield :**\n2€ / 80€ = **2,5%** (rendement modéré, typique d'une entreprise équilibrée)\n\n**Interprétation :** Valorisation dans la norme, entreprise légèrement endettée avec un dividende raisonnable. Le PER de 16x suggère une croissance modérée attendue."
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Un PER de 8x signifie généralement que :",
+              "options": [
+                "L'action est chère",
+                "L'action est potentiellement sous-évaluée",
+                "L'entreprise fait faillite",
+                "Le dividende est élevé"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Le DCF actualise quoi ?",
+              "options": [
+                "Les dividendes passés",
+                "Les flux de trésorerie futurs",
+                "Le chiffre d'affaires",
+                "Les dettes"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "inv-07",
+          "title": "Analyse macroéconomique",
+          "level": "advanced",
+          "duration": "75 min",
+          "description": "Impact des taux d'intérêt, inflation, cycles économiques et politique monétaire sur vos investissements.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Les cycles économiques",
+              "body": "L'économie évolue en cycles de 4 phases qui impactent directement les marchés :\n\n**1. Expansion :**\n- PIB en croissance, emploi en hausse\n- Profits des entreprises en augmentation\n- Actions performantes, surtout cycliques\n- Les taux montent progressivement\n\n**2. Pic / Surchauffe :**\n- Inflation en hausse, tensions sur les ressources\n- Banques centrales resserrent (hausse des taux)\n- Début de prudence sur les actions\n- Matières premières au plus haut\n\n**3. Contraction / Récession :**\n- PIB en baisse, chômage en hausse\n- Profits en baisse, défauts en hausse\n- Actions en baisse, obligations en hausse\n- Valeurs défensives surperforment\n\n**4. Creux / Reprise :**\n- Politiques accommodantes (baisse des taux)\n- Premiers signes de reprise\n- Meilleur moment pour acheter des actions\n- Les cycliques recommencent à surperformer"
+            },
+            {
+              "type": "text",
+              "title": "Taux d'intérêt et politique monétaire",
+              "body": "Les banques centrales (BCE, Fed, BoJ) sont les acteurs les plus puissants des marchés.\n\n**Impact des taux directeurs :**\n- **Taux en hausse** → Obligations existantes perdent de la valeur, actions sous pression (surtout Growth), dollar se renforce\n- **Taux en baisse** → Obligations gagnent, actions soutenues, or monte\n\n**Indicateurs à suivre :**\n- **Fed Funds Rate** : Taux directeur de la Fed\n- **Dot Plot** : Projections des membres du FOMC\n- **Courbe des taux** : L'inversion (taux courts > taux longs) prédit souvent une récession\n- **Spread de crédit** : Écart de taux entre obligations risquées et sûres\n\n**Quantitative Easing (QE) vs Quantitative Tightening (QT) :**\n- QE : La banque centrale achète des actifs → pousse les prix à la hausse\n- QT : La banque centrale réduit son bilan → pression à la baisse"
+            },
+            {
+              "type": "text",
+              "title": "Inflation et allocation tactique",
+              "body": "**Régimes d'inflation et classes d'actifs :**\n\n- **Inflation basse et stable (< 2%)** : Favorable aux actions Growth et obligations\n- **Inflation modérée (2-4%)** : Favorable aux actions Value et immobilier\n- **Inflation élevée (> 4%)** : Favorable à l'or, matières premières, TIPS\n- **Déflation** : Favorable aux obligations long terme, cash\n\n**Indicateurs macro essentiels :**\n- **PMI (Purchasing Managers Index)** : > 50 = expansion, < 50 = contraction\n- **CPI/IPC** : Mesure l'inflation consommateur\n- **Unemployment rate** : Indicateur retardé mais important\n- **Leading Economic Indicators (LEI)** : Prédictif de l'activité\n- **VIX (indice de la peur)** : Mesure la volatilité attendue du S&P 500\n\n**La rotation sectorielle :**\nEn début de cycle → Financières, Industrielles, Consommation cyclique\nEn milieu de cycle → Technologie, Santé\nEn fin de cycle → Énergie, Matières premières, Défensives\nEn récession → Utilities, Santé, Consommation de base"
+            }
+          ],
+          "keyPoints": [
+            "Les cycles économiques dictent la performance relative des classes d'actifs",
+            "Les taux d'intérêt sont le facteur macro le plus important pour les marchés",
+            "L'inversion de la courbe des taux est un signal de récession",
+            "Adaptez votre allocation sectorielle à la phase du cycle",
+            "Suivez le PMI, CPI et VIX comme indicateurs clés"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-07-1",
+              "question": "Nous sommes en 2024. La Fed vient de commencer à baisser ses taux après 2 ans de hausse. L'inflation revient vers 2,5%. Le PMI est à 48. Analysez la situation macroéconomique et proposez un ajustement de portefeuille.",
+              "correction": "**Analyse :**\n- Baisse des taux → fin du cycle de resserrement, soutien aux actifs risqués\n- Inflation à 2,5% → encore légèrement au-dessus de la cible, mais en voie de normalisation\n- PMI à 48 → contraction modérée, risque de ralentissement\n\n**Diagnostic : Fin de cycle / début de reprise potentielle**\n\n**Ajustements recommandés :**\n1. **Augmenter la duration obligataire** : Les obligations longues profitent le plus des baisses de taux\n2. **Surpondérer le Quality** : Entreprises à bilans solides résistent mieux au ralentissement\n3. **Commencer à accumuler des cycliques** : En anticipation de la reprise\n4. **Maintenir l'or** : Protection si la situation se dégrade\n5. **Réduire le cash** : Les rendements monétaires vont baisser\n\n**Allocation tactique :**\n- 50% Actions (Quality + début de rotation vers cycliques)\n- 30% Obligations (surpondérer duration longue)\n- 10% Or\n- 10% Cash (réduire progressivement)"
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Un PMI à 52 indique :",
+              "options": [
+                "Une récession",
+                "Une expansion",
+                "De l'inflation",
+                "Une inversion de courbe"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Quel actif performe généralement le mieux en période d'inflation élevée ?",
+              "options": [
+                "Obligations long terme",
+                "Actions Growth",
+                "Or et matières premières",
+                "Cash"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "inv-08",
+          "title": "Psychologie et discipline de l'investisseur",
+          "level": "advanced",
+          "duration": "60 min",
+          "description": "Maîtrisez les biais cognitifs, la gestion émotionnelle et la discipline nécessaires pour performer.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Les biais cognitifs en investissement",
+              "body": "Daniel Kahneman (Prix Nobel) a démontré que notre cerveau n'est pas fait pour investir rationnellement.\n\n**Biais principaux :**\n\n- **Aversion aux pertes** : Une perte de 100€ fait 2x plus mal qu'un gain de 100€ ne fait plaisir. Conséquence : on vend trop tôt les gagnants et garde trop longtemps les perdants.\n\n- **Biais de confirmation** : On cherche les informations qui confirment nos croyances. On lit uniquement les analyses positives sur les actions qu'on détient.\n\n- **Effet de disposition** : Tendance à réaliser les gains rapidement et reporter les pertes.\n\n- **FOMO (Fear of Missing Out)** : Acheter une action parce qu'elle a déjà beaucoup monté.\n\n- **Ancrage** : Se fixer sur un prix d'achat ou un objectif arbitraire.\n\n- **Excès de confiance** : Surestimer sa capacité à prédire les marchés.\n\n- **Biais de récence** : Accorder trop d'importance aux événements récents.\n\n- **Effet moutonnier** : Suivre la foule (acheter quand tout monte, vendre quand tout baisse)."
+            },
+            {
+              "type": "text",
+              "title": "Construire une discipline d'acier",
+              "body": "**Règles pour vaincre vos émotions :**\n\n1. **Écrivez votre plan d'investissement** (Investment Policy Statement)\n   - Objectifs, horizon, allocation cible, règles de rebalancing\n   - À relire AVANT toute décision en période de stress\n\n2. **Automatisez** : DCA automatique, rebalancing programmé\n\n3. **Règle des 48h** : Ne jamais agir sous l'émotion. Attendez 48h avant toute décision non planifiée.\n\n4. **Tenez un journal d'investissement** : Notez vos décisions et leurs raisons. Relisez régulièrement.\n\n5. **Limitez la fréquence de consultation** : Vérifier son portefeuille trop souvent augmente le stress et les erreurs.\n\n6. **Ignorez le bruit** : Les médias financiers vendent de la peur et de la cupidité.\n\n7. **Benchmarkez-vous** : Comparez votre performance à un ETF Monde. Soyez honnête.\n\n**Citations inspirantes :**\n- 'Be fearful when others are greedy, and greedy when others are fearful.' — Warren Buffett\n- 'The stock market is a device for transferring money from the impatient to the patient.' — Warren Buffett\n- 'Time in the market beats timing the market.'"
+            }
+          ],
+          "keyPoints": [
+            "Les biais cognitifs sont votre pire ennemi en bourse",
+            "L'aversion aux pertes pousse à des décisions irrationnelles",
+            "Un plan écrit et l'automatisation sont vos meilleurs outils",
+            "La discipline bat l'intelligence en investissement",
+            "Limiter le bruit médiatique améliore vos performances"
+          ],
+          "exercises": [
+            {
+              "id": "ex-inv-08-1",
+              "question": "Identifiez le biais cognitif dans chaque situation : 1) Jean refuse de vendre son action en perte de 30% en disant 'ça va remonter'. 2) Marie achète du Bitcoin à 60 000$ parce que 'tout le monde en parle'. 3) Paul vend ses actions Tech après un krach de -20% en une semaine.",
+              "correction": "**1) Jean : Aversion aux pertes + Effet de disposition**\nIl ne supporte pas de matérialiser la perte. Son raisonnement 'ça va remonter' n'est pas basé sur l'analyse mais sur l'espoir de ne pas subir la douleur de la perte.\n\n**2) Marie : FOMO + Effet moutonnier**\nElle achète parce que tout le monde achète, pas sur la base d'une analyse. Le FOMO la pousse à entrer au pire moment, souvent proche du sommet.\n\n**3) Paul : Biais de récence + Vente panique**\nIl accorde trop d'importance à l'événement récent (le krach) et oublie la performance long terme. Vendre après un krach cristallise les pertes au pire moment."
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Le biais d'aversion aux pertes signifie que :",
+              "options": [
+                "On déteste perdre de l'argent",
+                "Une perte pèse psychologiquement ~2x plus qu'un gain équivalent",
+                "On ne veut jamais prendre de risque",
+                "On vend toujours trop tôt"
+              ],
+              "correct": 1
+            }
+          ]
+        }
+      ]
+    },
+    "trading": {
+      "id": "trading",
+      "title": "Trading & Analyse Technique",
+      "shortTitle": "Trading",
+      "description": "Maîtrisez l'analyse technique, les patterns graphiques, les indicateurs et les stratégies de trading professionnelles.",
+      "icon": "BarChart3",
+      "color": "#F5793B",
+      "modules": [
+        {
+          "id": "trd-01",
+          "title": "Fondamentaux du Trading",
+          "level": "beginner",
+          "duration": "45 min",
+          "description": "Les bases du trading : vocabulaire, types d'ordres, timeframes et premières notions d'analyse technique.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Trading vs Investissement",
+              "body": "Le trading et l'investissement diffèrent fondamentalement dans leur approche :\n\n**Investissement :**\n- Horizon : Mois à années\n- Analyse : Fondamentale principalement\n- Objectif : Croissance du capital sur le long terme\n- Fréquence : Peu de transactions\n\n**Trading :**\n- Horizon : Secondes à semaines\n- Analyse : Technique principalement\n- Objectif : Profiter des fluctuations de prix\n- Fréquence : Nombreuses transactions\n\n**Styles de trading :**\n- **Scalping** : Positions de secondes à minutes, très nombreuses\n- **Day trading** : Positions intra-journalières, clôturées avant la fin de séance\n- **Swing trading** : Positions de quelques jours à quelques semaines\n- **Position trading** : Positions de semaines à mois (frontière avec l'investissement)"
+            },
+            {
+              "type": "text",
+              "title": "Les types d'ordres essentiels",
+              "body": "**Ordre au marché (Market Order) :**\nExécution immédiate au meilleur prix disponible. Utilisé quand la vitesse prime sur le prix.\n\n**Ordre limite (Limit Order) :**\nExécution à un prix spécifié ou mieux. Achat limite = prix max que vous payez. Vente limite = prix min que vous acceptez.\n\n**Stop Loss :**\nOrdre de protection qui se déclenche quand le prix atteint un niveau défini. ESSENTIEL pour gérer le risque. Ex: Achat à 100€, stop loss à 95€ = risque limité à 5%.\n\n**Take Profit :**\nOrdre pour sécuriser les gains à un objectif de prix. Ex: Achat à 100€, take profit à 115€.\n\n**Stop suiveur (Trailing Stop) :**\nStop loss qui suit le prix en votre faveur. Ex: Trailing stop de 3% → si l'action monte à 120€, le stop se place à 116,40€.\n\n**OCO (One Cancels Other) :**\nAssociation d'un stop loss et d'un take profit. Quand l'un est exécuté, l'autre est annulé."
+            },
+            {
+              "type": "text",
+              "title": "Les timeframes (unités de temps)",
+              "body": "Le timeframe est l'intervalle de temps de chaque bougie sur un graphique.\n\n**Timeframes courants :**\n- **M1, M5, M15** : Scalping et day trading\n- **M30, H1** : Day trading et swing court\n- **H4** : Swing trading (très populaire)\n- **D1 (Daily)** : Swing trading et position trading\n- **W1 (Weekly)** : Position trading et investissement\n- **MN (Monthly)** : Analyse de tendance long terme\n\n**La règle multi-timeframe :**\nAnalysez toujours 3 niveaux :\n1. **Timeframe supérieur** : Détermine la tendance\n2. **Timeframe d'analyse** : Identifie les setups\n3. **Timeframe d'entrée** : Affine le timing\n\nExemple pour du swing trading H4 :\n- Weekly → tendance globale\n- H4 → identification des patterns\n- H1 → point d'entrée précis\n\n**Règle d'or :** Ne tradez JAMAIS contre la tendance du timeframe supérieur."
+            }
+          ],
+          "keyPoints": [
+            "Le trading cherche à profiter des fluctuations court terme",
+            "Le stop loss est OBLIGATOIRE pour chaque position",
+            "Analysez toujours au minimum 2-3 timeframes",
+            "Ne tradez jamais contre la tendance du timeframe supérieur",
+            "Choisissez un style adapté à votre disponibilité"
+          ],
+          "exercises": [
+            {
+              "id": "ex-trd-01-1",
+              "question": "Vous achetez 200 actions à 45€. Vous placez un stop loss à 42€ et un take profit à 54€. Calculez : a) Le risque en euros et en %. b) Le profit potentiel en euros et en %. c) Le ratio Risk/Reward.",
+              "correction": "**a) Risque :**\n- Par action : 45€ - 42€ = 3€\n- Total : 200 × 3€ = 600€\n- En % : 3€ / 45€ = 6,67%\n\n**b) Profit potentiel :**\n- Par action : 54€ - 45€ = 9€\n- Total : 200 × 9€ = 1 800€\n- En % : 9€ / 45€ = 20%\n\n**c) Ratio Risk/Reward :**\n- R:R = 9€ / 3€ = **1:3**\n- C'est un excellent ratio. On risque 600€ pour potentiellement gagner 1 800€.\n- Même avec seulement 40% de trades gagnants, ce ratio est profitable : (0,4 × 1800) - (0,6 × 600) = 720 - 360 = +360€ de profit moyen."
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Un Trailing Stop de 5% sur une action à 100€ qui monte à 120€ se déclenchera à :",
+              "options": [
+                "95€",
+                "100€",
+                "114€",
+                "115€"
+              ],
+              "correct": 2
+            },
+            {
+              "question": "En swing trading H4, quel timeframe détermine la tendance ?",
+              "options": [
+                "M15",
+                "H1",
+                "H4",
+                "Weekly"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "trd-02",
+          "title": "Les chandeliers japonais",
+          "level": "beginner",
+          "duration": "75 min",
+          "description": "Maîtrisez la lecture des bougies japonaises : anatomie, patterns de retournement et de continuation.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Anatomie d'une bougie japonaise",
+              "body": "Chaque bougie représente 4 prix sur une période donnée :\n\n- **Open (Ouverture)** : Premier prix de la période\n- **High (Plus haut)** : Prix maximum atteint\n- **Low (Plus bas)** : Prix minimum atteint\n- **Close (Clôture)** : Dernier prix de la période\n\n**Structure :**\n- **Corps (Body)** : Rectangle entre Open et Close\n  - Corps vert/blanc = Close > Open (hausse)\n  - Corps rouge/noir = Close < Open (baisse)\n- **Mèche haute (Upper Shadow)** : Ligne entre le corps et le High\n- **Mèche basse (Lower Shadow)** : Ligne entre le corps et le Low\n\n**Lecture rapide :**\n- Long corps vert = forte pression acheteuse\n- Long corps rouge = forte pression vendeuse\n- Longue mèche haute = rejet des prix élevés (vendeurs)\n- Longue mèche basse = rejet des prix bas (acheteurs)\n- Petit corps = indécision"
+            },
+            {
+              "type": "text",
+              "title": "Patterns de retournement (1-2 bougies)",
+              "body": "**Hammer (Marteau) — Haussier :**\nPetit corps en haut, longue mèche basse (2x le corps min). Apparaît en bas de tendance baissière. Les vendeurs ont poussé le prix très bas mais les acheteurs ont repris le contrôle.\n\n**Hanging Man (Pendu) — Baissier :**\nMême forme que le Hammer mais en haut d'une tendance haussière. Signal de faiblesse.\n\n**Doji — Indécision :**\nOpen ≈ Close (corps quasi inexistant). Signal fort quand il apparaît après une tendance.\n- Doji standard : indécision pure\n- Dragonfly Doji (mèche basse) : potentiel retournement haussier\n- Gravestone Doji (mèche haute) : potentiel retournement baissier\n\n**Engulfing (Avalement) :**\n- Bullish Engulfing : bougie verte qui englobe entièrement la bougie rouge précédente → retournement haussier\n- Bearish Engulfing : bougie rouge qui englobe la verte → retournement baissier\n\n**Morning Star / Evening Star :**\n- Morning Star (3 bougies) : grande rouge + petit corps (gap) + grande verte → retournement haussier\n- Evening Star : grande verte + petit corps + grande rouge → retournement baissier"
+            },
+            {
+              "type": "text",
+              "title": "Patterns de continuation et pratique",
+              "body": "**Three White Soldiers (Trois soldats blancs) :**\n3 bougies vertes consécutives avec des corps croissants. Forte continuation haussière.\n\n**Three Black Crows (Trois corbeaux noirs) :**\n3 bougies rouges consécutives. Forte continuation baissière.\n\n**Spinning Tops :**\nPetit corps avec mèches de taille similaire. Indécision dans une tendance.\n\n**Marubozu :**\nBougie sans mèche (ou quasi). Domination totale d'un camp. Marubozu vert = pression acheteuse maximale.\n\n**Règles d'utilisation des chandeliers :**\n1. **Contexte** : Un pattern n'a de valeur que dans son contexte (tendance, support/résistance)\n2. **Confirmation** : Attendez la bougie suivante pour confirmer\n3. **Volume** : Un pattern avec fort volume est plus fiable\n4. **Timeframe** : Plus le timeframe est élevé, plus le signal est fiable\n5. **Ne tradez jamais un pattern isolé** : Combinez avec d'autres analyses"
+            }
+          ],
+          "keyPoints": [
+            "Les mèches révèlent les zones de rejet de prix",
+            "Les patterns de retournement sont plus fiables près des supports/résistances",
+            "Toujours attendre la confirmation de la bougie suivante",
+            "Le volume renforce la fiabilité d'un pattern",
+            "Plus le timeframe est élevé, plus le signal est pertinent"
+          ],
+          "exercises": [
+            {
+              "id": "ex-trd-02-1",
+              "question": "Décrivez le scénario de marché derrière un Bullish Engulfing qui se forme sur un support majeur en daily avec un volume 3x supérieur à la moyenne. Quel est votre plan de trade ?",
+              "correction": "**Scénario de marché :**\nLe prix est en tendance baissière et atteint un support historique majeur. La première bougie (rouge) montre que les vendeurs continuent de pousser. Mais la deuxième bougie (verte) ouvre plus bas et clôture au-dessus du plus haut de la veille, engloutissant complètement la bougie précédente. Le volume 3x supérieur confirme l'entrée massive d'acheteurs.\n\n**Interprétation :** Signal de retournement très fort. Le support a tenu, les acheteurs institutionnels sont entrés en force.\n\n**Plan de trade :**\n- **Entrée** : Achat à l'ouverture de la bougie suivante (ou au retest du milieu de l'engulfing)\n- **Stop Loss** : Sous le Low du Bullish Engulfing (sous le support)\n- **Take Profit 1** : Prochaine résistance / ratio 1:2\n- **Take Profit 2** : Résistance suivante / ratio 1:3\n- **Gestion** : Déplacer le stop en breakeven après TP1"
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Un Hammer apparaît en haut d'une tendance haussière. On l'appelle :",
+              "options": [
+                "Un Hammer inversé",
+                "Un Hanging Man",
+                "Un Doji",
+                "Un Marubozu"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Combien de bougies composent un Morning Star ?",
+              "options": [
+                "1",
+                "2",
+                "3",
+                "4"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "trd-03",
+          "title": "Supports, Résistances et Tendances",
+          "level": "beginner",
+          "duration": "60 min",
+          "description": "Les fondations de l'analyse technique : identifier les niveaux clés et les tendances de marché.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Supports et Résistances",
+              "body": "**Support :** Niveau de prix où la demande est suffisamment forte pour stopper la baisse. Les acheteurs sont prêts à acheter à ce prix.\n\n**Résistance :** Niveau de prix où l'offre est suffisamment forte pour stopper la hausse. Les vendeurs sont prêts à vendre à ce prix.\n\n**Règles fondamentales :**\n1. Plus un niveau est testé, plus il est fort\n2. Plus le timeframe est élevé, plus le niveau est significatif\n3. Un support cassé devient résistance et inversement (Polarité)\n4. Les niveaux sont des zones, pas des lignes précises\n5. Le volume au contact d'un niveau confirme sa force\n\n**Types de supports/résistances :**\n- **Horizontaux** : Niveaux de prix historiques\n- **Dynamiques** : Moyennes mobiles, lignes de tendance\n- **Psychologiques** : Chiffres ronds (100€, 1000$, etc.)\n- **Fibonacci** : Retracements et extensions\n\n**Identification :**\nRepérez les zones où le prix a rebondi au moins 2-3 fois. Utilisez des rectangles plutôt que des lignes pour marquer des zones."
+            },
+            {
+              "type": "text",
+              "title": "Les lignes de tendance",
+              "body": "**Tendance haussière :**\n- Suite de creux ascendants (Higher Lows)\n- Suite de sommets ascendants (Higher Highs)\n- Tracez une ligne sous les creux successifs\n\n**Tendance baissière :**\n- Suite de creux descendants (Lower Lows)\n- Suite de sommets descendants (Lower Highs)\n- Tracez une ligne au-dessus des sommets successifs\n\n**Range (latéral) :**\n- Le prix oscille entre un support et une résistance\n- Pas de direction claire\n- 70% du temps, le marché est en range !\n\n**Validité d'une ligne de tendance :**\n- Minimum 3 points de contact\n- Plus de points = plus fiable\n- Angle modéré (30-45°) = plus durable\n- Angle aigu (> 60°) = susceptible de casser\n\n**La théorie de Dow :**\n- La tendance est valide tant qu'il n'y a pas de signal contraire\n- Uptrend : tant que Higher Highs + Higher Lows\n- Downtrend : tant que Lower Highs + Lower Lows\n- Le volume confirme la tendance"
+            },
+            {
+              "type": "text",
+              "title": "Breakouts et Pullbacks",
+              "body": "**Breakout (Cassure) :**\nQuand le prix franchit un support ou une résistance avec conviction.\n\n**Signes d'un vrai breakout :**\n- Volume significativement supérieur à la moyenne\n- Bougie de clôture au-delà du niveau (pas juste une mèche)\n- Momentum visible (grandes bougies)\n\n**Faux breakout (Fakeout) :**\n- Le prix dépasse brièvement un niveau puis revient\n- Souvent un piège pour les traders imprudents\n- Reconnaissable : faible volume, mèches de rejet\n\n**Pullback / Throwback :**\nAprès un breakout, le prix revient tester l'ancien niveau (qui a changé de rôle).\n- Pullback : après cassure d'un support, le prix remonte le tester (devenu résistance)\n- Throwback : après cassure d'une résistance, le prix revient la tester (devenue support)\n\n**Le pullback est souvent la meilleure entrée :**\n- Confirmation que le niveau a changé de rôle\n- Meilleur ratio risk/reward\n- Stop loss plus serré\n\n**Statistique clé :** Les études montrent qu'environ 60-70% des breakouts sont suivis d'un pullback."
+            }
+          ],
+          "keyPoints": [
+            "Les supports et résistances sont des ZONES, pas des lignes",
+            "Un support cassé devient résistance (et inversement)",
+            "La tendance est votre amie : tradez dans le sens de la tendance",
+            "Le volume confirme les breakouts — méfiez-vous des fakeouts",
+            "Le pullback offre souvent la meilleure entrée"
+          ],
+          "exercises": [
+            {
+              "id": "ex-trd-03-1",
+              "question": "Une action est en range entre 50€ (support) et 60€ (résistance) depuis 3 mois. Elle casse la résistance à 60€ avec un volume 4x supérieur à la moyenne. 2 jours plus tard, le prix revient à 60€. Décrivez le phénomène et votre stratégie.",
+              "correction": "**Phénomène :**\nC'est un **breakout** suivi d'un **throwback** classique.\n\n1. Le range 50-60€ pendant 3 mois a accumulé de l'énergie\n2. La cassure avec un volume 4x confirme un vrai breakout (pas un fakeout)\n3. Le retour à 60€ est un throwback : l'ancienne résistance est testée comme nouveau support\n\n**Stratégie :**\n- **Entrée** : Achat à 60€ (sur le throwback) lors d'un signal de rebond (bougie haussière, hammer)\n- **Stop Loss** : 57€ (sous le support, laissant une marge)\n- **Take Profit** : 70€ (l'amplitude du range 60-50=10€ projetée au-dessus de la cassure : 60+10=70€) — c'est la technique de la mesure du range\n- **Risk/Reward** : 3€ de risque pour 10€ de gain = **1:3.3** (excellent)\n- **Confirmation** : Le throwback qui tient à 60€ avec du volume confirme le changement de polarité"
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Un support cassé devient :",
+              "options": [
+                "Un pivot",
+                "Une résistance",
+                "Un gap",
+                "Un pullback"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Quel pourcentage du temps le marché est-il environ en range ?",
+              "options": [
+                "30%",
+                "50%",
+                "70%",
+                "90%"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "trd-04",
+          "title": "Indicateurs techniques essentiels",
+          "level": "intermediate",
+          "duration": "90 min",
+          "description": "RSI, MACD, Moyennes Mobiles, Bandes de Bollinger, Volume : maîtrisez les indicateurs clés.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Les Moyennes Mobiles",
+              "body": "Les moyennes mobiles lissent le prix pour identifier la tendance.\n\n**SMA (Simple Moving Average) :**\nMoyenne arithmétique des N derniers prix de clôture.\nSMA(20) = (somme des 20 dernières clôtures) / 20\n\n**EMA (Exponential Moving Average) :**\nAccorde plus de poids aux prix récents, plus réactive.\n\n**Moyennes clés :**\n- **EMA 9/10** : Tendance très court terme (scalping/day)\n- **EMA/SMA 20** : Tendance court terme\n- **SMA 50** : Tendance moyen terme (très suivie)\n- **SMA 100** : Tendance intermédiaire\n- **SMA 200** : Tendance long terme (la plus importante)\n\n**Signaux :**\n- Prix > SMA 200 → tendance long terme haussière\n- Prix < SMA 200 → tendance long terme baissière\n- **Golden Cross** : SMA 50 croise au-dessus de la SMA 200 → signal haussier majeur\n- **Death Cross** : SMA 50 croise en dessous de la SMA 200 → signal baissier majeur\n\n**Utilisation comme support/résistance dynamique :**\nLe prix rebondit souvent sur la SMA 20 en tendance forte, sur la SMA 50 en tendance normale, et teste la SMA 200 lors des corrections majeures."
+            },
+            {
+              "type": "text",
+              "title": "RSI et MACD",
+              "body": "**RSI (Relative Strength Index) — Oscillateur de momentum :**\nMesure la vitesse et l'ampleur des mouvements de prix.\n- Échelle : 0 à 100\n- > 70 : Zone de surachat (potentiel retournement baissier)\n- < 30 : Zone de survente (potentiel retournement haussier)\n- 50 : Ligne médiane (niveau neutre)\n\n**Signaux avancés du RSI :**\n- **Divergence haussière** : Le prix fait un plus bas mais le RSI fait un plus haut → signal d'achat puissant\n- **Divergence baissière** : Le prix fait un plus haut mais le RSI fait un plus bas → signal de vente puissant\n- **Failure Swing** : Le RSI ne parvient pas à revenir en zone extrême\n\n**MACD (Moving Average Convergence Divergence) :**\nDifférence entre 2 EMA (12 et 26 par défaut).\n\nComposants :\n- **Ligne MACD** : EMA(12) - EMA(26)\n- **Ligne Signal** : EMA(9) de la ligne MACD\n- **Histogramme** : Différence entre MACD et Signal\n\n**Signaux :**\n- MACD croise Signal vers le haut → achat\n- MACD croise Signal vers le bas → vente\n- MACD croise la ligne zéro → changement de tendance\n- Divergences MACD/prix → signaux très fiables"
+            },
+            {
+              "type": "text",
+              "title": "Bandes de Bollinger et Volume",
+              "body": "**Bandes de Bollinger :**\n3 lignes basées sur la volatilité :\n- **Bande médiane** : SMA 20\n- **Bande supérieure** : SMA 20 + (2 × écart-type)\n- **Bande inférieure** : SMA 20 - (2 × écart-type)\n\n**Lecture :**\n- Le prix touche la bande supérieure → surachat potentiel\n- Le prix touche la bande inférieure → survente potentielle\n- **Squeeze (bandes serrées)** → volatilité faible, explosion imminente\n- **Expansion** → volatilité élevée, mouvement en cours\n- En tendance forte, le prix 'marche' le long d'une bande\n\n**Le Bollinger Squeeze :**\nQuand les bandes se resserrent au maximum, une forte expansion est imminente. Tradez dans le sens de la cassure avec confirmation.\n\n**L'analyse des volumes :**\n- Volume croissant + tendance → tendance saine\n- Volume décroissant + tendance → tendance qui s'essouffle\n- Pic de volume → climax potentiel (retournement)\n- Volume faible + range → accumulation/distribution\n\n**OBV (On Balance Volume) :**\nIndicateur cumulatif qui ajoute le volume des jours de hausse et soustrait celui des jours de baisse. Divergence OBV/prix = signal fort."
+            }
+          ],
+          "keyPoints": [
+            "La SMA 200 est le juge de paix de la tendance long terme",
+            "Les divergences RSI et MACD sont les signaux les plus fiables",
+            "Le Bollinger Squeeze annonce un mouvement explosif",
+            "Le volume confirme ou infirme les mouvements de prix",
+            "Ne surchargez pas vos graphiques : 2-3 indicateurs maximum"
+          ],
+          "exercises": [
+            {
+              "id": "ex-trd-04-1",
+              "question": "Une action est en tendance haussière au-dessus de sa SMA 200. Le prix vient de corriger vers la SMA 50. Le RSI est à 38. Les bandes de Bollinger sont en squeeze. Analysez la situation et proposez un plan de trading.",
+              "correction": "**Analyse :**\n1. **Tendance** : Haussière (prix > SMA 200) → on cherche des achats uniquement\n2. **Correction** : Le prix a corrigé jusqu'à la SMA 50, support dynamique important\n3. **RSI à 38** : Proche de la survente, momentum baissier excessif dans une tendance haussière → condition de rebond\n4. **Bollinger Squeeze** : Les bandes sont resserrées, une expansion de volatilité est imminente\n\n**Synthèse :** Configuration haussière très prometteuse. Le pullback sur SMA 50 + RSI survendu + squeeze = cocktail de rebond.\n\n**Plan de trade :**\n- **Attendre** : Signal de retournement (bougie haussière, hammer sur SMA 50)\n- **Entrée** : Achat au-dessus du plus haut de la bougie de signal\n- **Stop Loss** : Sous la SMA 50 (et sous la bande inférieure de Bollinger)\n- **TP1** : Retour vers les plus hauts récents (R:R 1:2)\n- **TP2** : Nouveau plus haut (R:R 1:3+)\n- **Gestion** : Stop en breakeven après TP1, trailing stop ensuite"
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Un Golden Cross est le croisement de :",
+              "options": [
+                "SMA 20 et SMA 50",
+                "SMA 50 au-dessus de SMA 200",
+                "RSI et sa moyenne",
+                "MACD et ligne zéro"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Un RSI à 25 indique :",
+              "options": [
+                "Un marché en surachat",
+                "Un marché en survente",
+                "Un marché neutre",
+                "Un marché en range"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "trd-05",
+          "title": "Figures chartistes et Patterns",
+          "level": "intermediate",
+          "duration": "90 min",
+          "description": "Triangles, double top/bottom, tête-épaules, flags : identifiez et tradez les patterns graphiques.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Figures de retournement",
+              "body": "**Tête-Épaules (Head and Shoulders) :**\nLe pattern de retournement le plus fiable.\n- Épaule gauche (sommet) → Tête (sommet plus haut) → Épaule droite (sommet plus bas)\n- La ligne de cou (neckline) relie les creux entre les sommets\n- Signal : Cassure de la neckline avec volume\n- Objectif : Hauteur de la tête projetée sous la neckline\n- Fiabilité : ~80% quand bien identifié\n- Inverse Tête-Épaules : Pattern miroir en bas de tendance (haussier)\n\n**Double Top (M) :**\n- Deux sommets au même niveau avec un creux entre eux\n- Le prix ne parvient pas à dépasser la résistance\n- Signal : Cassure du creux intermédiaire\n- Objectif : Hauteur du pattern projetée vers le bas\n\n**Double Bottom (W) :**\n- Deux creux au même niveau avec un sommet entre eux\n- Le support tient deux fois\n- Signal : Cassure du sommet intermédiaire\n- Objectif : Hauteur du pattern projetée vers le haut\n\n**Triple Top / Triple Bottom :**\nMême logique mais avec 3 tests du niveau. Plus rare mais plus fiable."
+            },
+            {
+              "type": "text",
+              "title": "Figures de continuation",
+              "body": "**Triangles :**\n- **Triangle ascendant** : Résistance horizontale + creux ascendants → cassure haussière probable (75%)\n- **Triangle descendant** : Support horizontal + sommets descendants → cassure baissière probable (75%)\n- **Triangle symétrique** : Sommets descendants + creux ascendants → cassure dans le sens de la tendance précédente\n\nRègle : Plus la cassure est proche de l'apex (pointe), moins elle est fiable. La cassure doit intervenir entre 50% et 75% du triangle.\n\n**Flags (Drapeaux) et Pennants :**\n- Courtes consolidations dans une tendance forte\n- **Bull Flag** : Petit canal descendant dans une tendance haussière\n- **Bear Flag** : Petit canal ascendant dans une tendance baissière\n- Pennant : Comme un flag mais en forme de petit triangle\n- Objectif : La hauteur du 'mât' (mouvement précédent) projetée après la cassure\n\n**Wedges (Coins) :**\n- **Rising Wedge** : Les deux lignes convergent vers le haut → pattern baissier\n- **Falling Wedge** : Les deux lignes convergent vers le bas → pattern haussier\n- Souvent vu comme des divergences sur les oscillateurs"
+            },
+            {
+              "type": "text",
+              "title": "Fibonacci et zones de prix",
+              "body": "**Les retracements de Fibonacci :**\nBasés sur la séquence mathématique de Fibonacci, ces niveaux identifient des zones de support/résistance potentielles.\n\n**Niveaux clés :**\n- **23,6%** : Retracement faible (tendance très forte)\n- **38,2%** : Retracement modéré (zone de rebond fréquente)\n- **50%** : Retracement médian (niveau psychologique)\n- **61,8%** : Le 'golden ratio', retracement le plus important\n- **78,6%** : Retracement profond (dernière chance avant invalidation)\n\n**Comment tracer :**\nDu point bas au point haut (tendance haussière) ou du haut au bas (baissière).\n\n**La zone dorée (Golden Zone) : 50% - 61,8%**\nZone de confluence la plus recherchée par les traders professionnels.\n\n**Extensions de Fibonacci :**\nPour déterminer les objectifs après un breakout.\n- 127,2% et 161,8% sont les extensions les plus courantes\n- 261,8% pour les mouvements les plus forts\n\n**Confluence Fibonacci :**\nQuand un niveau Fibonacci coïncide avec un support/résistance horizontal ou une moyenne mobile, la zone est particulièrement forte."
+            }
+          ],
+          "keyPoints": [
+            "La Tête-Épaules est le pattern de retournement le plus fiable (~80%)",
+            "Les triangles cassent dans le sens de la tendance dans 75% des cas",
+            "La zone dorée de Fibonacci (50-61.8%) est la plus surveillée",
+            "Toujours confirmer un pattern avec le volume",
+            "L'objectif se calcule par la projection de la hauteur du pattern"
+          ],
+          "exercises": [
+            {
+              "id": "ex-trd-05-1",
+              "question": "Une action en tendance haussière forme un triangle ascendant avec une résistance à 120€ et des creux ascendants. Le dernier creux est à 112€. Le prix casse les 120€ avec un volume élevé. Calculez l'objectif et proposez un plan de trade complet.",
+              "correction": "**Analyse du Triangle Ascendant :**\n- Résistance : 120€\n- Support ascendant : le plus bas du triangle (premier creux, estimons ~105€)\n- Hauteur du triangle : 120€ - 105€ = 15€\n\n**Objectif après cassure :**\n120€ + 15€ = **135€**\n\n**Plan de trade :**\n- **Entrée Option 1** : Achat immédiat à la cassure des 120€ (agressif)\n- **Entrée Option 2** : Attendre le throwback sur 120€ (devenu support) → meilleur R:R\n- **Stop Loss** : Sous le dernier creux ascendant à 112€ (soit sous 111€ pour la marge)\n- **Risk** : 120 - 111 = 9€ par action\n- **TP1** : 129€ (R:R 1:1)\n- **TP2** : 135€ = objectif du pattern (R:R 1:1.67)\n\n**Gestion de position :**\n- Prendre 50% de profits à TP1\n- Stop en breakeven sur le reste\n- Trailing stop de 3% après TP1 pour capturer un mouvement plus large"
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Le Golden Ratio de Fibonacci est à :",
+              "options": [
+                "23,6%",
+                "38,2%",
+                "50%",
+                "61,8%"
+              ],
+              "correct": 3
+            },
+            {
+              "question": "Un triangle ascendant casse généralement :",
+              "options": [
+                "Vers le bas",
+                "Vers le haut",
+                "Dans les deux sens",
+                "Latéralement"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "trd-06",
+          "title": "Price Action avancé",
+          "level": "advanced",
+          "duration": "90 min",
+          "description": "Trading en Price Action pure : structure de marché, zones de liquidité, order flow et smart money concepts.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Structure de marché (Market Structure)",
+              "body": "Le Price Action est l'analyse du prix pur sans indicateurs. C'est l'approche des traders professionnels.\n\n**Break of Structure (BOS) :**\nConfirmation que la tendance continue.\n- Uptrend BOS : Le prix casse un Higher High précédent\n- Downtrend BOS : Le prix casse un Lower Low précédent\n\n**Change of Character (CHoCH) :**\nPremier signe de changement de tendance.\n- En uptrend : Le prix casse un Higher Low → premier Lower Low → CHoCH baissier\n- En downtrend : Le prix casse un Lower High → premier Higher High → CHoCH haussier\n\n**Points pivots de structure :**\n- **Strong High/Low** : Point qui a causé un BOS (protégé)\n- **Weak High/Low** : Point qui n'a pas causé de BOS (susceptible d'être cassé)\n\n**Order Blocks :**\nZones où les institutions ont placé des ordres significatifs.\n- Dernière bougie baissière avant un mouvement haussier fort = Bullish Order Block\n- Dernière bougie haussière avant un mouvement baissier fort = Bearish Order Block\n- Le prix revient souvent tester ces zones avant de continuer"
+            },
+            {
+              "type": "text",
+              "title": "Liquidité et Manipulation",
+              "body": "**Les Smart Money Concepts (SMC) :**\nLe marché est dirigé par les institutionnels ('smart money') qui ont besoin de liquidité pour exécuter leurs gros ordres.\n\n**Zones de liquidité :**\n- **Buy-side Liquidity** : Au-dessus des sommets récents (stop loss des vendeurs, ordres d'achat)\n- **Sell-side Liquidity** : En dessous des creux récents (stop loss des acheteurs, ordres de vente)\n\n**Liquidity Grab (Prise de liquidité) :**\nLe prix dépasse brièvement un niveau clé pour déclencher les stop loss, puis se retourne violemment. C'est le mécanisme derrière les faux breakouts.\n\n**Fair Value Gap (FVG) / Imbalance :**\nUn gap entre la mèche de la bougie 1 et la mèche de la bougie 3 (la bougie 2 n'a pas été 'comblée'). Le prix a tendance à revenir combler ce gap.\n\n**Optimal Trade Entry (OTE) :**\nZone 61,8%-78,6% de Fibonacci d'un mouvement impulsif, combinée avec un Order Block. C'est la zone d'entrée préférée des traders Smart Money.\n\n**Le concept de manipulation :**\n1. **Accumulation** : Le smart money accumule discrètement\n2. **Manipulation** : Faux mouvement pour piéger les traders retail\n3. **Distribution** : Le vrai mouvement se lance dans la direction opposée"
+            },
+            {
+              "type": "text",
+              "title": "Stratégie Price Action complète",
+              "body": "**Cadre de trading institutionnel :**\n\n**1. Identifier la tendance sur le HTF (Higher Timeframe) :**\n- Daily/Weekly : Quelle est la structure ? Bullish ou Bearish ?\n- Identifier les zones de demande (order blocks haussiers) et d'offre (order blocks baissiers)\n\n**2. Descendre sur le LTF (Lower Timeframe) pour l'entrée :**\n- H4/H1 : Attendre que le prix revienne dans une zone d'intérêt HTF\n- Chercher un CHoCH ou BOS sur le LTF dans la direction du HTF\n\n**3. Entrée précise :**\n- M15/M5 : Entrer sur un signal de retournement dans la zone d'intérêt\n- Confirmation : CHoCH + Order Block + FVG confluence\n\n**Exemple concret :**\n- Daily : Tendance haussière, le prix revient dans un Bullish Order Block daily\n- H1 : Le prix montre un CHoCH haussier (premier HH après des LH)\n- M15 : Entrée sur le retest du FVG haussier du H1\n- Stop Loss : Sous le Low du Order Block\n- Take Profit : Prochaine zone de liquidité (buy-side) ou supply zone\n\n**Règle de gestion du risque :**\n- Maximum 1-2% du capital par trade\n- R:R minimum 1:2\n- Journal de trading obligatoire\n- Backtestez votre stratégie sur minimum 100 trades avant de l'utiliser en réel"
+            }
+          ],
+          "keyPoints": [
+            "Le marché est dirigé par les institutionnels qui cherchent la liquidité",
+            "Un CHoCH est le premier signe de changement de tendance",
+            "Les Order Blocks sont les zones de décision institutionnelles",
+            "Les FVG (gaps) tendent à être comblés",
+            "Tradez toujours dans la direction du HTF avec une entrée LTF"
+          ],
+          "exercises": [
+            {
+              "id": "ex-trd-06-1",
+              "question": "Le prix est en tendance haussière daily. Sur H4, il revient tester un Bullish Order Block qui coïncide avec le retracement Fibonacci 61.8%. Un FVG est visible juste au-dessus. Sur H1, vous observez un CHoCH haussier. Décrivez étape par étape votre plan de trade et votre gestion.",
+              "correction": "**Analyse multi-timeframe :**\n\n**Daily (HTF) :** Tendance haussière confirmée (BOS haussier). Le prix est en correction vers une zone de demande.\n\n**H4 (Zone d'intérêt) :**\n- Bullish Order Block identifié\n- Confluence avec Fibonacci 61.8% (Golden Zone)\n- FVG juste au-dessus → le prix veut combler ce gap\n- Triple confluence = zone à très haute probabilité\n\n**H1 (Confirmation) :**\n- CHoCH haussier observé = le prix a fait son premier Higher High après des Lower Highs\n- La structure commence à changer en faveur des acheteurs\n\n**Plan de trade :**\n1. **Entrée** : Achat sur le retest du FVG H1 ou sur un Bullish Order Block M15 dans la zone de confluence\n2. **Stop Loss** : Sous le Low du Bullish Order Block H4 (protège contre l'invalidation)\n3. **TP1** : Dernier Higher High H4 (R:R ~1:2)\n4. **TP2** : Prochaine buy-side liquidity (au-dessus du dernier swing high daily) (R:R ~1:3+)\n\n**Gestion :**\n- Risque : 1% du capital\n- 50% fermé à TP1, stop en breakeven\n- 50% restant avec trailing stop sous chaque nouveau HL sur H1\n- Si le prix casse sous l'Order Block H4 → sortie immédiate, la thèse est invalidée"
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Un CHoCH (Change of Character) indique :",
+              "options": [
+                "La continuation de la tendance",
+                "Le premier signe de changement de tendance",
+                "Un faux breakout",
+                "Un gap de prix"
+              ],
+              "correct": 1
+            },
+            {
+              "question": "Où se trouve l'Optimal Trade Entry (OTE) ?",
+              "options": [
+                "0-23.6% Fibonacci",
+                "23.6-38.2% Fibonacci",
+                "61.8-78.6% Fibonacci",
+                "100% Fibonacci"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "trd-07",
+          "title": "Risk Management professionnel",
+          "level": "advanced",
+          "duration": "75 min",
+          "description": "Les techniques professionnelles de gestion du risque, position sizing, et protection du capital.",
+          "content": [
+            {
+              "type": "text",
+              "title": "Les règles d'or du Risk Management",
+              "body": "**Le risque est la SEULE chose que vous contrôlez en trading.**\n\n**Règle n°1 : Ne jamais risquer plus de 1-2% par trade**\nCapital de 10 000€ → max 100-200€ de risque par position.\nCela permet de survivre à une série de 10 pertes consécutives (drawdown de 10-20%).\n\n**Règle n°2 : Toujours avoir un stop loss**\nPas de stop = pas de limite à vos pertes. C'est la première cause de faillite chez les traders.\n\n**Règle n°3 : Ratio Risk/Reward minimum 1:2**\nVous pouvez être profitable avec seulement 40% de trades gagnants si votre R:R est de 1:2 :\n- 40 trades gagnants × 2R = +80R\n- 60 trades perdants × 1R = -60R\n- Net : +20R de profit\n\n**Règle n°4 : Risque maximum quotidien**\nSi vous perdez 3-5% dans une journée, arrêtez de trader. Revenez demain avec l'esprit clair.\n\n**Règle n°5 : Risque maximum hebdomadaire**\nSi vous perdez 10% dans une semaine, faites une pause. Analysez vos erreurs avant de reprendre."
+            },
+            {
+              "type": "text",
+              "title": "Position Sizing — Calcul de la taille",
+              "body": "**Formule universelle :**\nTaille de position = (Capital × % risque) / (Prix d'entrée - Stop Loss)\n\n**Exemple :**\n- Capital : 20 000€\n- Risque par trade : 1% = 200€\n- Entrée : 50€\n- Stop Loss : 47€\n- Écart : 50€ - 47€ = 3€\n- Taille : 200€ / 3€ = **66 actions** (arrondi à la baisse)\n- Position totale : 66 × 50€ = 3 300€ (16,5% du capital)\n\n**Position sizing en fonction de la conviction :**\n- Setup A (haute conviction, forte confluence) : 2% de risque\n- Setup B (conviction normale) : 1% de risque\n- Setup C (conviction faible mais valide) : 0,5% de risque\n\n**Le Kelly Criterion (avancé) :**\nFormule mathématique pour optimiser la taille :\nKelly% = W - [(1-W) / R]\n- W = Taux de trades gagnants\n- R = Ratio gain moyen / perte moyenne\n- Utilisez la moitié du Kelly (Half-Kelly) pour réduire le drawdown\n\n**Corrélation et risque de portefeuille :**\nNe prenez pas 5 positions dans le même secteur ! Limitez le risque corrélé total à 5-6% maximum."
+            },
+            {
+              "type": "text",
+              "title": "Gestion avancée des positions",
+              "body": "**Scaling In (Entrée progressive) :**\n- Entrez en 2-3 tranches pour améliorer le prix moyen\n- 1ère entrée : Setup initial (1/3 de la taille)\n- 2ème entrée : Confirmation (1/3)\n- 3ème entrée : Accélération (1/3)\n\n**Scaling Out (Sortie progressive) :**\n- TP1 (50% de la position) : R:R 1:1 ou premier objectif\n- Stop en breakeven sur le reste\n- TP2 (25%) : R:R 1:2\n- TP3 (25%) : Trailing stop pour capturer le maximum\n\n**Trailing Stop Strategies :**\n- Trailing fixe : X% ou X ATR sous le prix\n- Trailing par structure : Sous chaque nouveau swing low\n- Trailing par MA : Sous la EMA 20 ou SMA 50\n\n**L'ATR (Average True Range) pour les stops :**\nATR mesure la volatilité moyenne. Un stop à 1.5-2 ATR évite d'être sorti par le bruit.\n\nExemple : ATR(14) = 2€\n- Stop = Entrée - (2 × ATR) = Entrée - 4€\n\n**Journal de trading :**\nDocumentez CHAQUE trade :\n- Date, instrument, direction\n- Raison de l'entrée (setup)\n- Entrée, SL, TP\n- Résultat en R\n- Screenshot du graphique\n- Émotions ressenties\n- Leçon apprise\n\nRevisitez votre journal chaque semaine pour identifier vos forces et faiblesses."
+            }
+          ],
+          "keyPoints": [
+            "Ne JAMAIS risquer plus de 1-2% du capital par trade",
+            "Le position sizing est la compétence la plus importante en trading",
+            "Un R:R de 1:2 permet d'être profitable avec 40% de réussite",
+            "L'ATR est l'outil idéal pour adapter les stops à la volatilité",
+            "Le journal de trading est obligatoire pour progresser"
+          ],
+          "exercises": [
+            {
+              "id": "ex-trd-07-1",
+              "question": "Vous avez un capital de 25 000€. Vous identifiez un setup avec une entrée à 85€ et un stop loss à 79€. Le take profit est à 103€. Calculez : a) La taille de position pour 1,5% de risque. b) Le R:R ratio. c) Si votre winrate est de 55%, êtes-vous profitable sur 100 trades ? Prouvez-le.",
+              "correction": "**a) Taille de position :**\n- Risque max : 25 000€ × 1,5% = 375€\n- Écart entrée-stop : 85€ - 79€ = 6€\n- Taille : 375€ / 6€ = **62 actions**\n- Position totale : 62 × 85€ = 5 270€ (21% du capital)\n\n**b) Ratio Risk/Reward :**\n- Risque par action : 6€\n- Reward par action : 103€ - 85€ = 18€\n- R:R = 18€ / 6€ = **1:3**\n\n**c) Profitabilité sur 100 trades :**\n- Trades gagnants : 55 → gain = 55 × 18€ × 62 = 61 380€\n- Trades perdants : 45 → perte = 45 × 6€ × 62 = 16 740€\n- **Profit net : 61 380€ - 16 740€ = 44 640€**\n- Rendement : 44 640€ / 25 000€ = **+178,6%** sur 100 trades\n\nOu en R multiples :\n- Gain : 55 × 3R = 165R\n- Perte : 45 × 1R = 45R\n- Net : **+120R** → 120 × 375€ (1,5% de 25k) = 45 000€\n\n**Conclusion :** Avec un R:R de 1:3 et un winrate de 55%, la stratégie est très profitable. C'est la puissance d'un bon risk management."
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Avec 1% de risque par trade, combien de pertes consécutives pouvez-vous encaisser avant de perdre 10% ?",
+              "options": [
+                "5",
+                "8",
+                "10",
+                "15"
+              ],
+              "correct": 2
+            },
+            {
+              "question": "Un R:R de 1:3 avec un winrate de 35% est-il profitable ?",
+              "options": [
+                "Oui",
+                "Non",
+                "Ça dépend des frais",
+                "Impossible à calculer"
+              ],
+              "correct": 0
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
