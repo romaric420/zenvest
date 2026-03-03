@@ -1,21 +1,26 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
-const STORAGE_KEY = 'zenvest_progress_v2';
-const CODES = { courses: 'Zenvest33', simBasic: 'Zenvest15', simAdvanced: 'Zenvest30' };
+import { CODES } from '../config';
 
 const ProgressContext = createContext();
+const STORE_KEY = 'zenvest_progress_v3';
+const USER_KEY = 'zenvest_user_v1';
 
 export function ProgressProvider({ children }) {
   const [state, setState] = useState(() => {
-    try { const s = localStorage.getItem(STORAGE_KEY); if (s) return JSON.parse(s); } catch {}
+    try { const s = localStorage.getItem(STORE_KEY); if (s) return JSON.parse(s); } catch { }
     return { completed: {}, unlocked: { courses: false, simBasic: false, simAdvanced: false } };
   });
+  const [user, setUser] = useState(() => {
+    try { const u = localStorage.getItem(USER_KEY); if (u) return JSON.parse(u); } catch { }
+    return { name: '', registered: false };
+  });
 
-  useEffect(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }, [state]);
+  useEffect(() => { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }, [state]);
+  useEffect(() => { localStorage.setItem(USER_KEY, JSON.stringify(user)); }, [user]);
 
-  const isCompleted = (id) => !!state.completed[id];
-  const markComplete = (id) => setState(prev => ({ ...prev, completed: { ...prev.completed, [id]: true } }));
-  const isUnlocked = (key) => !!state.unlocked[key];
+  const registerUser = (name) => { setUser({ name, registered: true }); };
+  const isRegistered = () => user.registered && user.name;
+  const getUserName = () => user.name || '';
 
   const unlock = (key, code) => {
     if (CODES[key] && code === CODES[key]) {
@@ -24,23 +29,23 @@ export function ProgressProvider({ children }) {
     }
     return false;
   };
-
+  const isUnlocked = (key) => state.unlocked[key] || false;
+  const markComplete = (id) => { setState(prev => ({ ...prev, completed: { ...prev.completed, [id]: true } })); };
+  const isCompleted = (id) => state.completed[id] || false;
+  const canAccess = (courseId, moduleIndex, modules) => {
+    if (moduleIndex === 0) return true;
+    if (!isUnlocked('courses')) return false;
+    const prev = modules[moduleIndex - 1];
+    return prev && isCompleted(prev.id);
+  };
   const getProgress = (courseId, modules) => {
-    if (!modules || modules.length === 0) return 0;
-    const done = modules.filter(m => state.completed[`${courseId}-${m.id}`]).length;
+    if (!modules || !modules.length) return 0;
+    const done = modules.filter(m => isCompleted(m.id)).length;
     return Math.round((done / modules.length) * 100);
   };
 
-  const canAccess = (courseId, moduleIndex, modules) => {
-    if (moduleIndex === 0) return true; // intro always accessible
-    if (!state.unlocked.courses) return false;
-    // Must complete previous module
-    const prev = modules[moduleIndex - 1];
-    return !!state.completed[`${courseId}-${prev.id}`];
-  };
-
   return (
-    <ProgressContext.Provider value={{ isCompleted, markComplete, isUnlocked, unlock, getProgress, canAccess }}>
+    <ProgressContext.Provider value={{ ...state, unlock, isUnlocked, markComplete, isCompleted, canAccess, getProgress, registerUser, isRegistered, getUserName }}>
       {children}
     </ProgressContext.Provider>
   );

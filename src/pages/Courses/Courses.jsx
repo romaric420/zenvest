@@ -1,46 +1,70 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Lock, CheckCircle, ChevronRight, ChevronLeft, ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Lock, CheckCircle, BookOpen } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useProgress } from '../../context/ProgressContext';
-import { COURSES_DATA } from './courseData';
-import CourseCard from '../../components/CourseCard/CourseCard';
 import Footer from '../../components/Footer/Footer';
+import { COURSES_DATA } from './courseData';
 import './Courses.css';
 
-const COURSE_IDS = ['investing', 'trading', 'fundamental'];
+const COURSE_LIST = [
+  { id: 'investing', img: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=600&h=280&fit=crop&q=80', icon: '\u{1F4C8}' },
+  { id: 'trading', img: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=280&fit=crop&q=80', icon: '\u{1F4CA}' },
+  { id: 'fundamental', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=280&fit=crop&q=80', icon: '\u{1F30D}' },
+];
 
 export default function Courses() {
   const { courseId } = useParams();
   const { t, lang } = useLanguage();
-  const { isCompleted, markComplete, isUnlocked, unlock, canAccess } = useProgress();
+  const { isUnlocked, unlock, isCompleted, markComplete, canAccess, getProgress, getUserName } = useProgress();
   const navigate = useNavigate();
-  const [activeModule, setActiveModule] = useState(null);
   const [code, setCode] = useState('');
-  const [codeError, setCodeError] = useState(false);
+  const [codeErr, setCodeErr] = useState(false);
+  const [activeModule, setActiveModule] = useState(null);
 
-  // Course list view
+  const tryUnlock = () => {
+    const ok = unlock('courses', code);
+    if (!ok) { setCodeErr(true); setTimeout(() => setCodeErr(false), 2000); }
+  };
+
+  /* No courseId => Show course list */
   if (!courseId) {
     return (
       <div>
-        <div className="courses-hero">
-          <div className="courses-hero__bg" />
+        <div className="courses-hdr">
           <div className="container">
-            <button className="courses__back" onClick={() => navigate('/')}><ArrowLeft size={18} /> {t('nav.home')}</button>
-            <h1 className="courses-hero__title">{t('home.section')}</h1>
-            <p className="courses-hero__sub">{t('home.sectionSub')}</p>
+            <button className="courses__back" onClick={() => navigate('/')}><ArrowLeft size={18}/> {t('nav.home')}</button>
+            <h1 className="courses-hdr__title">{t('course.title')}</h1>
+            <p className="courses-hdr__sub">{t('course.subtitle')}</p>
           </div>
         </div>
         <div className="container">
-          <div className="courses-grid">
-            {COURSE_IDS.map((id, i) => (
-              <div key={id} style={{ animationDelay: `${i * 0.1}s` }} className="courses-grid__item">
-                <CourseCard courseId={id} modules={COURSES_DATA[id]?.modules || []} onClick={() => navigate(`/courses/${id}`)} />
-              </div>
-            ))}
-            <div className="courses-grid__item" style={{ animationDelay: '0.3s' }}>
-              <CourseCard courseId="simulator" modules={[]} onClick={() => navigate('/simulator')} />
-            </div>
+          <div className="courses-list">
+            {COURSE_LIST.map((c, i) => {
+              const data = COURSES_DATA[c.id];
+              const modules = data?.modules || [];
+              const prog = getProgress(c.id, modules);
+              return (
+                <div key={c.id} className="courses-card" onClick={() => navigate(`/courses/${c.id}`)} style={{ animationDelay: `${i * 0.1}s` }}>
+                  <div className="courses-card__img">
+                    <img src={c.img} alt="" />
+                    <div className="courses-card__badge">{c.icon} {t('course.pack')}</div>
+                  </div>
+                  <div className="courses-card__body">
+                    <h3>{t(`course.${c.id}`)}</h3>
+                    <span className="courses-card__author">{getUserName() || 'ZENVEST'}</span>
+                    <div className="courses-card__progress">
+                      <div className="courses-card__bar"><div className="courses-card__fill" style={{ width: `${prog}%` }} /></div>
+                      <span className="courses-card__pct">{prog}%</span>
+                    </div>
+                    <div className="courses-card__foot">
+                      <span><BookOpen size={14}/> {modules.length} {t('course.modules')}</span>
+                      <span className="courses-card__open">{t('course.open')} &rarr;</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
         <Footer />
@@ -48,45 +72,34 @@ export default function Courses() {
     );
   }
 
-  // Single course view
-  const course = COURSES_DATA[courseId];
-  if (!course || !course.modules?.length) {
-    return <div className="container" style={{ padding: '100px 24px', textAlign: 'center' }}><h2>Course not found</h2><button onClick={() => navigate('/courses')}>← Back</button></div>;
-  }
+  /* courseId present => Module list or content */
+  const data = COURSES_DATA[courseId];
+  if (!data) return <div className="container" style={{ padding: '120px 0', textAlign: 'center' }}>Course not found</div>;
+  const modules = data.modules;
 
-  const modules = course.modules;
-  const unlocked = isUnlocked('courses');
-
-  const handleUnlock = () => {
-    const ok = unlock('courses', code);
-    if (!ok) { setCodeError(true); setTimeout(() => setCodeError(false), 2000); }
-  };
-
-  // Module content view
   if (activeModule !== null) {
     const mod = modules[activeModule];
-    const modId = `${courseId}-${mod.id}`;
-    const completed = isCompleted(modId);
-    const hasNext = activeModule < modules.length - 1;
-    const hasPrev = activeModule > 0;
-    const content = mod.content?.[lang] || mod.content?.fr || '';
-
+    const content = mod?.content?.[lang] || mod?.content?.fr || '';
     return (
       <div>
-        <div className="mod-header">
+        <div className="courses-hdr">
           <div className="container">
-            <button className="courses__back" onClick={() => setActiveModule(null)}><ArrowLeft size={18} /> {t(`home.courses.${courseId}.title`)}</button>
-            <h1 className="mod-header__title">{mod.title[lang] || mod.title.fr}</h1>
-            {completed && <span className="mod-header__done"><CheckCircle size={16} /> {t('course.completed')}</span>}
+            <button className="courses__back" onClick={() => setActiveModule(null)}><ArrowLeft size={18}/> {lang === 'fr' ? 'Retour aux modules' : 'Back to modules'}</button>
           </div>
         </div>
         <div className="container">
-          <div className="mod-content" dangerouslySetInnerHTML={{ __html: content }} />
-          <div className="mod-actions">
-            {hasPrev && <button className="mod-btn mod-btn--ghost" onClick={() => setActiveModule(activeModule - 1)}><ChevronLeft size={18} /> {t('course.prev')}</button>}
-            {!completed && <button className="mod-btn mod-btn--primary" onClick={() => markComplete(modId)}><CheckCircle size={18} /> {t('course.markDone')}</button>}
-            {hasNext && canAccess(courseId, activeModule + 1, modules) && (
-              <button className="mod-btn mod-btn--next" onClick={() => setActiveModule(activeModule + 1)}>{t('course.next')} <ChevronRight size={18} /></button>
+          <div className="mod-content">
+            <h1 className="mod-content__title">{mod.title[lang] || mod.title.fr}</h1>
+            <div className="mod-content__body" dangerouslySetInnerHTML={{ __html: content }} />
+            {!isCompleted(mod.id) && (
+              <button className="mod-content__complete" onClick={() => { markComplete(mod.id); setActiveModule(null); }}>
+                <CheckCircle size={18}/> {lang === 'fr' ? 'Marquer comme termine' : 'Mark as complete'}
+              </button>
+            )}
+            {isCompleted(mod.id) && (
+              <div className="mod-content__done">
+                <CheckCircle size={18}/> {lang === 'fr' ? 'Module termine !' : 'Module completed!'}
+              </div>
             )}
           </div>
         </div>
@@ -95,56 +108,53 @@ export default function Courses() {
     );
   }
 
-  // Module list view
+  /* Module List */
+  const prog = getProgress(courseId, modules);
   return (
     <div>
-      <div className="courses-hero courses-hero--compact">
-        <div className="courses-hero__bg" />
+      <div className="courses-hdr">
         <div className="container">
-          <button className="courses__back" onClick={() => navigate('/courses')}><ArrowLeft size={18} /> {t('nav.courses')}</button>
-          <h1 className="courses-hero__title">{t(`home.courses.${courseId}.title`)}</h1>
-          <p className="courses-hero__sub">{t(`home.courses.${courseId}.desc`)}</p>
+          <button className="courses__back" onClick={() => navigate('/courses')}><ArrowLeft size={18}/> {t('course.title')}</button>
+          <h1 className="courses-hdr__title">{t(`course.${courseId}`)}</h1>
+          <div className="courses-hdr__bar"><div className="courses-hdr__fill" style={{ width: `${prog}%` }} /><span>{prog}%</span></div>
         </div>
       </div>
       <div className="container">
-        {/* Unlock card */}
-        {!unlocked && (
+        {/* Unlock Card */}
+        {!isUnlocked('courses') && (
           <div className="unlock-card">
-            <div className="unlock-card__icon"><Lock size={28} /></div>
-            <h3>{t('course.unlockTitle')}</h3>
-            <p>{t('course.unlockDesc')}</p>
-            <div className="unlock-card__form">
-              <input type="text" value={code} onChange={e => setCode(e.target.value)} placeholder={t('course.unlockPlaceholder')}
-                className={`unlock-card__input ${codeError ? 'unlock-card__input--error' : ''}`}
-                onKeyDown={e => e.key === 'Enter' && handleUnlock()} />
-              <button className="unlock-card__btn" onClick={handleUnlock}>{t('course.unlockBtn')}</button>
+            <Lock size={24}/>
+            <div>
+              <h3>{lang === 'fr' ? 'Contenu verrouille' : 'Content locked'}</h3>
+              <p>{lang === 'fr' ? "L'introduction est gratuite. Entrez le code pour debloquer tous les modules." : 'Introduction is free. Enter the code to unlock all modules.'}</p>
             </div>
-            {codeError && <span className="unlock-card__error">{t('course.unlockError')}</span>}
+            <div className="unlock-card__input">
+              <input type="text" value={code} onChange={e => setCode(e.target.value)} placeholder={t('sim.accessCode')}
+                className={codeErr ? 'unlock-card__err' : ''} onKeyDown={e => e.key === 'Enter' && tryUnlock()} />
+              <button onClick={tryUnlock}>{t('sim.unlock')}</button>
+            </div>
+            {codeErr && <span className="unlock-card__msg">{t('sim.wrongCode')}</span>}
           </div>
         )}
 
-        {/* Module list */}
-        <div className="modules-list">
-          {modules.map((mod, i) => {
-            const modId = `${courseId}-${mod.id}`;
-            const done = isCompleted(modId);
-            const accessible = i === 0 || (unlocked && canAccess(courseId, i, modules));
-            const isFreeIntro = i === 0;
-
+        {/* Modules */}
+        <div className="mod-list">
+          {modules.map((mod, idx) => {
+            const accessible = canAccess(courseId, idx, modules);
+            const completed = isCompleted(mod.id);
+            const free = idx === 0;
             return (
-              <div key={mod.id} className={`module-item ${done ? 'module-item--done' : ''} ${!accessible ? 'module-item--locked' : ''}`}
-                onClick={() => accessible && setActiveModule(i)} style={{ animationDelay: `${i * 0.06}s` }}>
-                <div className="module-item__num">{String(i + 1).padStart(2, '0')}</div>
-                <div className="module-item__info">
+              <div key={mod.id} className={`mod-item ${accessible ? 'mod-item--ok' : 'mod-item--locked'} ${completed ? 'mod-item--done' : ''}`}
+                style={{ animationDelay: `${idx * 0.06}s` }}
+                onClick={() => accessible && setActiveModule(idx)}>
+                <div className="mod-item__num">{String(idx + 1).padStart(2, '0')}</div>
+                <div className="mod-item__info">
                   <h4>{mod.title[lang] || mod.title.fr}</h4>
-                  {isFreeIntro && <span className="module-item__free">{t('course.introFree')}</span>}
-                  {!accessible && !isFreeIntro && <span className="module-item__locked-text">{!unlocked ? t('course.locked') : t('course.mustComplete')}</span>}
+                  {free && !isUnlocked('courses') && <span className="mod-item__badge mod-item__badge--free">{lang === 'fr' ? 'Introduction gratuite' : 'Free introduction'}</span>}
+                  {completed && <span className="mod-item__badge mod-item__badge--done"><CheckCircle size={12}/> {lang === 'fr' ? 'Termine' : 'Completed'}</span>}
+                  {!accessible && !free && <span className="mod-item__badge mod-item__badge--lock"><Lock size={12}/> {lang === 'fr' ? 'Verrouille' : 'Locked'}</span>}
                 </div>
-                <div className="module-item__status">
-                  {done ? <CheckCircle size={20} className="module-item__check" /> :
-                    !accessible ? <Lock size={18} className="module-item__lock" /> :
-                    <ChevronRight size={20} className="module-item__arrow" />}
-                </div>
+                <div className="mod-item__arrow">{accessible ? '\u2192' : '\u{1F512}'}</div>
               </div>
             );
           })}

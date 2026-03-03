@@ -3,94 +3,48 @@
     "home": "Home",
     "courses": "Courses",
     "simulator": "Simulator",
-    "version": "v1.0"
+    "version": "v1.2"
   },
   "hero": {
-    "badge": "Learning Platform",
-    "title": "Master the financial markets",
-    "subtitle": "with ZENVEST",
-    "desc": "Complete training in investing, trading and fundamental analysis. Available at your pace, on your schedule.",
-    "cta": "Get started",
+    "title": "Learn Trading & Investing with",
+    "subtitle": "Complete courses, practical exercises and real-time simulators. Accessible on your schedule, at your own pace.",
+    "cta": "Get Started",
     "ctaSim": "Try the simulator"
   },
   "home": {
     "section": "Our Training Paths",
-    "sectionSub": "4 complete paths to master every aspect of financial markets",
-    "courses": {
-      "investing": {
-        "title": "Investing & Stock Market",
-        "desc": "Build a solid portfolio: fundamentals, ETFs, passive and active management, asset classes.",
-        "author": "Guillaume",
-        "modules": "8 Lessons"
-      },
-      "trading": {
-        "title": "Trading & Technical Analysis",
-        "desc": "Japanese candlesticks, price action, indicators, professional trading strategies.",
-        "author": "Guillaume",
-        "modules": "7 Lessons"
-      },
-      "simulator": {
-        "title": "Real Simulator Training",
-        "desc": "Practice trading in real conditions on 600+ cryptos with live Kraken prices.",
-        "author": "ZENVEST",
-        "modules": "Unlimited practice"
-      },
-      "fundamental": {
-        "title": "Finance & Macroeconomics",
-        "desc": "Fundamental analysis, monetary policy, balance sheet reading, macroeconomic indicators.",
-        "author": "Guillaume",
-        "modules": "6 Lessons"
-      }
-    },
-    "open": "Open",
-    "packLabel": "Training pack"
+    "sectionSub": "Choose your path and progress at your own pace"
   },
   "course": {
-    "unlockTitle": "Unlock courses",
-    "unlockDesc": "Enter your access code to unlock the full curriculum",
-    "unlockPlaceholder": "Access code",
-    "unlockBtn": "Unlock",
-    "unlockError": "Invalid code",
-    "locked": "Locked",
-    "completed": "Completed",
-    "markDone": "Mark as completed",
-    "next": "Next module",
-    "prev": "Previous",
-    "introFree": "Free introduction",
-    "mustComplete": "Complete the previous module to continue"
+    "title": "Training Paths",
+    "subtitle": "Select a path to begin your learning journey",
+    "investing": "Investing & Stock Market",
+    "trading": "Trading & Technical Analysis",
+    "fundamental": "Finance & Macroeconomics",
+    "pack": "Training Pack",
+    "modules": "Modules",
+    "open": "Open"
   },
   "sim": {
     "title": "Trading Simulators",
-    "subtitle": "Two environments to practice: from beginner to advanced trader",
+    "subtitle": "Practice risk-free with real-time market data",
+    "accessCode": "Access code...",
+    "unlock": "Unlock",
+    "wrongCode": "Invalid code",
     "basic": {
+      "badge": "Essential",
       "title": "Essential Simulator",
-      "desc": "Accessible for real-condition testing — 5 major cryptos, simple and intuitive interface.",
-      "price": "€15",
-      "badge": "Beginner"
+      "desc": "Perfect to start: trade the top 5 cryptocurrencies with a simplified interface and real-time WebSocket prices.",
+      "price": "€15"
     },
     "advanced": {
+      "badge": "Pro",
       "title": "Advanced Simulator",
-      "desc": "600+ cryptocurrencies, Stop Loss & Take Profit, full history, price alerts and live news.",
-      "price": "€30",
-      "badge": "Pro"
-    },
-    "accessCode": "Access code",
-    "unlock": "Access",
-    "wrongCode": "Invalid code"
+      "desc": "The full experience: 600+ cryptos, stock & forex markets, automatic Stop Loss/Take Profit, live news and detailed history.",
+      "price": "€30"
+    }
   },
   "footer": {
-    "desc": "Investment and trading training platform. Learn to master the financial markets.",
-    "formation": "Training",
-    "investing": "Investing",
-    "trading": "Trading",
-    "fundamental": "Fundamental Analysis",
-    "tools": "Tools",
-    "simBasic": "Essential Simulator",
-    "simAdvanced": "Advanced Simulator",
-    "legal": "Legal",
-    "cgu": "Terms",
-    "privacy": "Privacy",
-    "rights": "All rights reserved.",
-    "disclaimer": "Past performance is not indicative of future results. Trading involves risk of capital loss."
+    "risk": "Trading involves significant risks of capital loss."
   }
 }
