@@ -44,7 +44,6 @@ export default function Header() {
               </button>
             ))}
           </nav>
-
           <div className="hdr__right">
             {isRegistered() && userName && (
               <div className="hdr__user">
