@@ -41,7 +41,7 @@ export function ProgressProvider({ children }) {
   };
 
   return (
-    <ProgressContext.Provider value={{ isCompleted, markComplete, isUnlocked, unlock, getProgress, canAccess, registerUser, isRegistered, getUserName }}>
+    <ProgressContext.Provider value={{ isCompleted, markComplete, isUnlocked, unlock, tryUnlock: unlock, getProgress, canAccess, registerUser, isRegistered, getUserName }}>
       {children}
     </ProgressContext.Provider>
   );

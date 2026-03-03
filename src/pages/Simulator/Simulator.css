@@ -32,7 +32,7 @@
 .sim-pack__btn--pro:hover{box-shadow:0 6px 20px rgba(89,165,44,.35)}
 .sim-pack__err{display:block;text-align:center;color:var(--zv-danger);font-size:.78rem;font-weight:600;padding:0 24px 16px}
 /* ═══ Shared Simulator Styles ═══ */
-.ss-ticker,.sa-ticker{background:#020617;padding:10px 20px;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;font-size:.78rem}
+.ss-ticker,.sa-ticker{background:#020617;padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:20px;overflow-x:auto;scrollbar-width:none;font-size:.8rem;font-weight:700;border-bottom:1px solid #1e293b}
 .ss-ticker::-webkit-scrollbar,.sa-ticker::-webkit-scrollbar{display:none}
 .ss-ticker__sep,.sa-ticker__sep{color:rgba(255,255,255,.12);margin:0 2px}
 .ss-ticker__item,.sa-ticker__item{display:flex;align-items:center;gap:5px;white-space:nowrap}

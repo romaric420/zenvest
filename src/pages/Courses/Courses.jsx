@@ -82,6 +82,33 @@ export default function Courses() {
         </div>
         <div className="container">
           <div className="mod-content" dangerouslySetInnerHTML={{ __html: content }} />
+
+          {/* Score & Congratulations */}
+          {completed && (
+            <div className="mod-complete-card">
+              <div className="mod-complete-card__icon">🎓</div>
+              <h3 className="mod-complete-card__title">Module terminé avec succès !</h3>
+              <p className="mod-complete-card__text">
+                Félicitations ! Vous avez terminé <strong>{mod.title[lang] || mod.title.fr}</strong>.
+              </p>
+              <div className="mod-complete-card__score">
+                <div className="mod-complete-card__score-circle">
+                  <span className="mod-complete-card__score-val">{Math.min(activeModule + 1, modules.length)}/{modules.length}</span>
+                  <span className="mod-complete-card__score-label">Modules</span>
+                </div>
+                <div className="mod-complete-card__score-circle">
+                  <span className="mod-complete-card__score-val">{Math.round(((activeModule + 1) / modules.length) * 100)}%</span>
+                  <span className="mod-complete-card__score-label">Progression</span>
+                </div>
+              </div>
+              <p className="mod-complete-card__tip">
+                {activeModule + 1 < modules.length
+                  ? '📖 Passez au module suivant pour continuer votre apprentissage.'
+                  : '🏆 Vous avez terminé l\'intégralité de ce parcours. Bravo !'}
+              </p>
+            </div>
+          )}
+
           <div className="mod-actions">
             {hasPrev && <button className="mod-btn mod-btn--ghost" onClick={() => setActiveModule(activeModule - 1)}><ChevronLeft size={18} /> {t('course.prev')}</button>}
             {!completed && <button className="mod-btn mod-btn--primary" onClick={() => markComplete(modId)}><CheckCircle size={18} /> {t('course.markDone')}</button>}
