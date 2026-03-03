@@ -6,45 +6,91 @@
     "version": "v1.0"
   },
   "hero": {
-    "title": "Formez-vous au Trading & Investissement avec",
-    "subtitle": "Cours complets, exercices pratiques et simulateurs temps reel. Accessibles selon votre horaire, a votre rythme.",
-    "cta": "Commencer",
+    "badge": "Construire la richesse pour le bien commun",
+    "title": "Maîtrisez les marchés financiers",
+    "subtitle": "avec ZENVEST",
+    "desc": "Formation complète en investissement, trading et analyse fondamentale. Accessibles selon votre horaire, à votre rythme.",
+    "cta": "Commencer maintenant",
     "ctaSim": "Tester le simulateur"
   },
   "home": {
     "section": "Nos Parcours de Formation",
-    "sectionSub": "Choisissez votre parcours et progressez a votre rythme"
+    "sectionSub": "4 parcours complets pour maîtriser tous les aspects des marchés financiers",
+    "courses": {
+      "investing": {
+        "title": "Investissement & Bourse",
+        "desc": "Construisez un portefeuille solide : bases, ETFs, gestion passive et active, classes d'actifs.",
+        "author": "ZENVEST",
+        "modules": "8 Formations"
+      },
+      "trading": {
+        "title": "Trading & Analyse Technique",
+        "desc": "Chandeliers japonais, price action, indicateurs, stratégies de trading professionnelles.",
+        "author": "ZENVEST",
+        "modules": "7 Formations"
+      },
+      "simulator": {
+        "title": "Apprentissage via Simulateur Réel",
+        "desc": "Pratiquez le trading en conditions réelles sur 600+ cryptos avec des prix live Kraken.",
+        "author": "ZENVEST",
+        "modules": "Pratique illimitée"
+      },
+      "fundamental": {
+        "title": "Finance & Macro-économie",
+        "desc": "Analyse fondamentale, politique monétaire, lecture des bilans, indicateurs macroéconomiques.",
+        "author": "ZENVEST",
+        "modules": "6 Formations"
+      }
+    },
+    "open": "Ouvrir",
+    "packLabel": "Pack de formations"
   },
   "course": {
-    "title": "Parcours de Formation",
-    "subtitle": "Selectionnez un parcours pour commencer votre apprentissage",
-    "investing": "Investissement & Bourse",
-    "trading": "Trading & Analyse Technique",
-    "fundamental": "Finance & Macro-economie",
-    "pack": "Pack de formations",
-    "modules": "Formations",
-    "open": "Ouvrir"
+    "unlockTitle": "Débloquer les formations",
+    "unlockDesc": "Entrez votre code d'accès pour débloquer l'ensemble du parcours",
+    "unlockPlaceholder": "Code d'accès",
+    "unlockBtn": "Débloquer",
+    "unlockError": "Code invalide",
+    "locked": "Verrouillé",
+    "completed": "Terminé",
+    "markDone": "Marquer comme terminé",
+    "next": "Module suivant",
+    "prev": "Précédent",
+    "introFree": "Introduction gratuite",
+    "mustComplete": "Terminez le module précédent pour continuer"
   },
   "sim": {
     "title": "Simulateurs de Trading",
-    "subtitle": "Pratiquez sans risque avec des donnees en temps reel",
-    "accessCode": "Code d'acces...",
-    "unlock": "Debloquer",
-    "wrongCode": "Code invalide",
+    "subtitle": "Deux environnements pour pratiquer : du débutant au trader confirmé",
     "basic": {
-      "badge": "Essentiel",
       "title": "Simulateur Essentiel",
-      "desc": "Ideal pour debuter : tradez les 5 cryptomonnaies majeures avec une interface simplifiee et des prix en temps reel via WebSocket.",
-      "price": "15 €"
+      "desc": "Accessible pour tester en conditions réelles — 5 cryptos majeures, interface simple et intuitive.",
+      "price": "15€",
+      "badge": "Débutant"
     },
     "advanced": {
-      "badge": "Pro",
-      "title": "Simulateur Avance",
-      "desc": "L'experience complete : 600+ cryptos, marches actions & forex, Stop Loss/Take Profit automatiques, news live et historique detaille.",
-      "price": "30 €"
-    }
+      "title": "Simulateur Avancé",
+      "desc": "600+ cryptomonnaies, Stop Loss & Take Profit, historique complet, alertes prix et news live.",
+      "price": "30€",
+      "badge": "Pro"
+    },
+    "accessCode": "Code d'accès",
+    "unlock": "Accéder",
+    "wrongCode": "Code invalide"
   },
   "footer": {
-    "risk": "Le trading comporte des risques significatifs de perte en capital."
+    "desc": "Plateforme de formation en investissement et trading. Apprenez à maîtriser les marchés financiers.",
+    "formation": "Formation",
+    "investing": "Investissement",
+    "trading": "Trading",
+    "fundamental": "Analyse Fondamentale",
+    "tools": "Outils",
+    "simBasic": "Simulateur Essentiel",
+    "simAdvanced": "Simulateur Avancé",
+    "legal": "Légal",
+    "cgu": "CGU",
+    "privacy": "Confidentialité",
+    "rights": "Tous droits réservés.",
+    "disclaimer": "Les performances passées ne préjugent pas des performances futures. Le trading comporte des risques de perte en capital."
   }
 }
