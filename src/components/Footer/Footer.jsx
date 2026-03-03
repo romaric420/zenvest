@@ -17,8 +17,6 @@ export default function Footer() {
           <div className="ftr__logo">
             <img src={LOGO_PATH} alt="ZENVEST" className="ftr__logo-img"
               onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }} />
-            <div className="ftr__logo-icon" style={{display:'none'}}>Z</div>
-            <span>ZENVEST</span>
           </div>
           <p className="ftr__desc">{t('footer.desc')}</p>
         </div>

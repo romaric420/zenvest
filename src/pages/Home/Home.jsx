@@ -41,16 +41,16 @@ const LEVELS = {
 
 const STATS = {
   fr: [
-    { value: '600+', label: 'Cryptos disponibles', color: '#59A52C' },
+    { value: '+de 4 classes', label: "d'actifs disponibles en simulation", color: '#59A52C' },
     { value: '4', label: 'Parcours complets', color: '#F5793B' },
     { value: '21+', label: 'Modules de formation', color: '#f1580c' },
-    { value: '∞', label: 'Pratique illimitée', color: '#6fca3a' },
+    { value: '∞', label: 'Pratique illimitée', color: '#6fca3a', fontSize: '5rem' },
   ],
   en: [
-    { value: '600+', label: 'Available cryptos', color: '#59A52C' },
+    { value: '4+ asset classes', label: 'available in simulation mode', color: '#59A52C' },
     { value: '4', label: 'Complete paths', color: '#F5793B' },
     { value: '21+', label: 'Training modules', color: '#f1580c' },
-    { value: '∞', label: 'Unlimited practice', color: '#6fca3a' },
+    { value: '∞', label: 'Unlimited practice', color: '#6fca3a', fontSize: '5rem' },
   ],
 };
 
@@ -147,8 +147,8 @@ export default function Home() {
       {/* ═══ Trois niveaux ═══ */}
       <section className="levels-section">
         <div className="container">
-          <h2 className="sec-title">{lang === 'fr' ? "Trois niveaux d'expertise" : 'Three expertise levels'}</h2>
-          <p className="sec-sub">{lang === 'fr' ? 'Progressez à votre rythme, chaque niveau vous rapproche de la maîtrise.' : 'Progress at your own pace, each level brings you closer to mastery.'}</p>
+          <h2 className="sec-title">{lang === 'fr' ? "Trois niveaux d'apprentissage" : 'Three learning levels'}</h2>
+          <p className="sec-sub">{lang === 'fr' ? "Progressez à votre rythme. Chaque niveau vous rapproche de l'expertise." : 'Progress at your own pace. Every level brings you closer to expertise.'}</p>
           <div className="levels-grid">
             {levels.map((l, i) => {
               const LIcon = l.Icon;

@@ -3,10 +3,10 @@
     "home": "Accueil",
     "courses": "Cours",
     "simulator": "Simulateur",
-    "version": "v1.0"
+    "version": "v1.4"
   },
   "hero": {
-    "badge": "Construire la richesse pour le bien commun",
+    "badge": "bâtir une richesse pour faire plus de bien",
     "title": "Maîtrisez les marchés financiers",
     "subtitle": "avec ZENVEST",
     "desc": "Formation complète en investissement, trading et analyse fondamentale. Accessibles selon votre horaire, à votre rythme.",
@@ -30,7 +30,7 @@
         "modules": "7 Formations"
       },
       "simulator": {
-        "title": "Apprentissage via Simulateur Réel",
+        "title": "Apprentissage avec Simulateur",
         "desc": "Pratiquez le trading en conditions réelles sur 600+ cryptos avec des prix live Kraken.",
         "author": "ZENVEST",
         "modules": "Pratique illimitée"
@@ -83,7 +83,7 @@
     "formation": "Formation",
     "investing": "Investissement",
     "trading": "Trading",
-    "fundamental": "Analyse Fondamentale",
+    "fundamental": "Introduction à l'Analyse Fondamentale",
     "tools": "Outils",
     "simBasic": "Simulateur Essentiel",
     "simAdvanced": "Simulateur Avancé",
