@@ -21,9 +21,9 @@ function WelcomeModal() {
     <div className="welcome-overlay">
       <div className="welcome-modal">
         <img src={LOGO_PATH} alt="ZENVEST" className="welcome-modal__logo"
-          onError={(e) => { e.target.style.display='none'; e.target.nextElementSibling.style.display='flex'; }} />
-        <div className="welcome-modal__logo-fb" style={{display:'none'}}>Z</div>
-        <h2>Bienvenue sur ZENVEST</h2>
+          onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }} />
+        <div className="welcome-modal__logo-fb" style={{ display: 'none' }}>Z</div>
+        <h2>Bienvenue !</h2>
         <p>Votre plateforme de formation en trading & investissement. Entrez votre prenom pour commencer.</p>
         <input type="text" placeholder="Votre prenom..." value={name}
           onChange={e => setName(e.target.value)} onKeyDown={e => e.key === 'Enter' && submit()} autoFocus />

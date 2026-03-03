@@ -41,16 +41,16 @@ const LEVELS = {
 
 const STATS = {
   fr: [
-    { value: '+de 4 classes', label: "d'actifs disponibles en simulation", color: '#59A52C' },
+    { value: '+de 4', label: "classes d'actifs en simulation", color: '#59A52C' },
     { value: '4', label: 'Parcours complets', color: '#F5793B' },
     { value: '21+', label: 'Modules de formation', color: '#f1580c' },
-    { value: '∞', label: 'Pratique illimitée', color: '#6fca3a', fontSize: '5rem' },
+    { value: '∞', label: 'Pratique illimitée', color: '#6fca3a', fontSize: '550rem' },
   ],
   en: [
-    { value: '4+ asset classes', label: 'available in simulation mode', color: '#59A52C' },
+    { value: '4+', label: 'Asset classes in simulation mode', color: '#59A52C' },
     { value: '4', label: 'Complete paths', color: '#F5793B' },
     { value: '21+', label: 'Training modules', color: '#f1580c' },
-    { value: '∞', label: 'Unlimited practice', color: '#6fca3a', fontSize: '5rem' },
+    { value: '∞', label: 'Unlimited practice', color: '#6fca3a', fontSize: '550rem' },
   ],
 };
 
