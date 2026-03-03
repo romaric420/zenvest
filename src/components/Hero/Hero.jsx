@@ -1,49 +1,33 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import './Hero.css';
 
+const ICONS = ['₿', 'Ξ', '◈', '📊', '📈', '💹', '🏦', '⚡', '🔗', '💎', '🪙', '📉', '🌐', '💰', '🔒'];
+
 export default function Hero() {
   const { t } = useLanguage();
   const navigate = useNavigate();
-
   return (
     <section className="hero">
+      <div className="hero__gradient" />
+      <div className="hero__icons">
+        {ICONS.map((ic, i) => (
+          <span key={i} className={`hero__icon hero__icon--${(i % 3) + 1}`}
+            style={{ left: `${5 + (i * 6.2) % 90}%`, top: `${10 + (i * 17) % 75}%`, animationDelay: `${i * 0.7}s`, fontSize: `${1.2 + (i % 4) * 0.4}rem` }}>
+            {ic}
+          </span>
+        ))}
+      </div>
+      <div className="hero__blur hero__blur--1" />
+      <div className="hero__blur hero__blur--2" />
+      <div className="hero__blur hero__blur--3" />
       <div className="hero__content">
-        <div className="hero__badge">{t('hero.badge')}</div>
-        <h1 className="hero__title">
-          {t('hero.title')}
-        </h1>
-        <p className="hero__subtitle">{t('hero.subtitle')}</p>
-
+        <span className="hero__badge">{t('hero.badge')}</span>
+        <h1 className="hero__title">{t('hero.title')}<br /><span className="hero__title-accent">{t('hero.subtitle')}</span></h1>
+        <p className="hero__desc">{t('hero.desc')}</p>
         <div className="hero__actions">
-          <button className="hero__btn-primary" onClick={() => navigate('/course/investing')}>
-            {t('hero.ctaPrimary')}
-          </button>
-          <button className="hero__btn-secondary" onClick={() => {
-            document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' });
-          }}>
-            {t('hero.ctaSecondary')}
-          </button>
-        </div>
-
-        <div className="hero__stats">
-          <div className="hero__stat">
-            <div className="hero__stat-value">15</div>
-            <div className="hero__stat-label">{t('hero.stats.modules')}</div>
-          </div>
-          <div className="hero__stat">
-            <div className="hero__stat-value hero__stat-value--orange">30+</div>
-            <div className="hero__stat-label">{t('hero.stats.exercises')}</div>
-          </div>
-          <div className="hero__stat">
-            <div className="hero__stat-value">18</div>
-            <div className="hero__stat-label">{t('hero.stats.hours')}</div>
-          </div>
-          <div className="hero__stat">
-            <div className="hero__stat-value hero__stat-value--orange">✓</div>
-            <div className="hero__stat-label">{t('hero.stats.certificate')}</div>
-          </div>
+          <button className="hero__cta" onClick={() => navigate('/courses')}>{t('hero.cta')} →</button>
+          <button className="hero__cta hero__cta--ghost" onClick={() => navigate('/simulator')}>{t('hero.ctaSim')}</button>
         </div>
       </div>
     </section>

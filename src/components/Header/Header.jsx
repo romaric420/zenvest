@@ -1,72 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import './Header.css';
 
-/*
-  LOGO: Remplacez le chemin ci-dessous par votre fichier logo.
-  Placez votre logo dans le dossier /public (ex: /public/logo.png)
-  puis mettez LOGO_SRC = "/logo.png"
-*/
-const LOGO_SRC = "/logo.png";
-const SITE_NAME = "ZENVEST";
-
 export default function Header() {
-  const { t, toggleLang } = useLanguage();
+  const { t, lang, toggleLang } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => { setMobileOpen(false); }, [location]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
 
   const navItems = [
     { label: t('nav.home'), path: '/' },
-    { label: t('nav.investing'), path: '/course/investing' },
-    { label: t('nav.trading'), path: '/course/trading' },
+    { label: t('nav.courses'), path: '/courses' },
     { label: t('nav.simulator'), path: '/simulator' },
-    { label: t('nav.progress'), path: '/progress' },
   ];
 
-  const handleNav = (path) => {
-    navigate(path);
-    setMobileOpen(false);
-  };
-
   return (
-    <header className="header">
-      <div className="header__inner">
-        <div className="header__logo" onClick={() => navigate('/')}>
-          {LOGO_SRC ? (
-            <img src={LOGO_SRC} alt={SITE_NAME} className="header__logo-img" />
-          ) : (
-            <div className="header__logo-placeholder">TA</div>
-          )}
-          <span>{SITE_NAME}</span>
-        </div>
+    <>
+      <header className={`hdr ${scrolled ? 'hdr--scrolled' : ''}`}>
+        <div className="hdr__inner">
+          <div className="hdr__logo" onClick={() => navigate('/')}>
+            <div className="hdr__logo-icon">Z</div>
+            <span className="hdr__logo-text">ZENVEST</span>
+          </div>
 
-        <nav className={`header__nav ${mobileOpen ? 'header__nav--open' : ''}`}>
-          {navItems.map(item => (
-            <button
-              key={item.path}
-              className={`header__nav-link ${location.pathname === item.path ? 'header__nav-link--active' : ''}`}
-              onClick={() => handleNav(item.path)}
-            >
+          <nav className="hdr__nav">
+            {navItems.map(item => (
+              <button key={item.path} className={`hdr__link ${location.pathname === item.path ? 'hdr__link--active' : ''}`} onClick={() => navigate(item.path)}>
+                {item.label}
+                <span className="hdr__link-line" />
+              </button>
+            ))}
+          </nav>
+
+          <div className="hdr__right">
+            <span className="hdr__version">{t('nav.version')}</span>
+            <div className="hdr__toggle" onClick={toggleLang} title="FR / EN">
+              <div className={`hdr__toggle-track ${lang === 'en' ? 'hdr__toggle-track--en' : ''}`}>
+                <div className="hdr__toggle-thumb" />
+                <span className="hdr__toggle-label hdr__toggle-label--fr">FR</span>
+                <span className="hdr__toggle-label hdr__toggle-label--en">EN</span>
+              </div>
+            </div>
+            <button className={`hdr__burger ${mobileOpen ? 'hdr__burger--open' : ''}`} onClick={() => setMobileOpen(!mobileOpen)}>
+              <span /><span /><span />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile fullscreen menu */}
+      <div className={`hdr-mobile ${mobileOpen ? 'hdr-mobile--open' : ''}`}>
+        <div className="hdr-mobile__bg" />
+        <div className="hdr-mobile__content">
+          {navItems.map((item, i) => (
+            <button key={item.path} className={`hdr-mobile__link ${location.pathname === item.path ? 'hdr-mobile__link--active' : ''}`}
+              style={{ animationDelay: `${0.1 + i * 0.08}s` }}
+              onClick={() => { navigate(item.path); setMobileOpen(false); }}>
               {item.label}
             </button>
           ))}
-        </nav>
-
-        <div className="header__actions">
-          <button className="header__lang-btn" onClick={toggleLang}>
-            {t('nav.language')}
-          </button>
-          <button className="header__cta" onClick={() => navigate('/course/investing')}>
-            {t('nav.cta')}
-          </button>
-          <button className="header__mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)}>
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="hdr-mobile__toggle" onClick={toggleLang}>
+            <span>{lang === 'fr' ? '🇫🇷 Français' : '🇬🇧 English'}</span>
+          </div>
         </div>
       </div>
-    </header>
+    </>
   );
 }

@@ -1,668 +1,233 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { ArrowLeft, Lock, Zap, Crown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
+import { useProgress } from '../../context/ProgressContext';
 import Footer from '../../components/Footer/Footer';
 import './Simulator.css';
 
-// ─── CONSTANTS ──────────────────────────────────────
-const STORAGE_KEY = 'zenvest_sim_v3';
-const FEE_RATE = 0.0016;
-const TOP_PAIRS = ['BTC','ETH','SOL','XRP','ADA','DOT','LINK','AVAX','DOGE','SHIB','ATOM','UNI','AAVE','LTC','BCH','MATIC','ALGO','APT','ARB','OP','SUI','NEAR','INJ','SEI','FET','MKR','GRT','SAND','AXS','MANA','CRV','SNX','COMP','FIL','RUNE','PEPE','RENDER','TIA','STX','IMX','LDO','ENS','RPL','BONK','WIF','JUP','PYTH','ONDO','TAO','KAS'];
+/* ═══════ CONSTANTS ═══════ */
+const FEE=0.0016;
+const STORE_SIMPLE='zv_sim_simple_v1';
+const STORE_ADV='zv_sim_adv_v2';
+const TOP=['BTC','ETH','SOL','XRP','ADA','DOT','LINK','AVAX','DOGE','SHIB','ATOM','UNI','AAVE','LTC','BCH','MATIC','ALGO','APT','ARB','OP','SUI','NEAR','INJ','SEI','FET','MKR','GRT','SAND','AXS','MANA','CRV','SNX','COMP','FIL','RUNE','PEPE','RENDER','TIA','STX','IMX'];
+const SIMPLE_ASSETS=[{k:'btc',l:'Bitcoin (BTC/EUR)'},{k:'eth',l:'Ethereum (ETH/EUR)'},{k:'sol',l:'Solana (SOL/EUR)'},{k:'dot',l:'Polkadot (DOT/EUR)'},{k:'link',l:'Chainlink (LINK/EUR)'}];
+function fmt(v,d){if(v==null)return'—';const dd=d!==undefined?d:Math.abs(v)<.01?6:Math.abs(v)<1?4:Math.abs(v)<100?3:2;return v.toLocaleString('fr-FR',{minimumFractionDigits:dd,maximumFractionDigits:dd})}
+function fE(v){return fmt(v,2)+' €'}
+function fS(v,s='€'){return(v>=0?'+':'')+fmt(v,2)+(s?' '+s:'')}
+function calc(t,p){if(!p)return{net:0,pct:0,fees:0,val:t.amount,qty:0};const q=t.amount/t.entry;const r=t.type==='long'?(p-t.entry)*q:(t.entry-p)*q;const ef=t.amount*FEE;const xf=Math.abs(t.amount+r)*FEE;const f=ef+xf;const n=r-f;return{net:n,pct:(n/t.amount)*100,fees:f,val:t.amount+n,qty:q}}
+function cleanK(n){if(n.includes('XBT'))return'btc';return n.replace(/EUR$/i,'').replace(/^X{1,2}/,'').replace(/^Z/,'').toLowerCase()}
+function badge(title){const t=title.toLowerCase();if(/crypto|bitcoin|btc|eth|sec |binance|coinbase|blockchain/.test(t))return{c:'CRYPTO',bg:'#8b5cf6'};if(/geo|war|conflict|china|russia|iran|tariff/.test(t))return{c:'GEO',bg:'#f59e0b'};if(/fed |inflation|rates?|powell|central bank/.test(t))return{c:'URGENT',bg:'#ef4444'};if(/tech|ai |intelligence|nvidia|apple|google/.test(t))return{c:'TECH',bg:'#3b82f6'};return{c:'MACRO',bg:'#10b981'}}
 
-// ─── HELPERS ────────────────────────────────────────
-function calcMetrics(trade, currentPrice) {
-  if (!currentPrice || currentPrice <= 0) return { net: 0, pct: 0, fees: 0, val: trade.amount, qty: 0, gross: 0 };
-  const qty = trade.amount / trade.entry;
-  const rawPnL = trade.type === 'long'
-    ? (currentPrice - trade.entry) * qty
-    : (trade.entry - currentPrice) * qty;
-  const entryFee = trade.amount * FEE_RATE;
-  const exitVal = trade.amount + rawPnL;
-  const exitFee = Math.abs(exitVal) * FEE_RATE;
-  const totalFees = entryFee + exitFee;
-  const net = rawPnL - totalFees;
-  const pct = (net / trade.amount) * 100;
-  return { net, pct, fees: totalFees, val: trade.amount + net, qty, gross: rawPnL };
-}
+/* ═══════ SIMPLE SIMULATOR COMPONENT ═══════ */
+function SimpleSimulator({T}){
+  const[st,setSt]=useState(()=>{try{const s=localStorage.getItem(STORE_SIMPLE);if(s)return JSON.parse(s)}catch{}return{initCap:2000,cash:2000,trades:{},alerts:[],history:[]}});
+  const[mk,setMk]=useState({});
+  const[toast,setToast]=useState('');const[tv,setTv]=useState(false);const timer=useRef(null);
+  const chartRef=useRef(null);const chartInst=useRef(null);
+  const show=(m)=>{setToast(m);setTv(true);if(timer.current)clearTimeout(timer.current);timer.current=setTimeout(()=>setTv(false),3000)};
+  useEffect(()=>{localStorage.setItem(STORE_SIMPLE,JSON.stringify(st))},[st]);
+  const sync=useCallback(async()=>{try{const r=await fetch('https://api.kraken.com/0/public/Ticker?pair=BTCEUR,ETHEUR,SOLEUR,DOTEUR,LINKEUR');const d=await r.json();if(d.result){const nm={};Object.entries(d.result).forEach(([p,i])=>{const k=cleanK(p);nm[k]={price:parseFloat(i.c[0]),move:((parseFloat(i.c[0])-parseFloat(i.o))/parseFloat(i.o))*100}});setMk(nm)}}catch(e){console.error(e)}},[]);
+  useEffect(()=>{sync();const i=setInterval(sync,10000);return()=>clearInterval(i)},[sync]);
+  // Chart
+  useEffect(()=>{if(!chartRef.current||st.history.length<2)return;const render=()=>{if(!window.Chart)return;const ctx=chartRef.current.getContext('2d');if(chartInst.current)chartInst.current.destroy();chartInst.current=new window.Chart(ctx,{type:'line',data:{labels:st.history.map(h=>h.t),datasets:[{data:st.history.map(h=>h.v),borderColor:'#59A52C',fill:true,tension:.3,backgroundColor:'rgba(89,165,44,0.05)',borderWidth:2,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}}})};if(!window.Chart){const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';s.onload=render;document.head.appendChild(s)}else render();return()=>{if(chartInst.current)chartInst.current.destroy()}},[st.history]);
+  // Computed
+  let tpv=0;const tc={};Object.keys(st.trades).forEach(k=>{const p=mk[k]?.price||0;const m=calc(st.trades[k],p);tc[k]={m,p};tpv+=m.val});const totalVal=st.cash+tpv;
+  // Save history
+  useEffect(()=>{if(totalVal>0&&Object.keys(mk).length>0){setSt(prev=>{const now=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});const last=prev.history[prev.history.length-1];if(last&&last.t===now)return prev;const h=[...prev.history,{t:now,v:totalVal}];if(h.length>30)h.shift();return{...prev,history:h}})}},[mk]);//eslint-disable-line
+  const openTrade=()=>{const asset=document.getElementById('s-asset').value;const amount=parseFloat(document.getElementById('s-amount').value);const entryIn=parseFloat(document.getElementById('s-entry').value);const type=document.getElementById('s-type').value;const price=entryIn>0?entryIn:mk[asset]?.price;if(!amount||amount>st.cash)return show('❌ Montant invalide');if(!price)return show('⏳ Prix indisponible');setSt(prev=>({...prev,cash:prev.cash-amount,trades:{...prev.trades,[asset]:{type,amount,entry:price}}}));show(`✅ ${asset.toUpperCase()} ${type} ouvert`)};
+  const closeTrade=(k)=>{const m=calc(st.trades[k],mk[k]?.price);setSt(prev=>{const t={...prev.trades};delete t[k];return{...prev,cash:prev.cash+m.val,trades:t}});show('💼 Position fermée')};
+  const addAlert=()=>{const target=parseFloat(document.getElementById('s-alert').value);const asset=document.getElementById('s-asset').value;if(target>0){setSt(prev=>({...prev,alerts:[...prev.alerts,{asset,target,id:Date.now()}]}));show('🔔 Alerte créée')}};
+  // Check alerts
+  useEffect(()=>{if(!mk||st.alerts.length===0)return;const rem=st.alerts.filter(a=>{const p=mk[a.asset]?.price;if(p&&p>=a.target){show(`🚨 ${a.asset.toUpperCase()} @ ${a.target}€`);return false}return true});if(rem.length!==st.alerts.length)setSt(prev=>({...prev,alerts:rem}))},[mk]);//eslint-disable-line
 
-function fmtPrice(v, decimals) {
-  if (v === undefined || v === null) return '—';
-  const d = decimals !== undefined ? decimals : (Math.abs(v) < 0.01 ? 6 : Math.abs(v) < 1 ? 4 : Math.abs(v) < 100 ? 3 : 2);
-  return v.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d });
-}
-function fmtEur(v) { return fmtPrice(v, 2) + ' €'; }
-function fmtSign(v, suffix = '€') {
-  const s = v >= 0 ? '+' : '';
-  return s + fmtPrice(v, 2) + (suffix ? ' ' + suffix : '');
-}
-function getNewsBadge(title) {
-  const t = title.toLowerCase();
-  if (/crypto|bitcoin|btc|eth(?:ereum)?|sec |binance|coinbase|blockchain/.test(t)) return { cat: 'CRYPTO', color: '#8b5cf6' };
-  if (/geo|war|conflict|china|russia|iran|tariff|sanction/.test(t)) return { cat: 'GEO', color: '#f59e0b' };
-  if (/fed |inflation|rates?|powell|central bank|gdp|recession/.test(t)) return { cat: 'URGENT', color: '#ef4444' };
-  if (/tech|ai |intelligence|nvidia|apple|google|microsoft|openai/.test(t)) return { cat: 'TECH', color: '#3b82f6' };
-  return { cat: 'MACRO', color: '#10b981' };
-}
-function loadState() {
-  try { const r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch {}
-  return { initCap: 10000, cash: 10000, trades: [], closedTrades: [], alerts: [], history: [], nextId: 1 };
-}
-
-// ─── MAIN COMPONENT ─────────────────────────────────
-export default function Simulator() {
-  const { lang } = useLanguage();
-  const T = lang === 'fr' ? TEXT_FR : TEXT_EN;
-
-  const [state, setState] = useState(loadState);
-  const [market, setMarket] = useState({});
-  const [allPairs, setAllPairs] = useState({});
-  const [news, setNews] = useState([]);
-  const [newsLoading, setNewsLoading] = useState(true);
-  const [toast, setToast] = useState('');
-  const [toastVisible, setToastVisible] = useState(false);
-  const [showHistory, setShowHistory] = useState(false);
-  const [search, setSearch] = useState('');
-
-  const [formAsset, setFormAsset] = useState('BTC');
-  const [formType, setFormType] = useState('long');
-  const [formEntry, setFormEntry] = useState('');
-  const [formAmount, setFormAmount] = useState('');
-  const [formSL, setFormSL] = useState('');
-  const [formTP, setFormTP] = useState('');
-  const [alertAsset, setAlertAsset] = useState('BTC');
-  const [alertPrice, setAlertPrice] = useState('');
-  const [capInput, setCapInput] = useState('');
-
-  const chartRef = useRef(null);
-  const chartInst = useRef(null);
-  const toastTimer = useRef(null);
-  const marketRef = useRef(market);
-  marketRef.current = market;
-
-  // ─── Persist ──────────────
-  useEffect(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }, [state]);
-
-  // ─── Toast ────────────────
-  const showToastMsg = useCallback((msg) => {
-    setToast(msg); setToastVisible(true);
-    if (toastTimer.current) clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(() => setToastVisible(false), 3500);
-  }, []);
-
-  // ─── Load all Kraken EUR pairs ─────
-  useEffect(() => {
-    (async () => {
-      try {
-        const r = await fetch('https://api.kraken.com/0/public/AssetPairs');
-        const d = await r.json();
-        if (!d.result) return;
-        const map = {};
-        Object.entries(d.result).forEach(([k, v]) => {
-          if (v.wsname && v.wsname.endsWith('/EUR') && !k.includes('.d')) {
-            const base = v.wsname.split('/')[0];
-            if (base && !map[base]) map[base] = k;
-          }
-        });
-        if (map['XBT'] && !map['BTC']) { map['BTC'] = map['XBT']; delete map['XBT']; }
-        setAllPairs(map);
-      } catch (e) { console.error('Failed to load pairs', e); }
-    })();
-  }, []);
-
-  // ─── Sync market prices ────
-  const syncMarket = useCallback(async () => {
-    if (Object.keys(allPairs).length === 0) return;
-    const needed = new Set(TOP_PAIRS);
-    state.trades.forEach(t => needed.add(t.asset));
-    state.alerts.forEach(a => needed.add(a.asset));
-
-    const krakenPairs = [];
-    needed.forEach(sym => { if (allPairs[sym]) krakenPairs.push(allPairs[sym]); });
-    if (krakenPairs.length === 0) return;
-
-    const batches = [];
-    for (let i = 0; i < krakenPairs.length; i += 30) batches.push(krakenPairs.slice(i, i + 30));
-
-    const newMarket = { ...marketRef.current };
-    for (const batch of batches) {
-      try {
-        const r = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${batch.join(',')}`);
-        const d = await r.json();
-        if (d.result) {
-          Object.entries(d.result).forEach(([pair, info]) => {
-            let sym = null;
-            for (const [s, p] of Object.entries(allPairs)) {
-              if (p === pair) { sym = s; break; }
-            }
-            if (!sym) {
-              if (pair.includes('XBT')) sym = 'BTC';
-              else { for (const [s, p] of Object.entries(allPairs)) { if (p === pair) { sym = s; break; } } }
-            }
-            if (sym) {
-              const price = parseFloat(info.c[0]);
-              const open = parseFloat(info.o);
-              const high = parseFloat(info.h[1]);
-              const low = parseFloat(info.l[1]);
-              const vol = parseFloat(info.v[1]);
-              newMarket[sym] = { price, open, high, low, vol, move: ((price - open) / open) * 100, pair };
-            }
-          });
-        }
-      } catch (e) { console.error('Ticker batch error', e); }
-    }
-    setMarket(newMarket);
-  }, [allPairs, state.trades, state.alerts]);
-
-  // ─── SL/TP auto execution ─────
-  useEffect(() => {
-    if (Object.keys(market).length === 0 || state.trades.length === 0) return;
-    let changed = false;
-    const remaining = [];
-    const newClosed = [...state.closedTrades];
-    let cashDelta = 0;
-
-    state.trades.forEach(trade => {
-      const p = market[trade.asset]?.price;
-      if (!p) { remaining.push(trade); return; }
-      let triggered = null;
-      if (trade.sl && trade.sl > 0) {
-        if (trade.type === 'long' && p <= trade.sl) triggered = 'SL';
-        if (trade.type === 'short' && p >= trade.sl) triggered = 'SL';
-      }
-      if (trade.tp && trade.tp > 0) {
-        if (trade.type === 'long' && p >= trade.tp) triggered = 'TP';
-        if (trade.type === 'short' && p <= trade.tp) triggered = 'TP';
-      }
-      if (triggered) {
-        const m = calcMetrics(trade, p);
-        cashDelta += m.val;
-        newClosed.push({ ...trade, exitPrice: p, exitTime: Date.now(), pnl: m.net, pnlPct: m.pct, reason: triggered });
-        changed = true;
-        showToastMsg(`${triggered === 'SL' ? '🛑' : '🎯'} ${triggered} ${T.triggered}: ${trade.asset} ${fmtSign(m.net)}`);
-      } else { remaining.push(trade); }
-    });
-
-    if (changed) setState(prev => ({ ...prev, trades: remaining, closedTrades: newClosed, cash: prev.cash + cashDelta }));
-  }, [market]); // eslint-disable-line
-
-  // ─── Check alerts ─────
-  useEffect(() => {
-    if (Object.keys(market).length === 0 || state.alerts.length === 0) return;
-    const triggered = [];
-    const remaining = state.alerts.filter(a => {
-      const p = market[a.asset]?.price;
-      if (p && ((a.direction === 'above' && p >= a.target) || (a.direction === 'below' && p <= a.target))) {
-        triggered.push(a); return false;
-      }
-      return true;
-    });
-    if (triggered.length > 0) {
-      triggered.forEach(a => showToastMsg(`🚨 ${a.asset} ${a.direction === 'above' ? '≥' : '≤'} ${fmtPrice(a.target)}€`));
-      setState(prev => ({ ...prev, alerts: remaining }));
-    }
-  }, [market]); // eslint-disable-line
-
-  // ─── Init intervals ────
-  useEffect(() => {
-    if (Object.keys(allPairs).length === 0) return;
-    syncMarket();
-    const i1 = setInterval(syncMarket, 8000);
-    return () => clearInterval(i1);
-  }, [allPairs, syncMarket]);
-
-  // News
-  useEffect(() => {
-    const fetchNews = async () => {
-      setNewsLoading(true);
-      try {
-        const q = encodeURIComponent('FED OR inflation OR bitcoin OR crypto OR earnings');
-        const rss = `https://news.google.com/rss/search?q=${q}&hl=en-US&gl=US&ceid=US:en`;
-        const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rss)}&t=${Date.now()}`);
-        const d = await r.json();
-        if (d?.status === 'ok' && d.items) setNews(d.items.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)).slice(0, 15));
-      } catch (e) { console.error('News error', e); }
-      setNewsLoading(false);
-    };
-    fetchNews();
-    const i = setInterval(fetchNews, 300000);
-    return () => clearInterval(i);
-  }, []);
-
-  // ─── Chart ────
-  useEffect(() => {
-    if (!chartRef.current || state.history.length < 2) return;
-    const render = () => {
-      if (!window.Chart) return;
-      const ctx = chartRef.current.getContext('2d');
-      if (chartInst.current) chartInst.current.destroy();
-      const data = state.history.map(h => h.v);
-      const isUp = data.length > 1 && data[data.length - 1] >= data[0];
-      chartInst.current = new window.Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: state.history.map(h => h.t),
-          datasets: [{ data, borderColor: isUp ? '#59A52C' : '#ef4444', fill: true, tension: 0.35, backgroundColor: isUp ? 'rgba(89,165,44,0.06)' : 'rgba(239,68,68,0.06)', borderWidth: 2.5, pointRadius: 0, pointHitRadius: 8 }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => fmtEur(c.raw) } } },
-          scales: { x: { display: false }, y: { display: false } },
-          interaction: { intersect: false, mode: 'index' },
-        }
-      });
-    };
-    if (!window.Chart) {
-      const s = document.createElement('script');
-      s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
-      s.onload = render;
-      document.head.appendChild(s);
-    } else render();
-    return () => { if (chartInst.current) chartInst.current.destroy(); };
-  }, [state.history]);
-
-  // ─── Computed ─────
-  let totalPositionsVal = 0;
-  const tradeCalcs = state.trades.map(trade => {
-    const p = market[trade.asset]?.price || 0;
-    const m = calcMetrics(trade, p);
-    totalPositionsVal += m.val;
-    return { trade, price: p, metrics: m };
-  });
-  const totalVal = state.cash + totalPositionsVal;
-  const totalPnl = totalVal - state.initCap;
-  const totalPnlPct = state.initCap > 0 ? (totalPnl / state.initCap) * 100 : 0;
-
-  // Save history snapshot
-  useEffect(() => {
-    if (totalVal > 0 && Object.keys(market).length > 0) {
-      setState(prev => {
-        const now = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        const last = prev.history[prev.history.length - 1];
-        if (last && last.t === now) return prev;
-        const hist = [...prev.history, { t: now, v: totalVal }];
-        if (hist.length > 60) hist.shift();
-        return { ...prev, history: hist };
-      });
-    }
-  }, [market]); // eslint-disable-line
-
-  // ─── Asset list for selector ─────
-  const assetList = useMemo(() => {
-    const keys = Object.keys(allPairs).sort((a, b) => {
-      const ai = TOP_PAIRS.indexOf(a); const bi = TOP_PAIRS.indexOf(b);
-      if (ai !== -1 && bi !== -1) return ai - bi;
-      if (ai !== -1) return -1; if (bi !== -1) return 1;
-      return a.localeCompare(b);
-    });
-    if (!search) return keys;
-    const s = search.toUpperCase();
-    return keys.filter(k => k.includes(s));
-  }, [allPairs, search]);
-
-  // ─── Ticker display ─────
-  const tickerItems = useMemo(() => {
-    const entries = Object.entries(market).filter(([k]) => TOP_PAIRS.slice(0, 15).includes(k));
-    return entries.sort((a, b) => Math.abs(b[1].move) - Math.abs(a[1].move)).slice(0, 12);
-  }, [market]);
-
-  // ─── Actions ──────────────
-  const openTrade = () => {
-    const amount = parseFloat(formAmount);
-    if (!amount || amount <= 0) return showToastMsg(`❌ ${T.invalidAmount}`);
-    if (amount > state.cash) return showToastMsg(`❌ ${T.insufficientCash}`);
-    const entryIn = parseFloat(formEntry);
-    const price = entryIn > 0 ? entryIn : market[formAsset]?.price;
-    if (!price) return showToastMsg(`⏳ ${T.priceUnavailable} ${formAsset}`);
-    const sl = parseFloat(formSL) || 0;
-    const tp = parseFloat(formTP) || 0;
-    setState(prev => ({
-      ...prev, cash: prev.cash - amount, nextId: prev.nextId + 1,
-      trades: [...prev.trades, { id: prev.nextId, asset: formAsset, type: formType, entry: price, amount, sl, tp, time: Date.now() }]
-    }));
-    setFormEntry(''); setFormAmount(''); setFormSL(''); setFormTP('');
-    showToastMsg(`✅ ${formType.toUpperCase()} ${formAsset} @ ${fmtPrice(price)}€ — ${fmtEur(amount)}`);
-  };
-
-  const closeTrade = (tradeId) => {
-    const trade = state.trades.find(t => t.id === tradeId);
-    if (!trade) return;
-    const p = market[trade.asset]?.price || trade.entry;
-    const m = calcMetrics(trade, p);
-    setState(prev => ({
-      ...prev, cash: prev.cash + m.val,
-      trades: prev.trades.filter(t => t.id !== tradeId),
-      closedTrades: [...prev.closedTrades, { ...trade, exitPrice: p, exitTime: Date.now(), pnl: m.net, pnlPct: m.pct, reason: 'manual' }]
-    }));
-    showToastMsg(`💼 ${trade.asset} ${T.closed} ${fmtSign(m.net)}`);
-  };
-
-  const addAlert = () => {
-    const target = parseFloat(alertPrice);
-    if (!target || target <= 0) return;
-    const currentP = market[alertAsset]?.price || 0;
-    const direction = target >= currentP ? 'above' : 'below';
-    setState(prev => ({ ...prev, alerts: [...prev.alerts, { asset: alertAsset, target, direction, id: Date.now() }] }));
-    setAlertPrice('');
-    showToastMsg(`🔔 ${T.alertCreated} ${alertAsset} ${direction === 'above' ? '≥' : '≤'} ${fmtPrice(target)}€`);
-  };
-
-  const removeAlert = (id) => setState(prev => ({ ...prev, alerts: prev.alerts.filter(a => a.id !== id) }));
-
-  const updateCap = () => {
-    const v = parseFloat(capInput);
-    if (v > 0) {
-      setState(prev => ({ ...prev, cash: prev.cash + (v - prev.initCap), initCap: v }));
-      setCapInput(''); showToastMsg(`💰 ${T.capitalUpdated}`);
-    }
-  };
-
-  const resetAll = () => {
-    if (window.confirm(T.resetConfirm)) {
-      localStorage.removeItem(STORAGE_KEY);
-      setState({ initCap: 10000, cash: 10000, trades: [], closedTrades: [], alerts: [], history: [], nextId: 1 });
-      showToastMsg(`🗑️ ${T.dataReset}`);
-    }
-  };
-
-  // ─── RENDER ───────────────
-  return (
-    <div>
-      {/* ── Ticker ── */}
-      <div className="sim-ticker">
-        {tickerItems.length === 0 ? (
-          <span className="sim-ticker__loading">{T.connecting}...</span>
-        ) : tickerItems.map(([sym, d], i) => (
-          <React.Fragment key={sym}>
-            {i > 0 && <span className="sim-ticker__sep">|</span>}
-            <div className="sim-ticker__item">
-              <span className="sim-ticker__pair">{sym}</span>
-              <span className="sim-ticker__price">{fmtPrice(d.price)}€</span>
-              <span className={`sim-ticker__change ${d.move >= 0 ? 'sim-ticker__change--up' : 'sim-ticker__change--down'}`}>
-                {d.move >= 0 ? '+' : ''}{d.move.toFixed(2)}%
-              </span>
-            </div>
-          </React.Fragment>
-        ))}
-      </div>
-
-      <div className="simulator">
-        {/* ── Portfolio Bar ── */}
-        <div className="sim-portfolio-bar">
-          <div>
-            <div className="sim-portfolio-bar__label">{T.portfolioValue}</div>
-            <div className="sim-portfolio-bar__value">{fmtEur(totalVal)}</div>
+  return(
+    <div className="sim-simple">
+      {/* Ticker */}
+      <div className="ss-ticker">{Object.entries(mk).map(([k,d],i)=><React.Fragment key={k}>{i>0&&<span className="ss-ticker__sep">|</span>}<div className="ss-ticker__item"><span className="ss-ticker__pair">{k.toUpperCase()}</span><span className="ss-ticker__price">{fmt(d.price)}€</span><span className={`ss-ticker__ch ${d.move>=0?'ss-ticker__ch--up':'ss-ticker__ch--dn'}`}>{d.move>=0?'+':''}{d.move.toFixed(2)}%</span></div></React.Fragment>)}</div>
+      {/* Header */}
+      <div className="ss-header"><span className="ss-header__label">Valeur Portefeuille</span><span className="ss-header__val">{fE(totalVal)}</span></div>
+      {/* Body */}
+      <div className="ss-grid">
+        <div>
+          <div className="ss-card"><div className="ss-card__title">Répartition du Capital</div>
+            {Object.keys(st.trades).map(k=>{const m=tc[k]?.m;if(!m)return null;const pct=(m.val/(totalVal||1))*100;const up=m.pct>=0;return(<div key={k} className="ss-alloc"><div className="ss-alloc__top"><div><strong>{k.toUpperCase()}</strong><span className="ss-alloc__val">{fE(m.val)} <small>({pct.toFixed(1)}%)</small></span></div><span style={{color:up?'var(--zv-green)':'var(--zv-danger)',fontWeight:700,fontSize:'.85rem'}}>{fS(m.pct,'%')}</span></div><div className="ss-bar"><div className="ss-bar__fill" style={{width:`${pct}%`}}/></div></div>)})}
+            <div className="ss-alloc"><div className="ss-alloc__top"><span style={{color:'var(--zv-text-muted)',fontSize:'.8rem'}}>CASH</span><span style={{fontWeight:700}}>{fE(st.cash)}</span></div><div className="ss-bar"><div className="ss-bar__fill ss-bar__fill--cash" style={{width:`${(st.cash/(totalVal||1))*100}%`}}/></div></div>
           </div>
-          <div style={{ textAlign: 'right' }}>
-            <div className={`sim-portfolio-bar__pnl ${totalPnl >= 0 ? 'sim-portfolio-bar__pnl--up' : 'sim-portfolio-bar__pnl--down'}`}>
-              {fmtSign(totalPnl)} ({fmtSign(totalPnlPct, '%')})
-            </div>
-            <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginTop: 2 }}>
-              {T.initialCap}: {fmtEur(state.initCap)} · Cash: {fmtEur(state.cash)}
-            </div>
+          <div className="ss-card"><div className="ss-card__title">Performance</div><div style={{height:120}}><canvas ref={chartRef}/></div></div>
+          <div className="ss-card"><div className="ss-card__title">Positions Actives</div>
+            {Object.keys(st.trades).length===0?<div className="ss-empty">Aucune position</div>:
+            <div style={{overflowX:'auto'}}><table className="ss-table"><thead><tr><th>Actif</th><th>Type</th><th>Entrée</th><th>Actuel</th><th>Frais</th><th>P&L</th><th></th></tr></thead><tbody>{Object.keys(st.trades).map(k=>{const m=tc[k]?.m;const up=m?.pct>=0;return(<tr key={k}><td><strong>{k.toUpperCase()}</strong></td><td style={{color:st.trades[k].type==='long'?'var(--zv-green)':'var(--zv-danger)',fontWeight:700}}>{st.trades[k].type.toUpperCase()}</td><td>{fmt(st.trades[k].entry)}€</td><td>{fmt(tc[k]?.p)}€</td><td style={{color:'var(--zv-text-muted)',fontSize:'.7rem'}}>{fmt(m?.fees)}€</td><td style={{color:up?'var(--zv-green)':'var(--zv-danger)',fontWeight:700}}>{fS(m?.net)}</td><td><button className="ss-btn-close" onClick={()=>closeTrade(k)}>Clôturer</button></td></tr>)})}</tbody></table></div>}
           </div>
         </div>
-
-        {/* ── Main Grid ── */}
-        <div className="sim-layout">
-          {/* LEFT */}
-          <div>
-            <div className="sim-top-grid">
-              {/* Allocation */}
-              <div className="sim-card">
-                <div className="sim-card__title">{T.allocation} <span>{state.trades.length} {T.positions}</span></div>
-                {tradeCalcs.map(({ trade, metrics }) => {
-                  const pct = (metrics.val / (totalVal || 1)) * 100;
-                  const up = metrics.pct >= 0;
-                  return (
-                    <div key={trade.id} className="sim-alloc">
-                      <div className="sim-alloc__header">
-                        <div>
-                          <span className="sim-alloc__name">{trade.asset}</span>
-                          <span className={`sim-alloc__badge sim-alloc__badge--${trade.type}`}>{trade.type.toUpperCase()}</span>
-                          <span className="sim-alloc__value"> {fmtEur(metrics.val)} <span className="sim-alloc__pct">({pct.toFixed(1)}%)</span></span>
-                        </div>
-                        <span className="sim-alloc__perf" style={{ color: up ? 'var(--color-green)' : 'var(--color-danger)' }}>{fmtSign(metrics.pct, '%')}</span>
-                      </div>
-                      <div className="sim-alloc__bar"><div className="sim-alloc__bar-fill" style={{ width: `${Math.max(pct, 0.5)}%` }} /></div>
-                    </div>
-                  );
-                })}
-                <div className="sim-alloc">
-                  <div className="sim-alloc__header">
-                    <span className="sim-alloc__name" style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>CASH</span>
-                    <span className="sim-alloc__value sim-alloc__value--cash">{fmtEur(state.cash)}</span>
-                  </div>
-                  <div className="sim-alloc__bar"><div className="sim-alloc__bar-fill sim-alloc__bar-fill--cash" style={{ width: `${(state.cash / (totalVal || 1)) * 100}%` }} /></div>
-                </div>
-                {state.trades.length === 0 && <div className="sim-empty"><div className="sim-empty__icon">📊</div>{T.noPositions}</div>}
-              </div>
-
-              {/* Chart */}
-              <div className="sim-card">
-                <div className="sim-card__title">{T.performance}</div>
-                <div className="sim-chart-wrap">
-                  <canvas ref={chartRef} />
-                  {state.history.length < 2 && <div className="sim-empty"><div className="sim-empty__icon">📈</div>{T.chartWaiting}</div>}
-                </div>
-              </div>
-            </div>
-
-            {/* News */}
-            <div className="sim-card">
-              <div className="sim-card__title">{T.news} 🌍 <span>{T.newsLive}</span></div>
-              <div className="sim-news-list">
-                {newsLoading ? <div className="sim-empty">{T.newsLoading}</div> : news.length === 0 ? <div className="sim-empty">{T.newsError}</div> :
-                  news.map((item, i) => {
-                    const b = getNewsBadge(item.title);
-                    const time = new Date(item.pubDate).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-                    return (
-                      <div key={i} className="sim-news-item">
-                        <div className="sim-news-meta">
-                          <span className="sim-news-badge" style={{ background: b.color }}>{b.cat}</span>
-                          <span className="sim-news-time">🕒 {time} · {item.author || 'Global'}</span>
-                        </div>
-                        <a href={item.link} target="_blank" rel="noopener noreferrer" className="sim-news-title">{item.title}</a>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-
-            {/* Positions Table */}
-            <div className="sim-card">
-              <div className="sim-card__title">
-                {T.activePositions}
-                <button className="sim-btn-history" onClick={() => setShowHistory(!showHistory)}>
-                  {showHistory ? T.hideHistory : T.showHistory} ({state.closedTrades.length})
-                </button>
-              </div>
-              {!showHistory ? (
-                state.trades.length === 0 ? <div className="sim-empty"><div className="sim-empty__icon">💼</div>{T.noTrades}</div> : (
-                  <div className="sim-table-wrap">
-                    <table className="sim-table">
-                      <thead><tr>
-                        <th>{T.thAsset}</th><th>{T.thType}</th><th>{T.thQty}</th><th>{T.thEntry}</th>
-                        <th>{T.thCurrent}</th><th>SL</th><th>TP</th><th>{T.thFees}</th>
-                        <th>{T.thPnl}</th><th>{T.thPnlPct}</th><th></th>
-                      </tr></thead>
-                      <tbody>
-                        {tradeCalcs.map(({ trade, price, metrics }) => {
-                          const up = metrics.pct >= 0;
-                          return (
-                            <tr key={trade.id}>
-                              <td className="sim-table__asset">{trade.asset}</td>
-                              <td><span className={`sim-table__type sim-table__type--${trade.type}`}>{trade.type.toUpperCase()}</span></td>
-                              <td style={{ fontSize: '0.78rem' }}>{metrics.qty.toFixed(4)}</td>
-                              <td>{fmtPrice(trade.entry)}€</td>
-                              <td><strong>{fmtPrice(price)}€</strong></td>
-                              <td className="sim-table__fees">{trade.sl ? fmtPrice(trade.sl) + '€' : '—'}</td>
-                              <td className="sim-table__fees">{trade.tp ? fmtPrice(trade.tp) + '€' : '—'}</td>
-                              <td className="sim-table__fees">{fmtPrice(metrics.fees)}€</td>
-                              <td className={`sim-table__pnl ${up ? 'sim-table__pnl--up' : 'sim-table__pnl--down'}`}><strong>{fmtSign(metrics.net)}</strong></td>
-                              <td className={`sim-table__pnl ${up ? 'sim-table__pnl--up' : 'sim-table__pnl--down'}`}><strong>{fmtSign(metrics.pct, '%')}</strong></td>
-                              <td><button className="sim-btn-close" onClick={() => closeTrade(trade.id)}>{T.close}</button></td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                )
-              ) : (
-                state.closedTrades.length === 0 ? <div className="sim-empty">{T.noHistory}</div> : (
-                  <div className="sim-table-wrap">
-                    <table className="sim-table">
-                      <thead><tr>
-                        <th>{T.thAsset}</th><th>{T.thType}</th><th>{T.thEntry}</th><th>{T.thExit}</th>
-                        <th>{T.thPnl}</th><th>{T.thPnlPct}</th><th>{T.thReason}</th><th>{T.thDate}</th>
-                      </tr></thead>
-                      <tbody>
-                        {[...state.closedTrades].reverse().slice(0, 50).map((t, i) => {
-                          const up = t.pnl >= 0;
-                          return (
-                            <tr key={i}>
-                              <td className="sim-table__asset">{t.asset}</td>
-                              <td><span className={`sim-table__type sim-table__type--${t.type}`}>{t.type.toUpperCase()}</span></td>
-                              <td>{fmtPrice(t.entry)}€</td>
-                              <td>{fmtPrice(t.exitPrice)}€</td>
-                              <td className={`sim-table__pnl ${up ? 'sim-table__pnl--up' : 'sim-table__pnl--down'}`}><strong>{fmtSign(t.pnl)}</strong></td>
-                              <td className={`sim-table__pnl ${up ? 'sim-table__pnl--up' : 'sim-table__pnl--down'}`}><strong>{fmtSign(t.pnlPct, '%')}</strong></td>
-                              <td><span className={`sim-reason sim-reason--${t.reason}`}>{t.reason?.toUpperCase()}</span></td>
-                              <td style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>{new Date(t.exitTime).toLocaleDateString('fr-FR')}</td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                )
-              )}
-            </div>
+        <div>
+          <div className="ss-card"><div className="ss-card__title">Nouveau Trade</div>
+            <div className="ss-form"><label>Paire</label><select id="s-asset">{SIMPLE_ASSETS.map(a=><option key={a.k} value={a.k}>{a.l}</option>)}</select></div>
+            <div className="ss-form"><label>Direction</label><select id="s-type"><option value="long">LONG (Achat)</option><option value="short">SHORT (Vente)</option></select></div>
+            <div className="ss-form"><label>Prix d'entrée (€)</label><input type="number" id="s-entry" placeholder="Auto" step="any"/></div>
+            <div className="ss-form"><label>Allocation (€)</label><input type="number" id="s-amount" placeholder="500"/></div>
+            <button className="ss-btn-exec" onClick={openTrade}>Exécuter</button>
+            <div className="ss-cash">Cash: {fE(st.cash)}</div>
           </div>
-
-          {/* RIGHT SIDEBAR */}
-          <aside>
-            {/* Trade Form */}
-            <div className="sim-card">
-              <div className="sim-card__title">{T.newTrade}</div>
-              <div className="sim-form__group">
-                <label className="sim-form__label">{T.asset} ({Object.keys(allPairs).length} {T.available})</label>
-                <input className="sim-form__input sim-form__input--search" type="text" placeholder={T.searchAsset}
-                  value={search} onChange={e => setSearch(e.target.value)} />
-                <select className="sim-form__select" value={formAsset} onChange={e => setFormAsset(e.target.value)} size={1}>
-                  {assetList.slice(0, 200).map(a => (
-                    <option key={a} value={a}>{a}/EUR {market[a] ? `— ${fmtPrice(market[a].price)}€` : ''}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="sim-form__group">
-                <label className="sim-form__label">{T.direction}</label>
-                <div className="sim-form__direction">
-                  <button className={`sim-dir-btn sim-dir-btn--long ${formType === 'long' ? 'sim-dir-btn--active' : ''}`} onClick={() => setFormType('long')}>▲ LONG</button>
-                  <button className={`sim-dir-btn sim-dir-btn--short ${formType === 'short' ? 'sim-dir-btn--active' : ''}`} onClick={() => setFormType('short')}>▼ SHORT</button>
-                </div>
-              </div>
-              {market[formAsset] && (
-                <div className="sim-market-info">
-                  <span>{T.marketPrice}: <strong>{fmtPrice(market[formAsset].price)}€</strong></span>
-                  <span>24h: <strong style={{ color: market[formAsset].move >= 0 ? 'var(--color-green)' : 'var(--color-danger)' }}>
-                    {market[formAsset].move >= 0 ? '+' : ''}{market[formAsset].move.toFixed(2)}%
-                  </strong></span>
-                </div>
-              )}
-              <div className="sim-form__row">
-                <div className="sim-form__group sim-form__group--half">
-                  <label className="sim-form__label">{T.entryPrice}</label>
-                  <input className="sim-form__input" type="number" value={formEntry} onChange={e => setFormEntry(e.target.value)} placeholder={T.auto} step="any" />
-                </div>
-                <div className="sim-form__group sim-form__group--half">
-                  <label className="sim-form__label">{T.amount} (€)</label>
-                  <input className="sim-form__input" type="number" value={formAmount} onChange={e => setFormAmount(e.target.value)} placeholder="500" />
-                </div>
-              </div>
-              <div className="sim-form__row">
-                <div className="sim-form__group sim-form__group--half">
-                  <label className="sim-form__label">Stop Loss (€)</label>
-                  <input className="sim-form__input sim-form__input--sl" type="number" value={formSL} onChange={e => setFormSL(e.target.value)} placeholder={T.optional} step="any" />
-                </div>
-                <div className="sim-form__group sim-form__group--half">
-                  <label className="sim-form__label">Take Profit (€)</label>
-                  <input className="sim-form__input sim-form__input--tp" type="number" value={formTP} onChange={e => setFormTP(e.target.value)} placeholder={T.optional} step="any" />
-                </div>
-              </div>
-              <button className="sim-btn-execute" onClick={openTrade}>{T.execute}</button>
-              <div className="sim-cash-info">{T.available}: <strong>{fmtEur(state.cash)}</strong></div>
-            </div>
-
-            {/* Alerts */}
-            <div className="sim-card">
-              <div className="sim-card__title">{T.alerts} 🔔</div>
-              <div className="sim-alert-input-row">
-                <select className="sim-form__select" value={alertAsset} onChange={e => setAlertAsset(e.target.value)}>
-                  {TOP_PAIRS.map(a => allPairs[a] ? <option key={a} value={a}>{a}</option> : null)}
-                </select>
-                <input className="sim-form__input" type="number" value={alertPrice} onChange={e => setAlertPrice(e.target.value)} placeholder={T.targetPrice} step="any" />
-              </div>
-              <button className="sim-btn-alert" onClick={addAlert}>{T.createAlert}</button>
-              {state.alerts.map(a => (
-                <div key={a.id} className="sim-alert-item">
-                  <span><strong>{a.asset}</strong> {a.direction === 'above' ? '≥' : '≤'} {fmtPrice(a.target)}€</span>
-                  <button className="sim-alert-item__remove" onClick={() => removeAlert(a.id)}>✕</button>
-                </div>
-              ))}
-            </div>
-
-            {/* Account */}
-            <div className="sim-card sim-card--danger">
-              <div className="sim-card__title">{T.account}</div>
-              <div className="sim-form__group">
-                <label className="sim-form__label">{T.initialCap} (€)</label>
-                <input className="sim-form__input" type="number" value={capInput} onChange={e => setCapInput(e.target.value)} placeholder={state.initCap.toString()} />
-              </div>
-              <button className="sim-btn-update" onClick={updateCap}>{T.update}</button>
-              <button className="sim-btn-reset" onClick={resetAll}>🗑️ {T.resetAll}</button>
-            </div>
-          </aside>
+          <div className="ss-card"><div className="ss-card__title">Alertes 🔔</div>
+            <div className="ss-form"><input type="number" id="s-alert" placeholder="Prix cible (€)"/></div>
+            <button className="ss-btn-alert" onClick={addAlert}>Créer alerte</button>
+            {st.alerts.map(a=><div key={a.id} className="ss-alert-item"><span><strong>{a.asset.toUpperCase()}</strong> &gt; {fmt(a.target)}€</span><button onClick={()=>setSt(prev=>({...prev,alerts:prev.alerts.filter(x=>x.id!==a.id)}))}>✕</button></div>)}
+          </div>
+          <div className="ss-card" style={{borderTop:'3px solid var(--zv-danger)'}}><div className="ss-card__title">Compte</div>
+            <div className="ss-form"><label>Capital Initial</label><input type="number" id="s-cap" defaultValue={st.initCap}/></div>
+            <button className="ss-btn-update" onClick={()=>{const v=parseFloat(document.getElementById('s-cap').value);if(v>0){setSt(prev=>({...prev,cash:prev.cash+(v-prev.initCap),initCap:v}));show('💰 OK')}}}>Mettre à jour</button>
+            <button className="ss-btn-reset" onClick={()=>{if(window.confirm('Effacer?')){localStorage.removeItem(STORE_SIMPLE);window.location.reload()}}}>🗑️ Reset</button>
+          </div>
         </div>
       </div>
-
-      <div className={`sim-toast ${toastVisible ? 'sim-toast--visible' : ''}`}>{toast}</div>
-      <Footer />
+      <div className={`sim-toast ${tv?'sim-toast--vis':''}`}>{toast}</div>
     </div>
   );
 }
 
-// ─── i18n ────────────────────────────────────────────
-const TEXT_FR = {
-  portfolioValue:'Valeur du Portefeuille',connecting:'Connexion aux serveurs Kraken',allocation:'Répartition du Capital',
-  positions:'positions',performance:'Performance',chartWaiting:'Données après vos premiers trades',
-  news:'Actualités Marchés',newsLive:'Flux Live',newsLoading:'Chargement...',newsError:'Flux indisponible',
-  activePositions:'Positions Actives',noPositions:'Ouvrez un trade pour voir la répartition',
-  noTrades:'Aucune position ouverte',newTrade:'Nouveau Trade',asset:'Actif',searchAsset:'Rechercher un actif...',
-  available:'disponibles',direction:'Direction',entryPrice:"Prix d'entrée",amount:'Montant',auto:'Auto (prix marché)',
-  optional:'Optionnel',execute:'⚡ Exécuter le Trade',marketPrice:'Prix marché',
-  alerts:'Alertes Prix',targetPrice:'Prix cible (€)',createAlert:'Créer alerte',alertCreated:'Alerte créée',
-  triggered:'déclenché',account:'Gestion Compte',initialCap:'Capital initial',update:'Mettre à jour',
-  resetAll:'RÉINITIALISER',resetConfirm:'Effacer toutes les données ?',capitalUpdated:'Capital mis à jour',
-  dataReset:'Données effacées',invalidAmount:'Montant invalide',insufficientCash:'Cash insuffisant',
-  priceUnavailable:'Prix indisponible pour',close:'Clôturer',closed:'clôturé',
-  showHistory:'Historique',hideHistory:'Positions',noHistory:'Aucun trade clôturé',
-  thAsset:'Actif',thType:'Type',thQty:'Qté',thEntry:'Entrée',thCurrent:'Actuel',thFees:'Frais',
-  thPnl:'P&L Net',thPnlPct:'P&L %',thExit:'Sortie',thReason:'Raison',thDate:'Date',
-};
-const TEXT_EN = {
-  portfolioValue:'Portfolio Value',connecting:'Connecting to Kraken',allocation:'Capital Allocation',
-  positions:'positions',performance:'Performance',chartWaiting:'Data after your first trades',
-  news:'Market News',newsLive:'Live Feed',newsLoading:'Loading...',newsError:'Feed unavailable',
-  activePositions:'Active Positions',noPositions:'Open a trade to see allocation',
-  noTrades:'No open positions',newTrade:'New Trade',asset:'Asset',searchAsset:'Search asset...',
-  available:'available',direction:'Direction',entryPrice:'Entry price',amount:'Amount',auto:'Auto (market price)',
-  optional:'Optional',execute:'⚡ Execute Trade',marketPrice:'Market price',
-  alerts:'Price Alerts',targetPrice:'Target price (€)',createAlert:'Create alert',alertCreated:'Alert created',
-  triggered:'triggered',account:'Account',initialCap:'Initial capital',update:'Update',
-  resetAll:'RESET ALL',resetConfirm:'Erase all data?',capitalUpdated:'Capital updated',
-  dataReset:'Data erased',invalidAmount:'Invalid amount',insufficientCash:'Insufficient cash',
-  priceUnavailable:'Price unavailable for',close:'Close',closed:'closed',
-  showHistory:'History',hideHistory:'Positions',noHistory:'No closed trades yet',
-  thAsset:'Asset',thType:'Type',thQty:'Qty',thEntry:'Entry',thCurrent:'Current',thFees:'Fees',
-  thPnl:'Net P&L',thPnlPct:'P&L %',thExit:'Exit',thReason:'Reason',thDate:'Date',
-};
+/* ═══════ ADVANCED SIMULATOR ═══════ */
+function AdvancedSimulator({T}){
+  const[st,setSt]=useState(()=>{try{const s=localStorage.getItem(STORE_ADV);if(s)return JSON.parse(s)}catch{}return{initCap:10000,cash:10000,trades:[],closedTrades:[],alerts:[],history:[],nextId:1}});
+  const[mk,setMk]=useState({});const[allPairs,setAllPairs]=useState({});
+  const[news,setNews]=useState([]);const[newsL,setNewsL]=useState(true);
+  const[toast,setToast]=useState('');const[tv,setTv]=useState(false);
+  const[showHist,setShowHist]=useState(false);const[search,setSearch]=useState('');
+  const[fAsset,setFA]=useState('BTC');const[fType,setFT]=useState('long');
+  const[fEntry,setFE]=useState('');const[fAmt,setFAm]=useState('');
+  const[fSL,setFSL]=useState('');const[fTP,setFTP]=useState('');
+  const[aAsset,setAA]=useState('BTC');const[aPrice,setAP]=useState('');const[capIn,setCI]=useState('');
+  const chartRef=useRef(null);const chartInst=useRef(null);const tTimer=useRef(null);const mkRef=useRef(mk);mkRef.current=mk;
+  const show=(m)=>{setToast(m);setTv(true);if(tTimer.current)clearTimeout(tTimer.current);tTimer.current=setTimeout(()=>setTv(false),3500)};
+  useEffect(()=>{localStorage.setItem(STORE_ADV,JSON.stringify(st))},[st]);
+  // Load pairs
+  useEffect(()=>{(async()=>{try{const r=await fetch('https://api.kraken.com/0/public/AssetPairs');const d=await r.json();if(!d.result)return;const map={};Object.entries(d.result).forEach(([k,v])=>{if(v.wsname&&v.wsname.endsWith('/EUR')&&!k.includes('.d')){const base=v.wsname.split('/')[0];if(base&&!map[base])map[base]=k}});if(map['XBT']&&!map['BTC']){map['BTC']=map['XBT'];delete map['XBT']}setAllPairs(map)}catch(e){console.error(e)}})()},[]);
+  // Sync prices
+  const syncMk=useCallback(async()=>{if(!Object.keys(allPairs).length)return;const need=new Set(TOP);st.trades.forEach(t=>need.add(t.asset));st.alerts.forEach(a=>need.add(a.asset));const kp=[];need.forEach(s=>{if(allPairs[s])kp.push(allPairs[s])});if(!kp.length)return;const batches=[];for(let i=0;i<kp.length;i+=30)batches.push(kp.slice(i,i+30));const nm={...mkRef.current};for(const b of batches){try{const r=await fetch(`https://api.kraken.com/0/public/Ticker?pair=${b.join(',')}`);const d=await r.json();if(d.result){Object.entries(d.result).forEach(([pair,info])=>{let sym=null;for(const[s,p]of Object.entries(allPairs)){if(p===pair){sym=s;break}}if(!sym&&pair.includes('XBT'))sym='BTC';if(sym){const price=parseFloat(info.c[0]);const open=parseFloat(info.o);nm[sym]={price,open,high:parseFloat(info.h[1]),low:parseFloat(info.l[1]),vol:parseFloat(info.v[1]),move:((price-open)/open)*100,pair}}})}}catch(e){}}setMk(nm)},[allPairs,st.trades,st.alerts]);
+  useEffect(()=>{if(!Object.keys(allPairs).length)return;syncMk();const i=setInterval(syncMk,8000);return()=>clearInterval(i)},[allPairs,syncMk]);
+  // SL/TP
+  useEffect(()=>{if(!Object.keys(mk).length||!st.trades.length)return;let ch=false;const rem=[];const nc=[...st.closedTrades];let cd=0;st.trades.forEach(trade=>{const p=mk[trade.asset]?.price;if(!p){rem.push(trade);return}let trig=null;if(trade.sl>0){if(trade.type==='long'&&p<=trade.sl)trig='SL';if(trade.type==='short'&&p>=trade.sl)trig='SL'}if(trade.tp>0){if(trade.type==='long'&&p>=trade.tp)trig='TP';if(trade.type==='short'&&p<=trade.tp)trig='TP'}if(trig){const m=calc(trade,p);cd+=m.val;nc.push({...trade,exitPrice:p,exitTime:Date.now(),pnl:m.net,pnlPct:m.pct,reason:trig});ch=true;show(`${trig==='SL'?'🛑':'🎯'} ${trig}: ${trade.asset} ${fS(m.net)}`)}else rem.push(trade)});if(ch)setSt(prev=>({...prev,trades:rem,closedTrades:nc,cash:prev.cash+cd}))},[mk]);//eslint-disable-line
+  // Alerts
+  useEffect(()=>{if(!Object.keys(mk).length||!st.alerts.length)return;const trig=[];const rem=st.alerts.filter(a=>{const p=mk[a.asset]?.price;if(p&&((a.direction==='above'&&p>=a.target)||(a.direction==='below'&&p<=a.target))){trig.push(a);return false}return true});if(trig.length){trig.forEach(a=>show(`🚨 ${a.asset} ${a.direction==='above'?'≥':'≤'} ${fmt(a.target)}€`));setSt(prev=>({...prev,alerts:rem}))}},[mk]);//eslint-disable-line
+  // News
+  useEffect(()=>{const fn=async()=>{setNewsL(true);try{const q=encodeURIComponent('FED OR inflation OR bitcoin OR crypto OR earnings');const rss=`https://news.google.com/rss/search?q=${q}&hl=en-US&gl=US&ceid=US:en`;const r=await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rss)}&t=${Date.now()}`);const d=await r.json();if(d?.status==='ok'&&d.items)setNews(d.items.sort((a,b)=>new Date(b.pubDate)-new Date(a.pubDate)).slice(0,12))}catch(e){}setNewsL(false)};fn();const i=setInterval(fn,300000);return()=>clearInterval(i)},[]);
+  // Chart
+  useEffect(()=>{if(!chartRef.current||st.history.length<2)return;const render=()=>{if(!window.Chart)return;const ctx=chartRef.current.getContext('2d');if(chartInst.current)chartInst.current.destroy();const data=st.history.map(h=>h.v);const up=data.length>1&&data[data.length-1]>=data[0];chartInst.current=new window.Chart(ctx,{type:'line',data:{labels:st.history.map(h=>h.t),datasets:[{data,borderColor:up?'#59A52C':'#ef4444',fill:true,tension:.35,backgroundColor:up?'rgba(89,165,44,0.06)':'rgba(239,68,68,0.06)',borderWidth:2.5,pointRadius:0,pointHitRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fE(c.raw)}}},scales:{x:{display:false},y:{display:false}},interaction:{intersect:false,mode:'index'}}})};if(!window.Chart){const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';s.onload=render;document.head.appendChild(s)}else render();return()=>{if(chartInst.current)chartInst.current.destroy()}},[st.history]);
+  // Computed
+  let tpv=0;const trC=st.trades.map(trade=>{const p=mk[trade.asset]?.price||0;const m=calc(trade,p);tpv+=m.val;return{trade,price:p,m}});const totalVal=st.cash+tpv;const totalPnl=totalVal-st.initCap;const totalPnlPct=st.initCap>0?(totalPnl/st.initCap)*100:0;
+  useEffect(()=>{if(totalVal>0&&Object.keys(mk).length>0){setSt(prev=>{const now=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});const last=prev.history[prev.history.length-1];if(last&&last.t===now)return prev;const h=[...prev.history,{t:now,v:totalVal}];if(h.length>60)h.shift();return{...prev,history:h}})}},[mk]);//eslint-disable-line
+  const assetList=useMemo(()=>{const keys=Object.keys(allPairs).sort((a,b)=>{const ai=TOP.indexOf(a),bi=TOP.indexOf(b);if(ai!==-1&&bi!==-1)return ai-bi;if(ai!==-1)return-1;if(bi!==-1)return 1;return a.localeCompare(b)});if(!search)return keys;const s=search.toUpperCase();return keys.filter(k=>k.includes(s))},[allPairs,search]);
+  const tickerItems=useMemo(()=>Object.entries(mk).filter(([k])=>TOP.slice(0,12).includes(k)).sort((a,b)=>Math.abs(b[1].move)-Math.abs(a[1].move)).slice(0,10),[mk]);
+  const openTrade=()=>{const amount=parseFloat(fAmt);if(!amount||amount<=0)return show('❌ Montant invalide');if(amount>st.cash)return show('❌ Cash insuffisant');const eI=parseFloat(fEntry);const price=eI>0?eI:mk[fAsset]?.price;if(!price)return show('⏳ Prix indisponible');const sl=parseFloat(fSL)||0;const tp=parseFloat(fTP)||0;setSt(prev=>({...prev,cash:prev.cash-amount,nextId:prev.nextId+1,trades:[...prev.trades,{id:prev.nextId,asset:fAsset,type:fType,entry:price,amount,sl,tp,time:Date.now()}]}));setFE('');setFAm('');setFSL('');setFTP('');show(`✅ ${fType.toUpperCase()} ${fAsset} @ ${fmt(price)}€`)};
+  const closeTrade=(id)=>{const trade=st.trades.find(t=>t.id===id);if(!trade)return;const p=mk[trade.asset]?.price||trade.entry;const m=calc(trade,p);setSt(prev=>({...prev,cash:prev.cash+m.val,trades:prev.trades.filter(t=>t.id!==id),closedTrades:[...prev.closedTrades,{...trade,exitPrice:p,exitTime:Date.now(),pnl:m.net,pnlPct:m.pct,reason:'manual'}]}));show(`💼 ${trade.asset} clôturé ${fS(m.net)}`)};
+
+  return(
+    <div className="sim-adv">
+      <div className="sa-ticker">{tickerItems.length===0?<span style={{color:'rgba(255,255,255,.4)',fontSize:'.78rem'}}>Connexion Kraken...</span>:tickerItems.map(([sym,d],i)=><React.Fragment key={sym}>{i>0&&<span className="sa-ticker__sep">|</span>}<div className="sa-ticker__item"><span className="sa-ticker__pair">{sym}</span><span className="sa-ticker__price">{fmt(d.price)}€</span><span className={`sa-ticker__ch ${d.move>=0?'sa-ticker__ch--up':'sa-ticker__ch--dn'}`}>{d.move>=0?'+':''}{d.move.toFixed(2)}%</span></div></React.Fragment>)}</div>
+      <div className="sa-portfolio"><div><div className="sa-portfolio__label">Portefeuille</div><div className="sa-portfolio__val">{fE(totalVal)}</div></div><div style={{textAlign:'right'}}><div className={`sa-portfolio__pnl ${totalPnl>=0?'sa-portfolio__pnl--up':'sa-portfolio__pnl--dn'}`}>{fS(totalPnl)} ({fS(totalPnlPct,'%')})</div><div style={{fontSize:'.7rem',color:'var(--zv-text-muted)',marginTop:2}}>Capital: {fE(st.initCap)} · Cash: {fE(st.cash)}</div></div></div>
+      <div className="sa-layout">
+        <div>
+          <div className="sa-grid2">
+            <div className="sa-card"><div className="sa-card__t">Allocation <span>{st.trades.length} pos.</span></div>{trC.map(({trade,m})=>{const pct=(m.val/(totalVal||1))*100;const up=m.pct>=0;return(<div key={trade.id} className="ss-alloc"><div className="ss-alloc__top"><div><strong>{trade.asset}</strong><span className={`sa-badge sa-badge--${trade.type}`}>{trade.type.toUpperCase()}</span><span className="ss-alloc__val">{fE(m.val)} <small>({pct.toFixed(1)}%)</small></span></div><span style={{color:up?'var(--zv-green)':'var(--zv-danger)',fontWeight:700,fontSize:'.8rem',fontFamily:'var(--zv-mono)'}}>{fS(m.pct,'%')}</span></div><div className="ss-bar"><div className="ss-bar__fill" style={{width:`${Math.max(pct,.5)}%`}}/></div></div>)})}
+              <div className="ss-alloc"><div className="ss-alloc__top"><span style={{color:'var(--zv-text-muted)',fontSize:'.8rem'}}>CASH</span><span style={{fontWeight:700}}>{fE(st.cash)}</span></div><div className="ss-bar"><div className="ss-bar__fill ss-bar__fill--cash" style={{width:`${(st.cash/(totalVal||1))*100}%`}}/></div></div>
+              {st.trades.length===0&&<div className="ss-empty">📊 Ouvrez un trade</div>}
+            </div>
+            <div className="sa-card"><div className="sa-card__t">Performance</div><div style={{height:200}}><canvas ref={chartRef}/>{st.history.length<2&&<div className="ss-empty">📈 En attente</div>}</div></div>
+          </div>
+          <div className="sa-card"><div className="sa-card__t">News 🌍 <span>Live Feed</span></div><div className="sa-news">{newsL?<div className="ss-empty">Chargement...</div>:news.map((item,i)=>{const b=badge(item.title);const time=new Date(item.pubDate).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});return(<div key={i} className="sa-news-item"><div className="sa-news-meta"><span className="sa-news-badge" style={{background:b.bg}}>{b.c}</span><span className="sa-news-time">🕒 {time} · {item.author||'Global'}</span></div><a href={item.link} target="_blank" rel="noopener noreferrer" className="sa-news-title">{item.title}</a></div>)})}</div></div>
+          <div className="sa-card"><div className="sa-card__t">Positions <button className="sa-btn-hist" onClick={()=>setShowHist(!showHist)}>{showHist?'Actives':'Historique'} ({st.closedTrades.length})</button></div>
+            {!showHist?(st.trades.length===0?<div className="ss-empty">💼 Aucune</div>:<div style={{overflowX:'auto'}}><table className="ss-table"><thead><tr><th>Actif</th><th>Type</th><th>Qté</th><th>Entrée</th><th>Actuel</th><th>SL</th><th>TP</th><th>Frais</th><th>P&L</th><th>%</th><th></th></tr></thead><tbody>{trC.map(({trade,price,m})=>{const up=m.pct>=0;return(<tr key={trade.id}><td><strong>{trade.asset}</strong></td><td><span className={`sa-badge sa-badge--${trade.type}`}>{trade.type.toUpperCase()}</span></td><td style={{fontSize:'.75rem'}}>{m.qty.toFixed(4)}</td><td>{fmt(trade.entry)}€</td><td><strong>{fmt(price)}€</strong></td><td style={{color:'var(--zv-text-muted)',fontSize:'.7rem'}}>{trade.sl?fmt(trade.sl)+'€':'—'}</td><td style={{color:'var(--zv-text-muted)',fontSize:'.7rem'}}>{trade.tp?fmt(trade.tp)+'€':'—'}</td><td style={{color:'var(--zv-text-muted)',fontSize:'.7rem'}}>{fmt(m.fees)}€</td><td style={{color:up?'var(--zv-green)':'var(--zv-danger)',fontWeight:700}}>{fS(m.net)}</td><td style={{color:up?'var(--zv-green)':'var(--zv-danger)',fontWeight:700}}>{fS(m.pct,'%')}</td><td><button className="ss-btn-close" onClick={()=>closeTrade(trade.id)}>Clôturer</button></td></tr>)})}</tbody></table></div>)
+            :(st.closedTrades.length===0?<div className="ss-empty">Aucun historique</div>:<div style={{overflowX:'auto'}}><table className="ss-table"><thead><tr><th>Actif</th><th>Type</th><th>Entrée</th><th>Sortie</th><th>P&L</th><th>%</th><th>Raison</th></tr></thead><tbody>{[...st.closedTrades].reverse().slice(0,30).map((t,i)=>{const up=t.pnl>=0;return(<tr key={i}><td><strong>{t.asset}</strong></td><td><span className={`sa-badge sa-badge--${t.type}`}>{t.type.toUpperCase()}</span></td><td>{fmt(t.entry)}€</td><td>{fmt(t.exitPrice)}€</td><td style={{color:up?'var(--zv-green)':'var(--zv-danger)',fontWeight:700}}>{fS(t.pnl)}</td><td style={{color:up?'var(--zv-green)':'var(--zv-danger)',fontWeight:700}}>{fS(t.pnlPct,'%')}</td><td><span className={`sa-reason sa-reason--${t.reason}`}>{t.reason?.toUpperCase()}</span></td></tr>)})}</tbody></table></div>)}
+          </div>
+        </div>
+        <aside>
+          <div className="sa-card"><div className="sa-card__t">Nouveau Trade</div>
+            <div className="ss-form"><label>Actif ({Object.keys(allPairs).length})</label><input type="text" placeholder="Rechercher..." value={search} onChange={e=>setSearch(e.target.value)} style={{marginBottom:6,fontFamily:'inherit'}}/><select value={fAsset} onChange={e=>setFA(e.target.value)}>{assetList.slice(0,200).map(a=><option key={a} value={a}>{a}/EUR {mk[a]?`— ${fmt(mk[a].price)}€`:''}</option>)}</select></div>
+            <div className="ss-form"><label>Direction</label><div className="sa-dir"><button className={`sa-dir__btn sa-dir__btn--long ${fType==='long'?'sa-dir__btn--act':''}`} onClick={()=>setFT('long')}>▲ LONG</button><button className={`sa-dir__btn sa-dir__btn--short ${fType==='short'?'sa-dir__btn--act':''}`} onClick={()=>setFT('short')}>▼ SHORT</button></div></div>
+            {mk[fAsset]&&<div className="sa-mkinfo"><span>Prix: <strong>{fmt(mk[fAsset].price)}€</strong></span><span>24h: <strong style={{color:mk[fAsset].move>=0?'var(--zv-green)':'var(--zv-danger)'}}>{mk[fAsset].move>=0?'+':''}{mk[fAsset].move.toFixed(2)}%</strong></span></div>}
+            <div className="sa-row"><div className="ss-form" style={{flex:1}}><label>Prix entrée</label><input type="number" value={fEntry} onChange={e=>setFE(e.target.value)} placeholder="Auto" step="any"/></div><div className="ss-form" style={{flex:1}}><label>Montant (€)</label><input type="number" value={fAmt} onChange={e=>setFAm(e.target.value)} placeholder="500"/></div></div>
+            <div className="sa-row"><div className="ss-form" style={{flex:1}}><label>Stop Loss</label><input type="number" value={fSL} onChange={e=>setFSL(e.target.value)} placeholder="Optionnel" step="any"/></div><div className="ss-form" style={{flex:1}}><label>Take Profit</label><input type="number" value={fTP} onChange={e=>setFTP(e.target.value)} placeholder="Optionnel" step="any"/></div></div>
+            <button className="ss-btn-exec" onClick={openTrade}>⚡ Exécuter</button>
+            <div className="ss-cash">Cash: <strong>{fE(st.cash)}</strong></div>
+          </div>
+          <div className="sa-card"><div className="sa-card__t">Alertes 🔔</div>
+            <div style={{display:'flex',gap:8,marginBottom:8}}><select value={aAsset} onChange={e=>setAA(e.target.value)} style={{flex:'0 0 90px'}}>{TOP.slice(0,20).map(a=>allPairs[a]?<option key={a} value={a}>{a}</option>:null)}</select><input type="number" value={aPrice} onChange={e=>setAP(e.target.value)} placeholder="Prix cible" step="any" style={{flex:1}}/></div>
+            <button className="sa-btn-alert" onClick={()=>{const target=parseFloat(aPrice);if(target>0){const dir=target>=(mk[aAsset]?.price||0)?'above':'below';setSt(prev=>({...prev,alerts:[...prev.alerts,{asset:aAsset,target,direction:dir,id:Date.now()}]}));setAP('');show(`🔔 Alerte ${aAsset}`)}}}>Créer</button>
+            {st.alerts.map(a=><div key={a.id} className="ss-alert-item"><span><strong>{a.asset}</strong> {a.direction==='above'?'≥':'≤'} {fmt(a.target)}€</span><button onClick={()=>setSt(prev=>({...prev,alerts:prev.alerts.filter(x=>x.id!==a.id)}))}>✕</button></div>)}
+          </div>
+          <div className="sa-card" style={{borderTop:'3px solid var(--zv-danger)'}}><div className="sa-card__t">Compte</div>
+            <div className="ss-form"><label>Capital (€)</label><input type="number" value={capIn} onChange={e=>setCI(e.target.value)} placeholder={st.initCap.toString()}/></div>
+            <button className="ss-btn-update" onClick={()=>{const v=parseFloat(capIn);if(v>0){setSt(prev=>({...prev,cash:prev.cash+(v-prev.initCap),initCap:v}));setCI('');show('💰 OK')}}}>Mettre à jour</button>
+            <button className="ss-btn-reset" onClick={()=>{if(window.confirm('Reset?')){localStorage.removeItem(STORE_ADV);window.location.reload()}}}>🗑️ Reset</button>
+          </div>
+        </aside>
+      </div>
+      <div className={`sim-toast ${tv?'sim-toast--vis':''}`}>{toast}</div>
+    </div>
+  );
+}
+
+/* ═══════ MAIN PAGE ═══════ */
+export default function SimulatorPage(){
+  const{t,lang}=useLanguage();const{isUnlocked,unlock}=useProgress();const navigate=useNavigate();
+  const[codeBasic,setCodeBasic]=useState('');const[codeAdv,setCodeAdv]=useState('');
+  const[errBasic,setErrBasic]=useState(false);const[errAdv,setErrAdv]=useState(false);
+  const[activeTab,setActiveTab]=useState(null);
+  const T=lang==='fr'?{s:'Simulateur'}:{s:'Simulator'};
+
+  const tryUnlock=(type,code)=>{const ok=unlock(type,code);if(!ok){if(type==='simBasic')setErrBasic(true);else setErrAdv(true);setTimeout(()=>{setErrBasic(false);setErrAdv(false)},2000)}else{setActiveTab(type==='simBasic'?'basic':'advanced')}};
+
+  if(activeTab==='basic'&&isUnlocked('simBasic'))return(<div><div className="sim-page-hdr"><div className="container"><button className="courses__back" onClick={()=>setActiveTab(null)} style={{color:'rgba(255,255,255,.5)'}}><ArrowLeft size={18}/> Retour</button></div></div><SimpleSimulator T={T}/><Footer/></div>);
+  if(activeTab==='advanced'&&isUnlocked('simAdvanced'))return(<div><div className="sim-page-hdr"><div className="container"><button className="courses__back" onClick={()=>setActiveTab(null)} style={{color:'rgba(255,255,255,.5)'}}><ArrowLeft size={18}/> Retour</button></div></div><AdvancedSimulator T={T}/><Footer/></div>);
+
+  return(
+    <div>
+      <div className="sim-hero"><div className="sim-hero__bg"/><div className="sim-hero__icons">{['📊','💹','📈','⚡','🪙','📉','💰','🔗','💎'].map((ic,i)=><span key={i} className={`hero__icon hero__icon--${(i%3)+1}`} style={{left:`${5+(i*10)%85}%`,top:`${10+(i*17)%70}%`,animationDelay:`${i*.8}s`,fontSize:`${1+(i%3)*.4}rem`}}>{ic}</span>)}</div><div className="container" style={{position:'relative',zIndex:2}}>
+        <button className="courses__back" onClick={()=>navigate('/')} style={{color:'rgba(255,255,255,.5)'}}><ArrowLeft size={18}/> {t('nav.home')}</button>
+        <h1 className="sim-hero__title">{t('sim.title')}</h1>
+        <p className="sim-hero__sub">{t('sim.subtitle')}</p>
+      </div></div>
+      <div className="container">
+        <div className="sim-packs">
+          {/* Basic Pack */}
+          <div className="sim-pack sim-pack--basic">
+            <div className="sim-pack__head">
+              <span className="sim-pack__badge"><Zap size={14}/> {t('sim.basic.badge')}</span>
+              <div className="sim-pack__price">{t('sim.basic.price')}</div>
+            </div>
+            <div className="sim-pack__img"><img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=600&h=300&fit=crop&q=80" alt="" /></div>
+            <h3>{t('sim.basic.title')}</h3>
+            <p>{t('sim.basic.desc')}</p>
+            {isUnlocked('simBasic')?<button className="sim-pack__btn" onClick={()=>setActiveTab('basic')}>Ouvrir →</button>:(
+              <div className="sim-pack__unlock">
+                <input type="text" value={codeBasic} onChange={e=>setCodeBasic(e.target.value)} placeholder={t('sim.accessCode')}
+                  className={errBasic?'sim-pack__input--err':''} onKeyDown={e=>e.key==='Enter'&&tryUnlock('simBasic',codeBasic)}/>
+                <button onClick={()=>tryUnlock('simBasic',codeBasic)}><Lock size={16}/> {t('sim.unlock')}</button>
+              </div>
+            )}
+            {errBasic&&<span className="sim-pack__err">{t('sim.wrongCode')}</span>}
+          </div>
+          {/* Advanced Pack */}
+          <div className="sim-pack sim-pack--adv">
+            <div className="sim-pack__head">
+              <span className="sim-pack__badge sim-pack__badge--pro"><Crown size={14}/> {t('sim.advanced.badge')}</span>
+              <div className="sim-pack__price">{t('sim.advanced.price')}</div>
+            </div>
+            <div className="sim-pack__img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=300&fit=crop&q=80" alt="" /></div>
+            <h3>{t('sim.advanced.title')}</h3>
+            <p>{t('sim.advanced.desc')}</p>
+            {isUnlocked('simAdvanced')?<button className="sim-pack__btn sim-pack__btn--pro" onClick={()=>setActiveTab('advanced')}>Ouvrir →</button>:(
+              <div className="sim-pack__unlock">
+                <input type="text" value={codeAdv} onChange={e=>setCodeAdv(e.target.value)} placeholder={t('sim.accessCode')}
+                  className={errAdv?'sim-pack__input--err':''} onKeyDown={e=>e.key==='Enter'&&tryUnlock('simAdvanced',codeAdv)}/>
+                <button onClick={()=>tryUnlock('simAdvanced',codeAdv)}><Lock size={16}/> {t('sim.unlock')}</button>
+              </div>
+            )}
+            {errAdv&&<span className="sim-pack__err">{t('sim.wrongCode')}</span>}
+          </div>
+        </div>
+      </div>
+      <Footer/>
+    </div>
+  );
+}

@@ -1,56 +1,49 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+const STORAGE_KEY = 'zenvest_progress_v2';
+const CODES = { courses: 'Zenvest33', simBasic: 'Zenvest15', simAdvanced: 'Zenvest30' };
 
 const ProgressContext = createContext();
 
 export function ProgressProvider({ children }) {
-  const [completed, setCompleted] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem('ta_progress') || '[]');
-    } catch { return []; }
+  const [state, setState] = useState(() => {
+    try { const s = localStorage.getItem(STORAGE_KEY); if (s) return JSON.parse(s); } catch {}
+    return { completed: {}, unlocked: { courses: false, simBasic: false, simAdvanced: false } };
   });
 
-  const save = (data) => {
-    localStorage.setItem('ta_progress', JSON.stringify(data));
+  useEffect(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }, [state]);
+
+  const isCompleted = (id) => !!state.completed[id];
+  const markComplete = (id) => setState(prev => ({ ...prev, completed: { ...prev.completed, [id]: true } }));
+  const isUnlocked = (key) => !!state.unlocked[key];
+
+  const unlock = (key, code) => {
+    if (CODES[key] && code === CODES[key]) {
+      setState(prev => ({ ...prev, unlocked: { ...prev.unlocked, [key]: true } }));
+      return true;
+    }
+    return false;
   };
 
-  const completeModule = useCallback((moduleId) => {
-    setCompleted(prev => {
-      if (prev.includes(moduleId)) return prev;
-      const next = [...prev, moduleId];
-      save(next);
-      return next;
-    });
-  }, []);
+  const getProgress = (courseId, modules) => {
+    if (!modules || modules.length === 0) return 0;
+    const done = modules.filter(m => state.completed[`${courseId}-${m.id}`]).length;
+    return Math.round((done / modules.length) * 100);
+  };
 
-  const isCompleted = useCallback((moduleId) => {
-    return completed.includes(moduleId);
-  }, [completed]);
-
-  const isUnlocked = useCallback((moduleId, modules) => {
-    const idx = modules.findIndex(m => m.id === moduleId);
-    if (idx === 0) return true;
-    return completed.includes(modules[idx - 1].id);
-  }, [completed]);
-
-  const getProgress = useCallback((modules) => {
-    const done = modules.filter(m => completed.includes(m.id)).length;
-    return { done, total: modules.length, percent: Math.round((done / modules.length) * 100) };
-  }, [completed]);
-
-  const resetProgress = useCallback(() => {
-    setCompleted([]);
-    localStorage.removeItem('ta_progress');
-  }, []);
+  const canAccess = (courseId, moduleIndex, modules) => {
+    if (moduleIndex === 0) return true; // intro always accessible
+    if (!state.unlocked.courses) return false;
+    // Must complete previous module
+    const prev = modules[moduleIndex - 1];
+    return !!state.completed[`${courseId}-${prev.id}`];
+  };
 
   return (
-    <ProgressContext.Provider value={{ completed, completeModule, isCompleted, isUnlocked, getProgress, resetProgress }}>
+    <ProgressContext.Provider value={{ isCompleted, markComplete, isUnlocked, unlock, getProgress, canAccess }}>
       {children}
     </ProgressContext.Provider>
   );
 }
 
-export function useProgress() {
-  const ctx = useContext(ProgressContext);
-  if (!ctx) throw new Error('useProgress must be used within ProgressProvider');
-  return ctx;
-}
+export const useProgress = () => useContext(ProgressContext);

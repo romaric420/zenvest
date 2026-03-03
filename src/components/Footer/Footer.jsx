@@ -6,37 +6,36 @@ import './Footer.css';
 export default function Footer() {
   const { t } = useLanguage();
   const navigate = useNavigate();
-
   return (
-    <footer className="footer">
-      <div className="footer__grid">
-        <div className="footer__brand">
-          <h3>ZENVEST</h3>
-          <p>{t('footer.tagline')}</p>
+    <footer className="ftr">
+      <div className="ftr__glow" />
+      <div className="ftr__inner">
+        <div className="ftr__grid">
+          <div className="ftr__brand">
+            <div className="ftr__logo"><div className="ftr__logo-icon">Z</div><span>ZENVEST</span></div>
+            <p className="ftr__desc">{t('footer.desc')}</p>
+          </div>
+          <div className="ftr__col">
+            <h4>{t('footer.formation')}</h4>
+            <a onClick={() => navigate('/courses')}>{t('footer.investing')}</a>
+            <a onClick={() => navigate('/courses')}>{t('footer.trading')}</a>
+            <a onClick={() => navigate('/courses')}>{t('footer.fundamental')}</a>
+          </div>
+          <div className="ftr__col">
+            <h4>{t('footer.tools')}</h4>
+            <a onClick={() => navigate('/simulator')}>{t('footer.simBasic')}</a>
+            <a onClick={() => navigate('/simulator')}>{t('footer.simAdvanced')}</a>
+          </div>
+          <div className="ftr__col">
+            <h4>{t('footer.legal')}</h4>
+            <a href="#">{t('footer.cgu')}</a>
+            <a href="#">{t('footer.privacy')}</a>
+          </div>
         </div>
-        <div className="footer__col">
-          <h4>{t('footer.courses')}</h4>
-          <a onClick={() => navigate('/course/investing')}>{t('footer.investing')}</a>
-          <a onClick={() => navigate('/course/trading')}>{t('footer.trading')}</a>
+        <div className="ftr__bottom">
+          <span>© {new Date().getFullYear()} ZENVEST. {t('footer.rights')}</span>
+          <p className="ftr__disclaimer">{t('footer.disclaimer')}</p>
         </div>
-        <div className="footer__col">
-          <h4>{t('footer.resources')}</h4>
-          <a href="#">{t('footer.glossary')}</a>
-          <a href="#">{t('footer.faq')}</a>
-          <a href="#">{t('footer.blog')}</a>
-        </div>
-        <div className="footer__col">
-          <h4>{t('footer.legal')}</h4>
-          <a href="#">{t('footer.terms')}</a>
-          <a href="#">{t('footer.privacy')}</a>
-          <a href="#">{t('footer.disclaimer')}</a>
-        </div>
-      </div>
-      <div className="footer__disclaimer">
-        {t('footer.disclaimerText')}
-      </div>
-      <div className="footer__bottom">
-        © {new Date().getFullYear()} ZENVEST. {t('footer.rights')}
       </div>
     </footer>
   );

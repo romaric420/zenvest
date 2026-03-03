@@ -1,63 +1,72 @@
-# ZENVEST — Plateforme de Formation Boursière & Simulateur de Trading
+# ZENVEST — Plateforme de Formation Trading & Investissement
 
-## 🚀 Installation
+## Installation
 
 ```bash
-cd trading-academy
+cd zenvest
 npm install
 npm start
 ```
 
 L'app se lance sur `http://localhost:3000`
 
-## 📁 Structure
+## Structure
 
 ```
 src/
-├── components/     (Header, Hero, CourseCard, ModuleList, ModuleContent, ProgressBar, Footer)
-├── pages/          (Home, CoursePage, ProgressPage, Simulator)
-├── context/        (LanguageContext, ProgressContext)
-├── i18n/           (fr.json, en.json)
-└── styles/         (index.css)
+├── components/     Header, Hero, CourseCard, Footer
+├── pages/          Home, Courses, Simulator
+├── context/        LanguageContext, ProgressContext
+├── i18n/           fr.json, en.json
+└── styles/         index.css (global)
 ```
 
-## 🎯 Fonctionnalités
+## Fonctionnalités
 
-### Formations
-- **8 modules Investissement** : Bases, construction portefeuille, gestion active/passive, stratégies, classes d'actifs, ETFs, frais, analyse macro
-- **7 modules Trading** : Analyse technique, chandeliers, price action, indicateurs, stratégies, patterns, analyse graphique
-- Exercices avec corrections déblocables
-- Progression sauvegardée (localStorage)
-- Bilingue FR/EN
+### Navigation
+- 3 liens : Accueil, Cours, Simulateur
+- Underline animée au hover
+- Toggle FR/EN
+- Badge version (v1.0)
+- Menu mobile plein écran avec animations
 
-### Simulateur de Trading
-- **600+ cryptomonnaies** Kraken en temps réel (toutes les paires EUR)
-- Recherche instantanée d'actifs
-- Trades LONG & SHORT avec prix d'entrée auto ou custom
-- **Stop Loss & Take Profit** automatiques
-- Frais Kraken réalistes (0.16% entrée + 0.16% sortie)
-- Calcul P&L net en temps réel
-- Répartition du capital avec barres visuelles
-- Graphique de performance Chart.js
-- Actualités marchés live (Google News RSS)
-- Alertes prix personnalisées
-- Historique des trades fermés (avec raison: Manual/SL/TP)
-- Gestion de compte (modifier capital, reset)
-- Persistence localStorage
+### Hero
+- Background gradient animé avec shift
+- Icônes crypto/trading flottantes en arrière-plan
+- 3 blurs animés (vert, orange, bleu)
+- Texte gradient sur "with ZENVEST"
 
-## 🖼️ Logo
+### 4 Parcours de Formation
+1. **Investissement & Bourse** — 8 modules
+2. **Trading & Analyse Technique** — 7 modules
+3. **Apprentissage via Simulateur Réel** — Lien vers simulateur
+4. **Finance & Macro-économie** — 6 modules
 
-1. Placez votre logo dans `/public/logo.png`
-2. Dans `Header.jsx`, modifiez : `const LOGO_SRC = "/logo.png";`
-3. Le nom du site est défini par : `const SITE_NAME = "ZENVEST";`
+### Système de Verrouillage
+- Introduction de chaque cours : accès gratuit
+- Code `Zenvest33` pour débloquer les cours
+- Progression séquentielle (doit finir un module pour accéder au suivant)
+- Sauvegarde localStorage
 
-## ⚡ APIs utilisées
+### Simulateur de Trading — 2 Packs
+| Pack | Prix | Code | Fonctionnalités |
+|------|------|------|----------------|
+| Essentiel | 15€ | `Zenvest15` | 5 cryptos, interface simple |
+| Avancé | 30€ | `Zenvest30` | 600+ cryptos, SL/TP, historique, news, alertes |
 
-- **Kraken Public API** — Prix temps réel (pas de clé requise)
-- **rss2json.com** — Conversion flux RSS Google News
-- **Chart.js 4.4** — Graphiques (chargé dynamiquement)
+### Cours enrichis
+- Images Unsplash contextuelles
+- Encadrés colorés (tips, alertes, données)
+- Schémas explicatifs
+- Contenu pédagogique professionnel
 
-## 📱 Responsive
+## Palette de couleurs
+- Vert principal : `#59A52C`
+- Orange accent : `#F5793B`
+- Navy : `#0f172a`
+- Font : Plus Jakarta Sans + Space Mono
 
-Breakpoints : 1200px, 1024px, 768px, 480px
-"# zenvest" 
+## APIs
+- Kraken Public API (prix live)
+- rss2json (news Google RSS)
+- Chart.js 4.4 (graphiques)
