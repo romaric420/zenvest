@@ -1,336 +1,275 @@
-/* ════════════════════════════════════════════════
-   WhyZenvest.css - Design Premium & Professionnel
-   ════════════════════════════════════════════════ */
-
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* Palette exacte maintenue */
-    --c-green-dark: #59A52C;
-    --c-orange-med: #F5793B;
-    --c-orange-deep: #f1580c;
-    --c-green-light: #6fca3a;
-
-    /* Couleurs UI Pro */
-    --bg-white: #ffffff;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --border-card: rgba(0, 0, 0, 0.04);
-
-    /* Typo */
-    --font-pro: 'Plus Jakarta Sans', sans-serif;
+    --zen-bg: #ffffff;
+    --zen-text-main: #0f172a;
+    --zen-text-muted: #475569;
+    --zen-font: 'Plus Jakarta Sans', sans-serif;
 }
 
-.why-section-pro {
+.zen-section-wrapper {
     position: relative;
-    padding: 140px 24px;
-    background-color: var(--bg-white);
-    font-family: var(--font-pro);
+    padding: 120px 24px;
+    background-color: var(--zen-bg);
+    font-family: var(--zen-font);
     overflow: hidden;
-    min-height: 100vh;
     display: flex;
     align-items: center;
+
+    /* Masque de fondu (flou sur les bords haut et bas) pour s'intégrer parfaitement au site */
+    mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
 }
 
 /* ================================================
-   1. BACKGROUND DÉGRADÉ COMPLEXE & "BLOBS"
+   1. ARRIÈRE-PLAN : FORMES FLOUES (BLUR)
    ================================================ */
-.why-bg-gradient {
+.zen-bg-blur {
     position: absolute;
     inset: 0;
     z-index: 0;
-    background:
-        radial-gradient(at 10% 10%, rgba(111, 202, 58, 0.05) 0px, transparent 50%),
-        radial-gradient(at 90% 90%, rgba(241, 88, 12, 0.03) 0px, transparent 50%);
-    background-color: var(--bg-white);
     pointer-events: none;
+    overflow: hidden;
+    opacity: 0.4;
+    /* Ajuste l'opacité pour que ça reste subtil derrière le blanc */
 }
 
-/* Blobs floutés pour donner de la profondeur au dégradé */
-.blob-pro {
+.zen-blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.2;
-    will-change: transform;
+    filter: blur(100px);
+    animation: floatZen 20s infinite alternate ease-in-out;
 }
 
-.blob-1 {
-    top: -10%;
-    right: 10%;
-    width: 400px;
-    height: 400px;
-    background-color: rgba(111, 202, 58, 0.3);
-    /* greenLight */
-    animation: blobFloat 20s infinite alternate ease-in-out;
-}
-
-.blob-2 {
-    bottom: 10%;
-    left: -10%;
+.zen-blob-1 {
     width: 500px;
     height: 500px;
-    background-color: rgba(247, 154, 107, 0.2);
-    animation: blobFloat 25s infinite alternate-reverse ease-in-out;
+    background-color: #e0f2fe;
+    /* Bleu très clair */
+    top: -10%;
+    left: -5%;
 }
 
-@keyframes blobFloat {
+.zen-blob-2 {
+    width: 600px;
+    height: 600px;
+    background-color: #f1f5f9;
+    /* Gris bleuté clair */
+    bottom: -20%;
+    right: -10%;
+    animation-direction: alternate-reverse;
+    animation-duration: 25s;
+}
+
+@keyframes floatZen {
     0% {
         transform: translate(0, 0) scale(1);
     }
 
     100% {
-        transform: translate(10%, 10%) scale(1.1);
+        transform: translate(30px, 40px) scale(1.1);
     }
 }
 
 /* ================================================
-   2. CONTENU PRINCIPAL
+   2. HEADER
    ================================================ */
-.container-pro {
+.zen-container {
     position: relative;
     z-index: 10;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     width: 100%;
 }
 
-.why-header-pro {
+.zen-header {
     text-align: center;
-    margin-bottom: 80px;
-    opacity: 0;
-    animation: fadeInDownPro 0.8s forwards;
+    margin-bottom: 70px;
 }
 
-.sec-title-pro {
+.zen-title {
     font-size: clamp(2.2rem, 5vw, 3.2rem);
     font-weight: 800;
-    color: var(--text-main);
-    letter-spacing: -0.04em;
-    margin-bottom: 20px;
-    line-height: 1.1;
+    color: var(--zen-text-main);
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
 }
 
-.sec-sub-pro {
+.zen-subtitle {
     font-size: 1.15rem;
-    color: var(--text-muted);
-    max-width: 550px;
+    color: var(--zen-text-muted);
+    max-width: 600px;
     margin: 0 auto;
     line-height: 1.6;
 }
 
 /* ================================================
-   3. GRILLE DE CARTES (BUREAU)
+   3. GRILLE DES CARTES (DESKTOP)
    ================================================ */
-.why-grid-pro {
+.zen-carousel-viewport {
+    width: 100%;
+    overflow: visible;
+}
+
+.zen-track {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+    /* Force 4 colonnes sur PC */
     gap: 24px;
+    padding-bottom: 30px;
+    /* Espace pour les ombres au survol */
 }
 
-@media (min-width: 1024px) {
-    .why-grid-pro {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-.why-card-pro {
-    position: relative;
-    background: rgba(255, 255, 255, 0.7);
-    /* Verre clair */
-    backdrop-filter: blur(10px) saturate(180%);
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
-    border: 1px solid rgba(0, 0, 0, 0.03);
+.zen-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.04);
     border-radius: 20px;
-    padding: 40px 32px;
+    padding: 40px 30px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    align-items: flex-start;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
 
-    /* Animation d'entrée sur PC avec calcul du délai via index */
+    /* Animation d'entrée */
     opacity: 0;
-    transform: translateY(30px);
-    animation: fadeInUpPro 0.8s calc(0.2s + var(--card-index) * 0.15s) forwards;
+    transform: translateY(20px);
+    animation: cardFadeIn 0.8s var(--card-delay) forwards cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Effet de reflet interne */
-.card-glare-pro {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, transparent 50%);
-    pointer-events: none;
-}
-
-/* Interaction Hover Pro (Sur PC uniquement) */
-@media (min-width: 769px) {
-    .why-card-pro:hover {
-        transform: translateY(-10px) scale(1.02);
-        background: rgba(255, 255, 255, 0.95);
-        border-color: var(--border-card);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+@keyframes cardFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-.card-content-pro {
-    flex-grow: 1;
-    position: relative;
-    z-index: 2;
+/* Survol PC */
+@media (min-width: 1025px) {
+    .zen-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+    }
+
+    .zen-card:hover .zen-icon-3d {
+        transform: scale(1.08) rotate(-3deg);
+    }
 }
 
-/* Icone */
-.why-icon-wrap-pro {
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
+/* ================================================
+   4. DESIGN DES ICÔNES EFFET 3D / PREMIUM
+   ================================================ */
+.zen-icon-3d {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 24px;
-    background-color: var(--bg-white);
-    border: 1px solid rgba(0, 0, 0, 0.02);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-    transition: transform 0.3s ease;
+    margin-bottom: 28px;
+
+    /* Le dégradé utilise les variables passées depuis React */
+    background: linear-gradient(135deg, var(--color-from), var(--color-to));
+
+    /* Combinaison d'ombres pour l'effet 3D */
+    box-shadow:
+        0 10px 20px -5px var(--color-shadow),
+        /* Ombre portée colorée */
+        inset 0 2px 0 rgba(255, 255, 255, 0.4),
+        /* Reflet en haut (lumière) */
+        inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+    /* Assombrissement en bas */
+
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.why-card-pro:hover .why-icon-wrap-pro {
-    transform: scale(1.05) rotate(-3deg);
-}
-
-/* Titre & Texte */
-.why-card-pro h3 {
+.zen-card-title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--text-main);
+    color: var(--zen-text-main);
     margin-bottom: 12px;
     letter-spacing: -0.01em;
 }
 
-.why-card-pro p {
+.zen-card-desc {
     font-size: 0.95rem;
-    color: var(--text-muted);
+    color: var(--zen-text-muted);
     line-height: 1.6;
 }
 
-/* Ligne de décoration en bas */
-.card-deco-line-pro {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 3px;
-    width: 0;
-    border-radius: 0 4px 4px 0;
-    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    background-color: var(--card-color);
-}
-
-.why-card-pro:hover .card-deco-line-pro {
-    width: 100%;
+.zen-pagination {
+    display: none;
+    /* Caché sur PC */
 }
 
 /* ================================================
-   4. ANIMATIONS D'ENTRÉE (BUREAU)
+   5. RESPONSIVE MOBILE : CARROUSEL TACTILE
    ================================================ */
-@keyframes fadeInDownPro {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInUpPro {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* ================================================
-   5. MODE MOBILE (LE CARROUSEL FLUIDE 3 SECONDES)
-   ================================================ */
-@media (max-width: 768px) {
-    .why-section-pro {
+@media (max-width: 1024px) {
+    .zen-section-wrapper {
         padding: 80px 20px;
-        min-height: auto;
     }
 
-    .why-grid-pro {
-        /* L'astuce magique : On force la grille à n'avoir qu'une seule case.
-      Toutes les cartes vont se superposer au même endroit.
-    */
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
-        gap: 0;
+    .zen-carousel-viewport {
+        overflow: hidden;
+        /* Cache ce qui dépasse de l'écran */
+        touch-action: pan-y pinch-zoom;
+        /* Améliore le comportement tactile */
+        padding: 20px 0;
     }
 
-    .why-card-pro {
-        /* On place toutes les cartes dans la colonne 1 / ligne 1 */
-        grid-area: 1 / 1 / 2 / 2;
-        padding: 24px 24px;
-
-        /* On écrase l'animation PC pour lancer la boucle infinie Mobile */
-        opacity: 0;
-        transform: translateY(12px);
-
-        /* 12s total (4 cartes x 3s). Le délai est calculé grâce à --card-index */
-        animation: mobileSlideShow 12s calc(var(--card-index) * 4s) infinite cubic-bezier(0.18, 1, 0.2, 1);
-        pointer-events: none;
-        /* Empêche les clics sur les cartes invisibles */
+    .zen-track {
+        display: flex;
+        /* Remplace la grille par une ligne infinie */
+        width: 100%;
+        /* Déplace la ligne selon l'index actif */
+        transform: translateX(calc(-100% * var(--active-index)));
+        transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        padding-bottom: 0;
     }
 
-    .why-header-pro {
-        margin-bottom: 40px;
-    }
-}
+    .zen-card {
+        flex: 0 0 100%;
+        /* Chaque carte prend 100% de la largeur */
+        min-width: 100%;
+        padding: 40px 24px;
 
-/* L'animation du Carrousel (Dure 12s au total)
-  0% à 25% (0s à 3s) : La carte apparaît, reste, puis disparaît.
-  25% à 100% (3s à 12s) : La carte attend que les autres passent.
-*/
-@keyframes mobileSlideShow {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-        pointer-events: none;
+        /* Les cartes non actives sont légèrement plus petites et transparentes */
+        opacity: 0.4;
+        transform: scale(0.9);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        animation: none;
+        /* Désactive l'animation d'entrée PC */
     }
 
-    5% {
+    .zen-card.is-active {
         opacity: 1;
-        transform: translateY(0);
-        pointer-events: auto;
+        transform: scale(1);
     }
 
-    /* Apparition fluide */
-    20% {
-        opacity: 1;
-        transform: translateY(0);
-        pointer-events: auto;
+    /* Affichage des points de pagination en bas */
+    .zen-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 20px;
     }
 
-    /* Maintien à l'écran */
-    25% {
-        opacity: 0;
-        transform: translateY(-20px);
-        pointer-events: none;
+    .zen-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background-color: #cbd5e1;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        padding: 0;
     }
 
-    /* Glisse vers le haut */
-    100% {
-        opacity: 0;
-        transform: translateY(-20px);
-        pointer-events: none;
+    .zen-dot.active {
+        width: 24px;
+        /* Le point actif s'étire */
+        background-color: var(--zen-text-main);
     }
-
-    /* Reste cachée */
 }

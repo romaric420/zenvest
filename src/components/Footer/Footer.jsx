@@ -9,11 +9,11 @@ export default function Footer() {
   const navigate = useNavigate();
 
   return (
-    <footer className="ftr">
+    <footer className="ftr-midnight">
       {/* Lueur subtile en haut */}
       <div className="ftr__glow" />
 
-      {/* Watermark géant */}
+      {/* Watermark géant 3D (Taille réduite) */}
       <div className="ftr__watermark">ZENVEST</div>
 
       <div className="ftr__inner">

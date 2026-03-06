@@ -1,84 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
 /* ════════════════════════════════════════════════
-   Footer.css - Glassmorphism Bleu Nuit & Responsive Centré
+   Footer.css - Deep Dark Midnight, Perfect Blur & Centered
    ════════════════════════════════════════════════ */
 
-.ftr {
+.ftr-midnight {
   position: relative;
-  /* Bleu nuit "pas trop sombre" avec transparence pour laisser agir le blur */
-  background-color: rgba(15, 25, 45, 0.85);
-  backdrop-filter: blur(20px) saturate(120%);
-  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  /* Fond noirci profond avec une pointe de bleu abyssal. 
+     Opacité à 0.75 pour laisser le blur s'exprimer pleinement */
+  background: rgba(2, 6, 18, 0.75);
 
-  color: rgba(255, 255, 255, 0.7);
+  /* Flou optimisé pour l'effet vitre */
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+
+  color: rgba(255, 255, 255, 0.75);
   overflow: hidden;
-  margin-top: 60px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 40px;
+
+  /* Bordure supérieure très fine pour marquer la coupure "verre" */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
-/* Lueur subtile (accent couleur) centrée en haut */
+/* Lueur subtile centrée en haut */
 .ftr__glow {
   position: absolute;
   top: -150px;
   left: 50%;
   transform: translateX(-50%);
-  width: 800px;
+  width: 50vw;
   height: 300px;
-  background: radial-gradient(ellipse, rgba(89, 165, 44, 0.08), transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(30, 58, 138, 0.15), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Watermark géant "ZENVEST" */
+/* Watermark ZENVEST - Rendu sombre pour se fondre dans le noir sans casser le flou */
 .ftr__watermark {
   position: absolute;
-  top: 45%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: clamp(8rem, 15vw, 18rem);
+  font-size: clamp(4rem, 9vw, 10rem);
   font-weight: 900;
-  letter-spacing: -0.05em;
-  color: rgba(255, 255, 255, 0.015);
-  /* Ultra subtil */
-  pointer-events: none;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   user-select: none;
+  pointer-events: none;
   z-index: 0;
-  font-family: 'JetBrains Mono', monospace;
+
+  /* Effet 3D fantôme noirci */
+  color: rgba(0, 0, 0, 0.4);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.03);
+  text-shadow: 8px 8px 24px rgba(0, 0, 0, 0.9);
 }
 
-/* --- Container --- */
+/* --- Container compact et centré --- */
 .ftr__inner {
-  max-width: 1280px;
+  /* Réduit à 1000px au lieu de 1280px pour forcer le centrage sur très grand écran */
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 100px 32px 40px;
+  padding: 50px 32px 30px;
   position: relative;
   z-index: 10;
 }
 
-/* Mise en page Grille PC */
+/* Mise en page Grille PC - CENTRÉE */
 .ftr__grid {
   display: flex;
-  justify-content: space-between;
+  /* C'est ici que la magie opère : on centre le bloc au lieu de l'écarter (space-between) */
+  justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 60px;
-  margin-bottom: 80px;
+  gap: 80px;
+  /* Espace élégant entre la marque et les liens */
+  margin-bottom: 40px;
 }
 
 /* --- Marque (Gauche) --- */
 .ftr__brand-col {
-  max-width: 380px;
+  max-width: 320px;
 }
 
 .ftr__logo {
   display: flex;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .ftr__logo-img {
-  height: 36px;
+  height: 28px;
   width: auto;
   object-fit: contain;
 }
@@ -90,113 +102,114 @@
 }
 
 .ftr__logo-icon {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   background: linear-gradient(135deg, #0ecb81, #12f59c);
-  /* var(--zv-green) */
-  border-radius: 8px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
 }
 
 .ftr__logo-fallback span {
   font-weight: 800;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #fff;
   letter-spacing: -0.02em;
 }
 
 .ftr__desc {
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
 }
 
 /* --- Liens (Droite) --- */
 .ftr__links-group {
   display: flex;
-  gap: 80px;
+  gap: 60px;
   flex-wrap: wrap;
 }
 
 .ftr__col {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .ftr__col h4 {
   font-size: 0.75rem;
-  font-weight: 700;
-  color: #fff;
+  font-weight: 800;
+  color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 8px 0;
+  letter-spacing: 0.1em;
+  margin: 0 0 4px 0;
 }
 
 .ftr__col a {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
   font-weight: 500;
 }
 
 .ftr__col a:hover {
-  color: #0ecb81;
-  /* var(--zv-green) */
+  color: #6fca3a;
+  transform: translateX(4px);
 }
 
-/* --- Section du Bas (Copyright & Legal) --- */
+/* --- Section du Bas (Copyright & Legal) - PARFAITEMENT CENTRÉE --- */
 .ftr__bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  /* Centre le contenu horizontalement */
+  text-align: center;
+  /* Centre le texte */
+  gap: 8px;
 }
 
 .ftr__copyright {
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: rgba(255, 255, 255, 0.4);
 }
 
 .ftr__disclaimer {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: rgba(255, 255, 255, 0.25);
   max-width: 800px;
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0;
 }
 
-
-/* ═══════ RESPONSIVE (CENTRAGE PARFAIT MOBILE) ═══════ */
+/* ═══════ RESPONSIVE ═══════ */
 @media (max-width: 1024px) {
   .ftr__grid {
-    flex-direction: column;
-    gap: 48px;
+    gap: 50px;
   }
 }
 
 @media (max-width: 768px) {
   .ftr__inner {
-    padding: 80px 24px 40px;
+    padding: 40px 20px 24px;
   }
 
-  /* On centre tout le bloc principal */
   .ftr__grid {
+    flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 40px;
+    gap: 32px;
   }
 
-  /* On centre la colonne Marque/Logo */
   .ftr__brand-col {
     display: flex;
     flex-direction: column;
@@ -208,10 +221,9 @@
     justify-content: center;
   }
 
-  /* On centre les groupes de liens */
   .ftr__links-group {
     flex-direction: column;
-    gap: 40px;
+    gap: 24px;
     width: 100%;
     align-items: center;
   }
@@ -220,14 +232,11 @@
     align-items: center;
   }
 
-  /* On centre le copyright et disclaimer */
-  .ftr__bottom {
-    align-items: center;
-    text-align: center;
+  .ftr__col a:hover {
+    transform: none;
   }
 
   .ftr__watermark {
-    font-size: 5rem;
-    /* Un peu plus petit sur mobile pour éviter de déborder */
+    font-size: 3.5rem;
   }
 }

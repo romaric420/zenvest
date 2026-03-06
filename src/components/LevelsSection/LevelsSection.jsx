@@ -3,7 +3,6 @@ import { useLanguage } from '../../context/LanguageContext';
 import { BookOpen, BarChart3, ShieldCheck, TrendingUp } from 'lucide-react';
 import './LevelsSection.css';
 
-// Tes couleurs exactes
 const COLORS = {
   white: '#ffffff',
   greenDark: '#59A52C',
@@ -32,13 +31,14 @@ export default function LevelsSection() {
 
   return (
     <section className="levels-section-abyssal">
-
-      {/* 1. BACKGROUND FLUIDE "BLUR BLEU SOMBRE" */}
+      {/* BACKGROUND FLUIDE AVEC FLOU GLOBAL */}
       <div className="mesh-background">
         <div className="mesh-blob mesh-blue-deep"></div>
         <div className="mesh-blob mesh-green-light"></div>
         <div className="mesh-blob mesh-orange-deep"></div>
         <div className="trading-grid-overlay"></div>
+        {/* Ajout d'une couche pour lisser le flou de l'arrière-plan */}
+        <div className="global-bg-blur"></div>
       </div>
 
       <div className="container-abyssal">
@@ -58,7 +58,7 @@ export default function LevelsSection() {
           </p>
         </div>
 
-        {/* GRILLE DE CARTES (Statique sur PC, Carousel sur Mobile) */}
+        {/* GRILLE DE CARTES */}
         <div className="levels-grid-dark">
           {levels.map((l, i) => {
             const LIcon = l.Icon;
@@ -66,7 +66,6 @@ export default function LevelsSection() {
               <div
                 key={i}
                 className="glass-card-dark"
-                // L'index permet au CSS de calculer le décalage (0s, 5s, 10s)
                 style={{
                   '--theme-color': l.color,
                   '--theme-accent': l.accent,
@@ -87,27 +86,17 @@ export default function LevelsSection() {
                   <h3>{l.title}</h3>
                   <p>{l.desc}</p>
                 </div>
-
-                <div className="card-footer">
-                  <span className="discover-text" style={{ color: l.accent }}>
-                    {lang === 'fr' ? 'Découvrir' : 'Discover'}
-                  </span>
-                  <div className="arrow-icon" style={{ backgroundColor: l.color }}>
-                    →
-                  </div>
-                </div>
               </div>
             );
           })}
         </div>
 
-        {/* PAGINATION MOBILE (Les 3 points animés) */}
+        {/* PAGINATION MOBILE */}
         <div className="mobile-pagination">
           <div className="dot" style={{ '--dot-index': 0 }}></div>
           <div className="dot" style={{ '--dot-index': 1 }}></div>
           <div className="dot" style={{ '--dot-index': 2 }}></div>
         </div>
-
       </div>
     </section>
   );

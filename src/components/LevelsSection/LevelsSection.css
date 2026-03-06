@@ -1,11 +1,6 @@
-/* ════════════════════════════════════════════════
-   LevelsSection.css - Dark Blue Blur & Mobile Slide
-   ════════════════════════════════════════════════ */
-
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700&display=swap');
 
 :root {
-    /* Ta palette exacte */
     --c-white: #ffffff;
     --c-green-dark: #59A52C;
     --c-green-light: #6fca3a;
@@ -13,11 +8,9 @@
     --c-orange-med: #F5793B;
     --c-orange-deep: #f1580c;
 
-    /* Couleurs ajoutées pour l'ambiance Bleu Sombre */
     --bg-deep-base: #020614;
     --c-blue-blur: #0f2b60;
 
-    /* Textes sur fond sombre */
     --text-light: #ffffff;
     --text-muted: #94a3b8;
 
@@ -34,10 +27,14 @@
     min-height: 100vh;
     display: flex;
     align-items: center;
+
+    /* Flou sur les bords haut et bas pour l'intégration à la page */
+    mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
 }
 
 /* ================================================
-   1. MESH BACKGROUND
+   1. BACKGROUND & FLOU
    ================================================ */
 .mesh-background {
     position: absolute;
@@ -96,6 +93,16 @@
     mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
     -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
     z-index: 1;
+}
+
+/* Couche supplémentaire pour lisser et unifier le fond */
+.global-bg-blur {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    pointer-events: none;
 }
 
 @keyframes blob-float {
@@ -168,12 +175,11 @@
 }
 
 /* ================================================
-   3. CARTES DARK GLASSMORPHISM (Mode PC)
+   3. CARTES DARK GLASSMORPHISM
    ================================================ */
 .levels-grid-dark {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* 3 cartes côte à côte sur PC */
     gap: 32px;
 }
 
@@ -187,11 +193,14 @@
     padding: 40px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    /* Centrage des éléments */
+    text-align: center;
+    /* Centrage du texte */
     overflow: hidden;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
 
-    /* Anim PC */
     animation: fadeUp 0.8s forwards;
     animation-delay: calc(var(--card-index) * 0.15s);
     opacity: 0;
@@ -218,7 +227,10 @@
 }
 
 .card-content {
-    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .icon-container {
@@ -252,42 +264,11 @@
     color: var(--text-muted);
     font-size: 1rem;
     line-height: 1.6;
-    margin-bottom: 32px;
-}
-
-.card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.discover-text {
-    font-weight: 700;
-    font-size: 0.95rem;
-    transition: transform 0.3s ease;
-}
-
-.arrow-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--c-white);
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-.glass-card-dark:hover .arrow-icon {
-    transform: translateX(4px) scale(1.1);
-    box-shadow: 0 0 15px var(--theme-color);
-}
-
-.glass-card-dark:hover .discover-text {
-    transform: translateX(4px);
+    margin-bottom: 0;
+    /* Justification du texte */
+    text-align: justify;
+    text-align-last: center;
+    /* Centre la dernière ligne pour garder l'esthétique */
 }
 
 @keyframes fadeUp {
@@ -297,14 +278,12 @@
     }
 }
 
-/* Les points de pagination sont cachés sur PC */
 .mobile-pagination {
     display: none;
 }
 
-
 /* ================================================
-   RESPONSIVE MOBILE (Slideshow Automatique de 15s)
+   4. RESPONSIVE MOBILE
    ================================================ */
 @media (max-width: 1024px) {
     .levels-section-abyssal {
@@ -322,32 +301,31 @@
     }
 
     .levels-grid-dark {
-        /* Empilement des cartes sur la même case */
         display: grid;
         grid-template-columns: 1fr;
         grid-template-areas: "stack";
         gap: 0;
         position: relative;
-        /* On donne une hauteur fixe pour éviter que la page ne saute */
-        min-height: 480px;
+        min-height: 400px;
+        /* Ajusté puisque le footer des cartes a été retiré */
+
+        /* Flou sur les côtés gauche et droit pour le glissement des cartes */
+        mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
     }
 
     .glass-card-dark {
         grid-area: stack;
-        /* Toutes les cartes vont ici */
         padding: 32px;
         width: 100%;
 
-        /* Annule l'animation PC et masque par défaut */
         opacity: 0;
         pointer-events: none;
         transform: translateX(100px) scale(0.95);
 
-        /* 15s (3 cartes * 5s). Le délai est basé sur l'index (0s, 5s, 10s) */
         animation: mobileSlideShow 15s calc(var(--card-index) * 5s) infinite cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    /* Affichage des points de pagination en bas */
     .mobile-pagination {
         display: flex;
         justify-content: center;
@@ -360,25 +338,18 @@
         height: 8px;
         border-radius: 50%;
         background-color: rgba(255, 255, 255, 0.2);
-        /* Animation synchro avec les cartes */
         animation: dotSync 15s calc(var(--dot-index) * 5s) infinite;
     }
 }
 
-/* ================================================
-   ANIMATIONS CSS POUR LE CARROUSEL MOBILE (15s total)
-   Une carte a 5s pour briller (33% du temps total)
-   ================================================ */
+/* Animations Mobile */
 @keyframes mobileSlideShow {
-
-    /* 0s : La carte arrive de la droite, floutée */
     0% {
         opacity: 0;
         transform: translateX(100px) scale(0.95);
         filter: blur(10px);
     }
 
-    /* 0.5s à 4.5s : La carte est centrée, nette, lisible */
     4%,
     30% {
         opacity: 1;
@@ -387,7 +358,6 @@
         pointer-events: auto;
     }
 
-    /* 5s : La carte glisse vers la gauche, se floute et disparaît */
     33.33% {
         opacity: 0;
         transform: translateX(-100px) scale(0.95);
@@ -395,7 +365,6 @@
         pointer-events: none;
     }
 
-    /* Le reste du temps (10s), elle reste invisible à gauche */
     100% {
         opacity: 0;
         transform: translateX(-100px) scale(0.95);
@@ -403,7 +372,6 @@
     }
 }
 
-/* Animation des points (S'allume en blanc quand sa carte est affichée) */
 @keyframes dotSync {
 
     0%,
