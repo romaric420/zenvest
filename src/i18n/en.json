@@ -81,9 +81,9 @@
   "footer": {
     "desc": "Investment and trading training platform. Learn to master the financial markets.",
     "formation": "Training",
-    "investing": "Investing",
-    "trading": "Trading",
-    "fundamental": "Introduction to Fundamental Analysis",
+    "investing": "Investing & Stock Market",
+    "trading": "Trading & Technical Analysis",
+    "fundamental": "Finance & Macroeconomics",
     "tools": "Tools",
     "simBasic": "Essential Simulator",
     "simAdvanced": "Advanced Simulator",

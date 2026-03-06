@@ -1,32 +1,203 @@
-.ftr{position:relative;background:var(--zv-navy);color:rgba(255,255,255,.7);overflow:hidden;margin-top:60px}
-.ftr__glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:250px;background:radial-gradient(ellipse,rgba(89,165,44,0.08),transparent 70%);pointer-events:none}
-/* Watermark */
-.ftr__watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:10rem;font-weight:900;letter-spacing:-.06em;color:rgba(255,255,255,.02);pointer-events:none;white-space:nowrap;user-select:none}
-.ftr__inner{max-width:1280px;margin:0 auto;padding:60px 24px 32px;position:relative;z-index:1}
-/* Brand — centered */
-.ftr__brand{text-align:center;margin-bottom:40px}
-.ftr__logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:14px}
-.ftr__logo-img{height:32px;width:auto;border-radius:8px;object-fit:contain}
-.ftr__logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--zv-green),var(--zv-green-light));border-radius:8px;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.95rem}
-.ftr__logo span{font-weight:800;font-size:1.1rem;color:#fff;letter-spacing:-.3px}
-.ftr__desc{font-size:.85rem;line-height:1.6;color:rgba(255,255,255,.4);max-width:420px;margin:0 auto}
-/* Links — centered row */
-.ftr__links{display:flex;justify-content:center;gap:60px;margin-bottom:40px;flex-wrap:wrap}
-.ftr__col{text-align:center}
-.ftr__col h4{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
-.ftr__col a{display:block;font-size:.88rem;color:rgba(255,255,255,.55);padding:4px 0;cursor:pointer;transition:all .25s}
-.ftr__col a:hover{color:var(--zv-green-light)}
-/* Bottom */
-.ftr__bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:24px;text-align:center}
-.ftr__bottom span{font-size:.78rem;color:rgba(255,255,255,.3);display:block;margin-bottom:6px}
-.ftr__disclaimer{font-size:.68rem;color:rgba(255,255,255,.18);max-width:600px;line-height:1.5;margin:0 auto}
-/* Responsive */
-@media(max-width:768px){
-  .ftr__links{gap:32px}
-  .ftr__watermark{font-size:5rem}
-  .ftr__inner{padding:48px 20px 28px}
+/* ════════════════════════════════════════════════
+   Footer.css - Design Pro & Aéré
+   ════════════════════════════════════════════════ */
+
+.ftr {
+  position: relative;
+  background-color: #05080f;
+  /* Un noir extrêmement profond teinté de bleu */
+  color: rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+  margin-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
-@media(max-width:480px){
-  .ftr__links{flex-direction:column;gap:24px}
-  .ftr__watermark{font-size:3.5rem}
+
+/* Lueur subtile (accent couleur) centrée en haut */
+.ftr__glow {
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(89, 165, 44, 0.06), transparent 70%);
+  /* Vert ZENVEST */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Watermark géant "ZENVEST"
+  Positionné au centre, typo très grasse et serrée
+*/
+.ftr__watermark {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(8rem, 15vw, 18rem);
+  /* Taille massive qui s'adapte à l'écran */
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: rgba(255, 255, 255, 0.015);
+  /* Ultra subtil */
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 0;
+  font-family: 'JetBrains Mono', monospace;
+  /* Look technique assumé */
+}
+
+/* --- Container --- */
+.ftr__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 100px 32px 40px;
+  /* BEAUCOUP plus de hauteur (100px top) */
+  position: relative;
+  z-index: 10;
+}
+
+/* Mise en page Grille (Style Stripe/Vercel) 
+  Logo à gauche, Liens à droite
+*/
+.ftr__grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 60px;
+  margin-bottom: 80px;
+  /* Grand espace avant la ligne du bas */
+}
+
+/* --- Marque (Gauche) --- */
+.ftr__brand-col {
+  max-width: 380px;
+}
+
+.ftr__logo {
+  margin-bottom: 24px;
+}
+
+.ftr__logo-img {
+  height: 36px;
+  /* Logo légèrement plus grand */
+  width: auto;
+  object-fit: contain;
+}
+
+.ftr__logo-fallback {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ftr__logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--zv-green), var(--zv-green-light));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.ftr__logo-fallback span {
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.ftr__desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* --- Liens (Droite) --- */
+.ftr__links-group {
+  display: flex;
+  gap: 80px;
+  flex-wrap: wrap;
+}
+
+.ftr__col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* Espace régulier entre les liens */
+}
+
+.ftr__col h4 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 8px 0;
+}
+
+.ftr__col a {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.ftr__col a:hover {
+  color: var(--zv-green);
+}
+
+/* --- Section du Bas (Copyright & Legal) --- */
+.ftr__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ftr__copyright {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.ftr__disclaimer {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.25);
+  max-width: 800px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 1024px) {
+  .ftr__grid {
+    flex-direction: column;
+    gap: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ftr__inner {
+    padding: 80px 24px 32px;
+  }
+
+  .ftr__links-group {
+    gap: 40px;
+    flex-direction: column;
+  }
+
+  .ftr__watermark {
+    font-size: 6rem;
+  }
 }

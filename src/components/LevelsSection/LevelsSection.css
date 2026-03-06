@@ -1,0 +1,343 @@
+/* ════════════════════════════════════════════════
+   LevelsSection.css - Dark Blue Blur & Glassmorphism
+   ════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700&display=swap');
+
+:root {
+    /* Ta palette exacte */
+    --c-white: #ffffff;
+    --c-green-dark: #59A52C;
+    --c-green-light: #6fca3a;
+    --c-orange-soft: #f79a6b;
+    --c-orange-med: #F5793B;
+    --c-orange-deep: #f1580c;
+
+    /* Couleurs ajoutées pour l'ambiance Bleu Sombre */
+    --bg-deep-base: #020614;
+    /* Noir/Bleu abyssal de fond */
+    --c-blue-blur: #0f2b60;
+    /* Le fameux bleu sombre pour le blur */
+
+    /* Textes sur fond sombre */
+    --text-light: #ffffff;
+    --text-muted: #94a3b8;
+    /* Gris clair bleuté */
+
+    /* Fontes ultra-modernes */
+    --font-main: 'Plus Jakarta Sans', sans-serif;
+    --font-tech: 'JetBrains Mono', monospace;
+}
+
+.levels-section-abyssal {
+    position: relative;
+    padding: 120px 24px;
+    background-color: var(--bg-deep-base);
+    font-family: var(--font-main);
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+/* ================================================
+   1. MESH BACKGROUND (Le Blur Bleu Sombre)
+   ================================================ */
+.mesh-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background-color: var(--bg-deep-base);
+}
+
+/* Les auras floues (Blobs) */
+.mesh-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    /* Flou extrême pour fusionner les couleurs */
+    animation: blob-float 25s infinite alternate ease-in-out;
+    pointer-events: none;
+}
+
+/* 1. L'Aura Bleue Sombre Principale */
+.mesh-blue-deep {
+    top: 10%;
+    left: 20%;
+    width: 70vw;
+    height: 70vh;
+    background: var(--c-blue-blur);
+    opacity: 0.6;
+    animation-duration: 30s;
+}
+
+/* 2. Éclat Vert Lumineux */
+.mesh-green-light {
+    top: -10%;
+    right: -5%;
+    width: 400px;
+    height: 400px;
+    background: var(--c-green-light);
+    opacity: 0.15;
+    /* Subtil pour contraster avec le bleu */
+    animation-delay: -5s;
+}
+
+/* 3. Éclat Orange Profond */
+.mesh-orange-deep {
+    bottom: -15%;
+    left: 10%;
+    width: 500px;
+    height: 500px;
+    background: var(--c-orange-deep);
+    opacity: 0.15;
+    animation-delay: -10s;
+    animation-direction: alternate-reverse;
+}
+
+/* Grille technique en surimpression (Dark Mode) */
+.trading-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+    z-index: 1;
+}
+
+@keyframes blob-float {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    33% {
+        transform: translate(8%, 12%) scale(1.1) rotate(5deg);
+    }
+
+    66% {
+        transform: translate(-10%, 8%) scale(0.9) rotate(-5deg);
+    }
+
+    100% {
+        transform: translate(5%, -10%) scale(1.05) rotate(0deg);
+    }
+}
+
+/* ================================================
+   2. CONTENU PRINCIPAL
+   ================================================ */
+.container-abyssal {
+    position: relative;
+    z-index: 10;
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(247, 154, 107, 0.1);
+    /* Orange soft alpha */
+    border: 1px solid rgba(247, 154, 107, 0.2);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+}
+
+.sec-title-dark {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    color: var(--text-light);
+    letter-spacing: -0.04em;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    /* Fait ressortir le texte sur le fond lumineux */
+}
+
+.sec-sub-dark {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+/* ================================================
+   3. CARTES DARK GLASSMORPHISM
+   ================================================ */
+.levels-grid-dark {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 32px;
+}
+
+.glass-card-dark {
+    position: relative;
+    background: rgba(15, 23, 42, 0.4);
+    /* Bleu gris très sombre et transparent */
+    backdrop-filter: blur(24px) saturate(120%);
+    -webkit-backdrop-filter: blur(24px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* Bordure très fine */
+    border-radius: 32px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+    /* Animation d'entrée */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s forwards;
+}
+
+/* Reflet interne (Glare) pour l'effet de verre poli */
+.glass-card-glare {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+/* Interaction au survol : la bordure s'illumine avec la couleur du thème */
+.glass-card-dark:hover {
+    transform: translateY(-10px) scale(1.02);
+    background: rgba(30, 41, 59, 0.6);
+    border-color: var(--theme-color);
+    box-shadow:
+        0 20px 40px -10px rgba(0, 0, 0, 0.7),
+        0 0 30px -10px var(--theme-color);
+    /* Lueur de la couleur associée */
+}
+
+.card-content {
+    flex-grow: 1;
+}
+
+.icon-container {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-num {
+    font-family: var(--font-tech);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+}
+
+.glass-card-dark h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    letter-spacing: -0.03em;
+}
+
+.glass-card-dark p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+/* Footer de la carte */
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.discover-text {
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.3s ease;
+}
+
+.arrow-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--c-white);
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.glass-card-dark:hover .arrow-icon {
+    transform: translateX(4px) scale(1.1);
+    box-shadow: 0 0 15px var(--theme-color);
+}
+
+.glass-card-dark:hover .discover-text {
+    transform: translateX(4px);
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+@media (max-width: 1024px) {
+    .levels-section-abyssal {
+        padding: 80px 24px;
+    }
+
+    .levels-grid-dark {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .sec-title-dark {
+        font-size: 2.2rem;
+    }
+
+    .glass-card-dark {
+        padding: 32px;
+    }
+
+    .mesh-blob {
+        filter: blur(60px);
+    }
+
+    /* Flou réduit pour perf mobile */
+}

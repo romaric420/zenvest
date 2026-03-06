@@ -81,9 +81,9 @@
   "footer": {
     "desc": "Plateforme de formation en investissement et trading. Apprenez à maîtriser les marchés financiers.",
     "formation": "Formation",
-    "investing": "Investissement",
-    "trading": "Trading",
-    "fundamental": "Introduction à l'Analyse Fondamentale",
+    "investing": "Investissement et Bourse",
+    "trading": "Trading et Analyse Technique",
+    "fundamental": "Finance et Macro-économie",
     "tools": "Outils",
     "simBasic": "Simulateur Essentiel",
     "simAdvanced": "Simulateur Avancé",
