@@ -13,7 +13,7 @@ export default function Footer() {
       {/* Lueur subtile en haut */}
       <div className="ftr__glow" />
 
-      {/* Watermark géant coupé (très premium) */}
+      {/* Watermark géant */}
       <div className="ftr__watermark">ZENVEST</div>
 
       <div className="ftr__inner">

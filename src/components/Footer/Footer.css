@@ -1,15 +1,18 @@
 /* ════════════════════════════════════════════════
-   Footer.css - Design Pro & Aéré
+   Footer.css - Glassmorphism Bleu Nuit & Responsive Centré
    ════════════════════════════════════════════════ */
 
 .ftr {
   position: relative;
-  background-color: #05080f;
-  /* Un noir extrêmement profond teinté de bleu */
+  /* Bleu nuit "pas trop sombre" avec transparence pour laisser agir le blur */
+  background-color: rgba(15, 25, 45, 0.85);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+
   color: rgba(255, 255, 255, 0.7);
   overflow: hidden;
   margin-top: 60px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
@@ -21,22 +24,18 @@
   transform: translateX(-50%);
   width: 800px;
   height: 300px;
-  background: radial-gradient(ellipse, rgba(89, 165, 44, 0.06), transparent 70%);
-  /* Vert ZENVEST */
+  background: radial-gradient(ellipse, rgba(89, 165, 44, 0.08), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Watermark géant "ZENVEST"
-  Positionné au centre, typo très grasse et serrée
-*/
+/* Watermark géant "ZENVEST" */
 .ftr__watermark {
   position: absolute;
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: clamp(8rem, 15vw, 18rem);
-  /* Taille massive qui s'adapte à l'écran */
   font-weight: 900;
   letter-spacing: -0.05em;
   color: rgba(255, 255, 255, 0.015);
@@ -46,7 +45,6 @@
   user-select: none;
   z-index: 0;
   font-family: 'JetBrains Mono', monospace;
-  /* Look technique assumé */
 }
 
 /* --- Container --- */
@@ -54,14 +52,11 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 100px 32px 40px;
-  /* BEAUCOUP plus de hauteur (100px top) */
   position: relative;
   z-index: 10;
 }
 
-/* Mise en page Grille (Style Stripe/Vercel) 
-  Logo à gauche, Liens à droite
-*/
+/* Mise en page Grille PC */
 .ftr__grid {
   display: flex;
   justify-content: space-between;
@@ -69,7 +64,6 @@
   flex-wrap: wrap;
   gap: 60px;
   margin-bottom: 80px;
-  /* Grand espace avant la ligne du bas */
 }
 
 /* --- Marque (Gauche) --- */
@@ -78,12 +72,13 @@
 }
 
 .ftr__logo {
+  display: flex;
+  align-items: center;
   margin-bottom: 24px;
 }
 
 .ftr__logo-img {
   height: 36px;
-  /* Logo légèrement plus grand */
   width: auto;
   object-fit: contain;
 }
@@ -97,7 +92,8 @@
 .ftr__logo-icon {
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, var(--zv-green), var(--zv-green-light));
+  background: linear-gradient(135deg, #0ecb81, #12f59c);
+  /* var(--zv-green) */
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -131,7 +127,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  /* Espace régulier entre les liens */
 }
 
 .ftr__col h4 {
@@ -153,7 +148,8 @@
 }
 
 .ftr__col a:hover {
-  color: var(--zv-green);
+  color: #0ecb81;
+  /* var(--zv-green) */
 }
 
 /* --- Section du Bas (Copyright & Legal) --- */
@@ -179,7 +175,8 @@
   margin: 0;
 }
 
-/* ═══════ RESPONSIVE ═══════ */
+
+/* ═══════ RESPONSIVE (CENTRAGE PARFAIT MOBILE) ═══════ */
 @media (max-width: 1024px) {
   .ftr__grid {
     flex-direction: column;
@@ -189,15 +186,48 @@
 
 @media (max-width: 768px) {
   .ftr__inner {
-    padding: 80px 24px 32px;
+    padding: 80px 24px 40px;
   }
 
-  .ftr__links-group {
+  /* On centre tout le bloc principal */
+  .ftr__grid {
+    align-items: center;
+    text-align: center;
     gap: 40px;
+  }
+
+  /* On centre la colonne Marque/Logo */
+  .ftr__brand-col {
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .ftr__logo {
+    justify-content: center;
+  }
+
+  /* On centre les groupes de liens */
+  .ftr__links-group {
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .ftr__col {
+    align-items: center;
+  }
+
+  /* On centre le copyright et disclaimer */
+  .ftr__bottom {
+    align-items: center;
+    text-align: center;
   }
 
   .ftr__watermark {
-    font-size: 6rem;
+    font-size: 5rem;
+    /* Un peu plus petit sur mobile pour éviter de déborder */
   }
 }

@@ -3,7 +3,6 @@ import { useLanguage } from '../../context/LanguageContext';
 import { Layers, PenTool, Target, Trophy } from 'lucide-react';
 import './WhyZenvest.css';
 
-// Palette exacte maintenue
 const COLORS = {
   greenDark: '#59A52C',
   orangeMed: '#F5793B',
@@ -32,14 +31,13 @@ export default function WhyZenvest() {
 
   return (
     <section className="why-section-pro">
-      {/* 1. BACKGROUND DÉGRADÉ COMPLEXE & "CREAMY" */}
+      {/* BACKGROUND DÉGRADÉ COMPLEXE */}
       <div className="why-bg-gradient">
         <div className="blob-pro blob-1"></div>
         <div className="blob-pro blob-2"></div>
       </div>
 
       <div className="container-pro">
-        {/* EN-TÊTE */}
         <div className="why-header-pro">
           <h2 className="sec-title-pro">
             {lang === 'fr' ? 'Pourquoi ZENVEST ?' : 'Why ZENVEST?'}
@@ -51,7 +49,7 @@ export default function WhyZenvest() {
           </p>
         </div>
 
-        {/* GRILLE DE 4 BLOCS (Fixe et animée) */}
+        {/* GRILLE DYNAMIQUE */}
         <div className="why-grid-pro">
           {features.map((f, i) => {
             const { Icon } = f;
@@ -59,22 +57,19 @@ export default function WhyZenvest() {
               <div
                 key={i}
                 className="why-card-pro"
-                // Animation stagger: délai différent pour chaque carte
-                style={{ '--card-color': f.color, animationDelay: `${0.2 + i * 0.15}s` }}
+                style={{
+                  '--card-color': f.color,
+                  '--card-index': i
+                }}
               >
-                {/* Reflet type miroir/verre */}
                 <div className="card-glare-pro"></div>
-
                 <div className="card-content-pro">
                   <div className="why-icon-wrap-pro">
-                    {/* strokeWidth fin pour le look pro */}
                     <Icon size={28} color={f.color} strokeWidth={1.5} />
                   </div>
                   <h3>{f.title}</h3>
                   <p>{f.desc}</p>
                 </div>
-
-                {/* Petite ligne de décoration animée au hover */}
                 <div className="card-deco-line-pro"></div>
               </div>
             );

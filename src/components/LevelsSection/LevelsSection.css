@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════
-   LevelsSection.css - Dark Blue Blur & Glassmorphism
+   LevelsSection.css - Dark Blue Blur & Mobile Slide
    ════════════════════════════════════════════════ */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700&display=swap');
@@ -15,16 +15,12 @@
 
     /* Couleurs ajoutées pour l'ambiance Bleu Sombre */
     --bg-deep-base: #020614;
-    /* Noir/Bleu abyssal de fond */
     --c-blue-blur: #0f2b60;
-    /* Le fameux bleu sombre pour le blur */
 
     /* Textes sur fond sombre */
     --text-light: #ffffff;
     --text-muted: #94a3b8;
-    /* Gris clair bleuté */
 
-    /* Fontes ultra-modernes */
     --font-main: 'Plus Jakarta Sans', sans-serif;
     --font-tech: 'JetBrains Mono', monospace;
 }
@@ -41,7 +37,7 @@
 }
 
 /* ================================================
-   1. MESH BACKGROUND (Le Blur Bleu Sombre)
+   1. MESH BACKGROUND
    ================================================ */
 .mesh-background {
     position: absolute;
@@ -51,17 +47,14 @@
     background-color: var(--bg-deep-base);
 }
 
-/* Les auras floues (Blobs) */
 .mesh-blob {
     position: absolute;
     border-radius: 50%;
     filter: blur(100px);
-    /* Flou extrême pour fusionner les couleurs */
     animation: blob-float 25s infinite alternate ease-in-out;
     pointer-events: none;
 }
 
-/* 1. L'Aura Bleue Sombre Principale */
 .mesh-blue-deep {
     top: 10%;
     left: 20%;
@@ -72,7 +65,6 @@
     animation-duration: 30s;
 }
 
-/* 2. Éclat Vert Lumineux */
 .mesh-green-light {
     top: -10%;
     right: -5%;
@@ -80,11 +72,9 @@
     height: 400px;
     background: var(--c-green-light);
     opacity: 0.15;
-    /* Subtil pour contraster avec le bleu */
     animation-delay: -5s;
 }
 
-/* 3. Éclat Orange Profond */
 .mesh-orange-deep {
     bottom: -15%;
     left: 10%;
@@ -96,7 +86,6 @@
     animation-direction: alternate-reverse;
 }
 
-/* Grille technique en surimpression (Dark Mode) */
 .trading-grid-overlay {
     position: absolute;
     inset: 0;
@@ -151,7 +140,6 @@
     align-items: center;
     gap: 8px;
     background: rgba(247, 154, 107, 0.1);
-    /* Orange soft alpha */
     border: 1px solid rgba(247, 154, 107, 0.2);
     padding: 8px 16px;
     border-radius: 50px;
@@ -170,7 +158,6 @@
     margin-bottom: 20px;
     line-height: 1.1;
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    /* Fait ressortir le texte sur le fond lumineux */
 }
 
 .sec-sub-dark {
@@ -181,22 +168,21 @@
 }
 
 /* ================================================
-   3. CARTES DARK GLASSMORPHISM
+   3. CARTES DARK GLASSMORPHISM (Mode PC)
    ================================================ */
 .levels-grid-dark {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 cartes côte à côte sur PC */
     gap: 32px;
 }
 
 .glass-card-dark {
     position: relative;
     background: rgba(15, 23, 42, 0.4);
-    /* Bleu gris très sombre et transparent */
     backdrop-filter: blur(24px) saturate(120%);
     -webkit-backdrop-filter: blur(24px) saturate(120%);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    /* Bordure très fine */
     border-radius: 32px;
     padding: 40px;
     display: flex;
@@ -204,13 +190,14 @@
     overflow: hidden;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
-    /* Animation d'entrée */
+
+    /* Anim PC */
+    animation: fadeUp 0.8s forwards;
+    animation-delay: calc(var(--card-index) * 0.15s);
     opacity: 0;
     transform: translateY(30px);
-    animation: fadeUp 0.8s forwards;
 }
 
-/* Reflet interne (Glare) pour l'effet de verre poli */
 .glass-card-glare {
     position: absolute;
     top: 0;
@@ -221,15 +208,13 @@
     pointer-events: none;
 }
 
-/* Interaction au survol : la bordure s'illumine avec la couleur du thème */
-.glass-card-dark:hover {
-    transform: translateY(-10px) scale(1.02);
-    background: rgba(30, 41, 59, 0.6);
-    border-color: var(--theme-color);
-    box-shadow:
-        0 20px 40px -10px rgba(0, 0, 0, 0.7),
-        0 0 30px -10px var(--theme-color);
-    /* Lueur de la couleur associée */
+@media (min-width: 769px) {
+    .glass-card-dark:hover {
+        transform: translateY(-10px) scale(1.02);
+        background: rgba(30, 41, 59, 0.6);
+        border-color: var(--theme-color);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 30px -10px var(--theme-color);
+    }
 }
 
 .card-content {
@@ -270,7 +255,6 @@
     margin-bottom: 32px;
 }
 
-/* Footer de la carte */
 .card-footer {
     display: flex;
     align-items: center;
@@ -313,16 +297,18 @@
     }
 }
 
+/* Les points de pagination sont cachés sur PC */
+.mobile-pagination {
+    display: none;
+}
+
+
 /* ================================================
-   RESPONSIVE
+   RESPONSIVE MOBILE (Slideshow Automatique de 15s)
    ================================================ */
 @media (max-width: 1024px) {
     .levels-section-abyssal {
         padding: 80px 24px;
-    }
-
-    .levels-grid-dark {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 }
 
@@ -331,13 +317,104 @@
         font-size: 2.2rem;
     }
 
+    .section-header {
+        margin-bottom: 40px;
+    }
+
+    .levels-grid-dark {
+        /* Empilement des cartes sur la même case */
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas: "stack";
+        gap: 0;
+        position: relative;
+        /* On donne une hauteur fixe pour éviter que la page ne saute */
+        min-height: 480px;
+    }
+
     .glass-card-dark {
+        grid-area: stack;
+        /* Toutes les cartes vont ici */
         padding: 32px;
+        width: 100%;
+
+        /* Annule l'animation PC et masque par défaut */
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(100px) scale(0.95);
+
+        /* 15s (3 cartes * 5s). Le délai est basé sur l'index (0s, 5s, 10s) */
+        animation: mobileSlideShow 15s calc(var(--card-index) * 5s) infinite cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    .mesh-blob {
-        filter: blur(60px);
+    /* Affichage des points de pagination en bas */
+    .mobile-pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 32px;
     }
 
-    /* Flou réduit pour perf mobile */
+    .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.2);
+        /* Animation synchro avec les cartes */
+        animation: dotSync 15s calc(var(--dot-index) * 5s) infinite;
+    }
+}
+
+/* ================================================
+   ANIMATIONS CSS POUR LE CARROUSEL MOBILE (15s total)
+   Une carte a 5s pour briller (33% du temps total)
+   ================================================ */
+@keyframes mobileSlideShow {
+
+    /* 0s : La carte arrive de la droite, floutée */
+    0% {
+        opacity: 0;
+        transform: translateX(100px) scale(0.95);
+        filter: blur(10px);
+    }
+
+    /* 0.5s à 4.5s : La carte est centrée, nette, lisible */
+    4%,
+    30% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        filter: blur(0);
+        pointer-events: auto;
+    }
+
+    /* 5s : La carte glisse vers la gauche, se floute et disparaît */
+    33.33% {
+        opacity: 0;
+        transform: translateX(-100px) scale(0.95);
+        filter: blur(10px);
+        pointer-events: none;
+    }
+
+    /* Le reste du temps (10s), elle reste invisible à gauche */
+    100% {
+        opacity: 0;
+        transform: translateX(-100px) scale(0.95);
+        pointer-events: none;
+    }
+}
+
+/* Animation des points (S'allume en blanc quand sa carte est affichée) */
+@keyframes dotSync {
+
+    0%,
+    33.33% {
+        background-color: var(--c-white);
+        transform: scale(1.3);
+    }
+
+    34%,
+    100% {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1);
+    }
 }

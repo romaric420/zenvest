@@ -35,13 +35,9 @@ export default function LevelsSection() {
 
       {/* 1. BACKGROUND FLUIDE "BLUR BLEU SOMBRE" */}
       <div className="mesh-background">
-        {/* Le grand fond flou bleu sombre */}
         <div className="mesh-blob mesh-blue-deep"></div>
-        {/* Tes couleurs vibrantes en contraste */}
         <div className="mesh-blob mesh-green-light"></div>
         <div className="mesh-blob mesh-orange-deep"></div>
-
-        {/* Grille de trading subtile en surimpression */}
         <div className="trading-grid-overlay"></div>
       </div>
 
@@ -62,7 +58,7 @@ export default function LevelsSection() {
           </p>
         </div>
 
-        {/* GRILLE DE CARTES */}
+        {/* GRILLE DE CARTES (Statique sur PC, Carousel sur Mobile) */}
         <div className="levels-grid-dark">
           {levels.map((l, i) => {
             const LIcon = l.Icon;
@@ -70,9 +66,13 @@ export default function LevelsSection() {
               <div
                 key={i}
                 className="glass-card-dark"
-                style={{ '--theme-color': l.color, '--theme-accent': l.accent, animationDelay: `${i * 0.15}s` }}
+                // L'index permet au CSS de calculer le décalage (0s, 5s, 10s)
+                style={{
+                  '--theme-color': l.color,
+                  '--theme-accent': l.accent,
+                  '--card-index': i
+                }}
               >
-                {/* Effet de reflet au survol géré en CSS */}
                 <div className="glass-card-glare"></div>
 
                 <div className="card-content">
@@ -88,7 +88,6 @@ export default function LevelsSection() {
                   <p>{l.desc}</p>
                 </div>
 
-                {/* Bouton d'action suggestif */}
                 <div className="card-footer">
                   <span className="discover-text" style={{ color: l.accent }}>
                     {lang === 'fr' ? 'Découvrir' : 'Discover'}
@@ -101,6 +100,14 @@ export default function LevelsSection() {
             );
           })}
         </div>
+
+        {/* PAGINATION MOBILE (Les 3 points animés) */}
+        <div className="mobile-pagination">
+          <div className="dot" style={{ '--dot-index': 0 }}></div>
+          <div className="dot" style={{ '--dot-index': 1 }}></div>
+          <div className="dot" style={{ '--dot-index': 2 }}></div>
+        </div>
+
       </div>
     </section>
   );
