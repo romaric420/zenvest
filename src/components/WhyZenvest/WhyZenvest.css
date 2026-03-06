@@ -277,14 +277,14 @@
     .why-card-pro {
         /* On place toutes les cartes dans la colonne 1 / ligne 1 */
         grid-area: 1 / 1 / 2 / 2;
-        padding: 32px 24px;
+        padding: 24px 24px;
 
         /* On écrase l'animation PC pour lancer la boucle infinie Mobile */
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(12px);
 
         /* 12s total (4 cartes x 3s). Le délai est calculé grâce à --card-index */
-        animation: mobileSlideShow 12s calc(var(--card-index) * 3s) infinite cubic-bezier(0.16, 1, 0.3, 1);
+        animation: mobileSlideShow 12s calc(var(--card-index) * 4s) infinite cubic-bezier(0.18, 1, 0.2, 1);
         pointer-events: none;
         /* Empêche les clics sur les cartes invisibles */
     }

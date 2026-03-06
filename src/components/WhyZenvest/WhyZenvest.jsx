@@ -31,7 +31,7 @@ export default function WhyZenvest() {
 
   return (
     <section className="why-section-pro">
-      {/* BACKGROUND DÉGRADÉ COMPLEXE */}
+      {/* BACKGROUND EFFECTS */}
       <div className="why-bg-gradient">
         <div className="blob-pro blob-1"></div>
         <div className="blob-pro blob-2"></div>
@@ -49,31 +49,23 @@ export default function WhyZenvest() {
           </p>
         </div>
 
-        {/* GRILLE DYNAMIQUE */}
         <div className="why-grid-pro">
-          {features.map((f, i) => {
-            const { Icon } = f;
-            return (
-              <div
-                key={i}
-                className="why-card-pro"
-                style={{
-                  '--card-color': f.color,
-                  '--card-index': i
-                }}
-              >
-                <div className="card-glare-pro"></div>
-                <div className="card-content-pro">
-                  <div className="why-icon-wrap-pro">
-                    <Icon size={28} color={f.color} strokeWidth={1.5} />
-                  </div>
-                  <h3>{f.title}</h3>
-                  <p>{f.desc}</p>
-                </div>
-                <div className="card-deco-line-pro"></div>
+          {features.map((f, i) => (
+            <div
+              key={i}
+              className="why-card-pro"
+              style={{
+                '--card-color': f.color,
+                '--card-index': i
+              }}
+            >
+              <div className="why-icon-wrap-pro">
+                <f.Icon size={28} color={f.color} strokeWidth={2} />
               </div>
-            );
-          })}
+              <h3>{f.title}</h3>
+              <p>{f.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
