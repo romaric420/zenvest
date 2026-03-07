@@ -6,11 +6,26 @@
 
 .ftr {
   position: relative;
-  background: #020612;
-  color: rgba(255, 255, 255, 0.7);
+  /* Fond slate foncé mais pas noir — chaleureux */
+  background: linear-gradient(180deg, #0f1729 0%, #0b1120 100%);
+  color: rgba(255, 255, 255, 0.75);
   overflow: hidden;
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Lueur ambiante subtile pour réchauffer */
+.ftr::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(89, 165, 44, 0.06), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ── Watermark ZENVEST — lettres individuelles ── */
@@ -32,7 +47,8 @@
   line-height: 1;
   letter-spacing: 0.04em;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.025);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.045);
+  text-shadow: 0 0 40px rgba(89, 165, 44, 0.03);
   opacity: 0;
   animation: wmReveal 0.6s ease forwards;
 }
@@ -53,7 +69,7 @@
 .ftr__topline {
   position: relative;
   height: 2px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.05);
   overflow: hidden;
 }
 
@@ -64,7 +80,7 @@
   width: 120px;
   height: 100%;
   background: linear-gradient(90deg, transparent, #59A52C, #0ecb81, transparent);
-  opacity: 0.6;
+  opacity: 0.8;
   border-radius: 2px;
 }
 
@@ -133,7 +149,7 @@
 .ftr__desc {
   font-size: 0.82rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.50);
   margin: 0;
 }
 
@@ -161,7 +177,7 @@
 
 .ftr__col a {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.38);
+  color: rgba(255, 255, 255, 0.52);
   text-decoration: none;
   cursor: pointer;
   transition: color 0.2s ease, padding-left 0.2s ease;
@@ -176,7 +192,7 @@
 
 /* ── Bottom bar ── */
 .ftr__bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
   padding-top: 18px;
   display: flex;
   flex-direction: column;
@@ -188,13 +204,13 @@
 .ftr__copy {
   font-size: 0.72rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.42);
   letter-spacing: 0.02em;
 }
 
 .ftr__disc {
   font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.28);
   max-width: 700px;
   line-height: 1.5;
 }

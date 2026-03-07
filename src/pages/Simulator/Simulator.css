@@ -1451,6 +1451,155 @@
   }
 }
 
+/* ═══════ SIMPLE SIMULATOR — MOBILE SPECIFIQUE ═══════ */
+.sim-simple .ss-header {
+  flex-wrap: wrap
+}
+
+@media(max-width:768px) {
+  .sim-simple .ss-grid {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .sim-simple .ss-header {
+    padding: 14px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .sim-simple .ss-header__val {
+    font-size: 1.4rem;
+  }
+
+  .sim-simple .ss-card {
+    padding: 14px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+  }
+
+  .sim-simple .ss-card__title {
+    font-size: .78rem;
+    margin-bottom: 10px;
+  }
+
+  .sim-simple .ss-form input,
+  .sim-simple .ss-form select {
+    padding: 10px 12px;
+    font-size: .82rem;
+  }
+
+  .sim-simple .ss-btn-exec {
+    padding: 13px;
+    font-size: .88rem;
+  }
+
+  .sim-simple .ss-btn-alert,
+  .sim-simple .ss-btn-update,
+  .sim-simple .ss-btn-reset {
+    padding: 9px;
+    font-size: .8rem;
+  }
+
+  .sim-simple .ss-table th {
+    padding: 8px 10px;
+    font-size: .62rem
+  }
+
+  .sim-simple .ss-table td {
+    padding: 10px 8px;
+    font-size: .72rem
+  }
+
+  .sim-simple .sa-table-scroll {
+    border-radius: 8px;
+    border: 1px solid var(--zv-border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sim-simple .sa-table-scroll::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 28px;
+    background: linear-gradient(to right, transparent, var(--zv-card));
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .sim-simple .ss-alloc__top {
+    font-size: .78rem;
+    flex-wrap: wrap;
+    gap: 4px
+  }
+
+  .sim-simple .ss-alloc__val {
+    font-size: .72rem
+  }
+
+  .sim-simple .ss-cash {
+    font-size: .78rem
+  }
+
+  .sim-simple .ss-alert-item {
+    padding: 8px 10px;
+    font-size: .75rem
+  }
+
+  .sim-simple .ss-empty {
+    padding: 16px;
+    font-size: .8rem
+  }
+
+  /* Ticker du simple sim */
+  .sim-simple .sa-ticker__track {
+    animation-duration: 22s;
+    padding: 9px 14px;
+    gap: 14px
+  }
+
+  .sim-simple .sa-ticker__pair {
+    font-size: .7rem
+  }
+
+  .sim-simple .sa-ticker__price {
+    font-size: .78rem
+  }
+
+  .sim-simple .sa-ticker__ch {
+    font-size: .68rem;
+    padding: 2px 5px
+  }
+}
+
+@media(max-width:400px) {
+  .sim-simple .ss-grid {
+    padding: 8px;
+    gap: 8px
+  }
+
+  .sim-simple .ss-card {
+    padding: 12px;
+    margin-bottom: 8px
+  }
+
+  .sim-simple .ss-header__val {
+    font-size: 1.2rem
+  }
+
+  .sim-simple .ss-form input,
+  .sim-simple .ss-form select {
+    padding: 9px 10px;
+    font-size: .78rem
+  }
+}
+
 /* ═══════ PETIT MOBILE ═══════ */
 @media(max-width:400px) {
   .sim-hero__title {
