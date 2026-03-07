@@ -1,96 +1,105 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 /* ════════════════════════════════════════════════
-   Footer.css - Deep Dark Midnight, Perfect Blur & Centered
+   Footer — Compact Midnight Glass
    ════════════════════════════════════════════════ */
 
-.ftr-midnight {
+.ftr {
   position: relative;
-  /* Fond noirci profond avec une pointe de bleu abyssal. 
-     Opacité à 0.75 pour laisser le blur s'exprimer pleinement */
-  background: rgba(2, 6, 18, 0.75);
-
-  /* Flou optimisé pour l'effet vitre */
-  backdrop-filter: blur(24px) saturate(120%);
-  -webkit-backdrop-filter: blur(24px) saturate(120%);
-
-  color: rgba(255, 255, 255, 0.75);
+  background: #020612;
+  color: rgba(255, 255, 255, 0.7);
   overflow: hidden;
-  margin-top: 40px;
-
-  /* Bordure supérieure très fine pour marquer la coupure "verre" */
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-/* Lueur subtile centrée en haut */
-.ftr__glow {
-  position: absolute;
-  top: -150px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50vw;
-  height: 300px;
-  background: radial-gradient(ellipse at center, rgba(30, 58, 138, 0.15), transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Watermark ZENVEST - Rendu sombre pour se fondre dans le noir sans casser le flou */
+/* ── Watermark ZENVEST — lettres individuelles ── */
 .ftr__watermark {
   position: absolute;
-  top: 50%;
+  bottom: -8px;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: clamp(4rem, 9vw, 10rem);
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  user-select: none;
-  pointer-events: none;
-  z-index: 0;
-
-  /* Effet 3D fantôme noirci */
-  color: rgba(0, 0, 0, 0.4);
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.03);
-  text-shadow: 8px 8px 24px rgba(0, 0, 0, 0.9);
-}
-
-/* --- Container compact et centré --- */
-.ftr__inner {
-  /* Réduit à 1000px au lieu de 1280px pour forcer le centrage sur très grand écran */
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 50px 32px 30px;
-  position: relative;
-  z-index: 10;
-}
-
-/* Mise en page Grille PC - CENTRÉE */
-.ftr__grid {
+  transform: translateX(-50%);
   display: flex;
-  /* C'est ici que la magie opère : on centre le bloc au lieu de l'écarter (space-between) */
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 80px;
-  /* Espace élégant entre la marque et les liens */
-  margin-bottom: 40px;
+  gap: 2px;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
 }
 
-/* --- Marque (Gauche) --- */
-.ftr__brand-col {
-  max-width: 320px;
+.ftr__watermark span {
+  font-size: clamp(4.5rem, 10vw, 9rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.025);
+  opacity: 0;
+  animation: wmReveal 0.6s ease forwards;
+}
+
+@keyframes wmReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Ligne décorative en haut ── */
+.ftr__topline {
+  position: relative;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.ftr__topline-fill {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #59A52C, #0ecb81, transparent);
+  opacity: 0.6;
+  border-radius: 2px;
+}
+
+/* ── Container ── */
+.ftr__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 32px 28px;
+}
+
+/* ── Row principale ── */
+.ftr__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 60px;
+  margin-bottom: 28px;
+}
+
+/* ── Brand ── */
+.ftr__brand {
+  max-width: 280px;
+  flex-shrink: 0;
 }
 
 .ftr__logo {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .ftr__logo-img {
-  height: 28px;
+  height: 26px;
   width: auto;
   object-fit: contain;
 }
@@ -98,145 +107,182 @@
 .ftr__logo-fallback {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .ftr__logo-icon {
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, #0ecb81, #12f59c);
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(135deg, #59A52C, #0ecb81);
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-weight: 800;
-  font-size: 0.9rem;
+  font-weight: 900;
+  font-size: 0.8rem;
 }
 
 .ftr__logo-fallback span {
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #fff;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .ftr__desc {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.35);
   margin: 0;
 }
 
-/* --- Liens (Droite) --- */
-.ftr__links-group {
+/* ── Nav links ── */
+.ftr__nav {
   display: flex;
-  gap: 60px;
+  gap: 48px;
   flex-wrap: wrap;
 }
 
 .ftr__col {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .ftr__col h4 {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 800;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.9);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin: 0 0 4px 0;
+  letter-spacing: 0.12em;
+  margin: 0 0 2px;
 }
 
 .ftr__col a {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.38);
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition: color 0.2s ease, padding-left 0.2s ease;
   font-weight: 500;
+  padding-left: 0;
 }
 
 .ftr__col a:hover {
   color: #6fca3a;
-  transform: translateX(4px);
+  padding-left: 6px;
 }
 
-/* --- Section du Bas (Copyright & Legal) - PARFAITEMENT CENTRÉE --- */
+/* ── Bottom bar ── */
 .ftr__bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Centre le contenu horizontalement */
   text-align: center;
-  /* Centre le texte */
-  gap: 8px;
+  gap: 6px;
 }
 
-.ftr__copyright {
-  font-size: 0.8rem;
+.ftr__copy {
+  font-size: 0.72rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.02em;
 }
 
-.ftr__disclaimer {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.25);
-  max-width: 800px;
+.ftr__disc {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.18);
+  max-width: 700px;
   line-height: 1.5;
-  margin: 0;
 }
 
-/* ═══════ RESPONSIVE ═══════ */
+/* ════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════ */
+
 @media (max-width: 1024px) {
-  .ftr__grid {
-    gap: 50px;
+  .ftr__row {
+    gap: 40px;
+  }
+
+  .ftr__nav {
+    gap: 36px;
   }
 }
 
 @media (max-width: 768px) {
   .ftr__inner {
-    padding: 40px 20px 24px;
+    padding: 32px 20px 22px;
   }
 
-  .ftr__grid {
+  .ftr__row {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 32px;
+    gap: 28px;
+    margin-bottom: 22px;
   }
 
-  .ftr__brand-col {
+  .ftr__brand {
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 auto;
   }
 
   .ftr__logo {
     justify-content: center;
   }
 
-  .ftr__links-group {
-    flex-direction: column;
-    gap: 24px;
+  .ftr__desc {
+    text-align: center;
+    max-width: 320px;
+  }
+
+  /* Nav en grille 3 colonnes compacte */
+  .ftr__nav {
     width: 100%;
-    align-items: center;
+    justify-content: center;
+    gap: 32px;
   }
 
   .ftr__col {
     align-items: center;
+    min-width: 90px;
   }
 
   .ftr__col a:hover {
-    transform: none;
+    padding-left: 0;
   }
 
-  .ftr__watermark {
-    font-size: 3.5rem;
+  /* Watermark plus petit */
+  .ftr__watermark span {
+    font-size: 3.2rem;
+  }
+
+  .ftr__bottom {
+    padding-top: 14px;
+  }
+
+  .ftr__disc {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .ftr__nav {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .ftr__watermark span {
+    font-size: 2.5rem;
+  }
+
+  .ftr__inner {
+    padding: 26px 16px 18px;
   }
 }

@@ -9,17 +9,24 @@ export default function Footer() {
   const navigate = useNavigate();
 
   return (
-    <footer className="ftr-midnight">
-      {/* Lueur subtile en haut */}
-      <div className="ftr__glow" />
+    <footer className="ftr">
+      {/* Watermark ZENVEST — lettres découpées en fond */}
+      <div className="ftr__watermark" aria-hidden="true">
+        {'ZENVEST'.split('').map((ch, i) => (
+          <span key={i} style={{ animationDelay: `${i * 0.08}s` }}>{ch}</span>
+        ))}
+      </div>
 
-      {/* Watermark géant 3D (Taille réduite) */}
-      <div className="ftr__watermark">ZENVEST</div>
+      {/* Ligne décorative en haut */}
+      <div className="ftr__topline">
+        <div className="ftr__topline-fill" />
+      </div>
 
       <div className="ftr__inner">
-        <div className="ftr__grid">
-          {/* Colonne Marque (Logo + Desc) */}
-          <div className="ftr__brand-col">
+        {/* ROW PRINCIPALE — tout sur une ligne */}
+        <div className="ftr__row">
+          {/* Logo + Desc */}
+          <div className="ftr__brand">
             <div className="ftr__logo">
               <img
                 src={LOGO_PATH}
@@ -30,7 +37,6 @@ export default function Footer() {
                   e.target.nextElementSibling.style.display = 'flex';
                 }}
               />
-              {/* Fallback si l'image échoue */}
               <div className="ftr__logo-fallback" style={{ display: 'none' }}>
                 <div className="ftr__logo-icon">Z</div>
                 <span>ZENVEST</span>
@@ -39,8 +45,8 @@ export default function Footer() {
             <p className="ftr__desc">{t('footer.desc')}</p>
           </div>
 
-          {/* Colonnes Liens */}
-          <div className="ftr__links-group">
+          {/* Liens — groupés horizontalement */}
+          <nav className="ftr__nav">
             <div className="ftr__col">
               <h4>{t('footer.formation')}</h4>
               <a onClick={() => navigate('/courses')}>{t('footer.investing')}</a>
@@ -57,15 +63,13 @@ export default function Footer() {
               <a href="#">{t('footer.cgu')}</a>
               <a href="#">{t('footer.privacy')}</a>
             </div>
-          </div>
+          </nav>
         </div>
 
-        {/* Ligne du bas */}
+        {/* BOTTOM BAR */}
         <div className="ftr__bottom">
-          <div className="ftr__copyright">
-            © {new Date().getFullYear()} ZENVEST. {t('footer.rights')}
-          </div>
-          <p className="ftr__disclaimer">{t('footer.disclaimer')}</p>
+          <span className="ftr__copy">© {new Date().getFullYear()} ZENVEST. {t('footer.rights')}</span>
+          <span className="ftr__disc">{t('footer.disclaimer')}</span>
         </div>
       </div>
     </footer>
