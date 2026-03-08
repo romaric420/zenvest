@@ -31,7 +31,7 @@
       },
       "simulator": {
         "title": "Real Simulator Training",
-        "desc": "Practice trading in real conditions on 600+ cryptos with live Kraken prices.",
+        "desc": "Practice trading in real conditions on 600+ cryptos, stocks, indices, ETFs, forex and commodities.",
         "author": "ZENVEST",
         "modules": "Unlimited practice"
       },
@@ -70,7 +70,7 @@
     },
     "advanced": {
       "title": "Advanced Simulator",
-      "desc": "600+ cryptocurrencies, Stop Loss & Take Profit, full history, price alerts and live news.",
+      "desc": "600+ cryptos, stocks, indices, ETFs, commodities, bonds & forex. Stop Loss & Take Profit, full history, price alerts and live news.",
       "price": "€30",
       "badge": "Pro"
     },

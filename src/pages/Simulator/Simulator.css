@@ -233,8 +233,15 @@
 
 .hero__icon-svg {
   position: absolute;
-  color: rgba(255, 255, 255, .05);
-  animation: floatHero 10s ease-in-out infinite
+  color: rgba(255, 255, 255, .12);
+  animation: floatHero 10s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(89, 165, 44, .15));
+  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.06);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px)
 }
 
 /* ═══════ PACKS ═══════ */
@@ -264,6 +271,27 @@
   transform: translateY(-8px);
   border-color: rgba(255, 255, 255, .15);
   box-shadow: var(--zv-shadow-lg)
+}
+
+.sim-pack--adv {
+  border-color: rgba(89,165,44,.3);
+  box-shadow: 0 8px 32px rgba(89,165,44,.08), inset 0 0 0 1px rgba(89,165,44,.1);
+  position: relative
+}
+
+.sim-pack--adv::before {
+  content: '★ POPULAIRE';
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 4px 12px;
+  background: var(--zv-green);
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 800;
+  border-radius: 6px;
+  z-index: 10;
+  letter-spacing: .5px
 }
 
 .sim-pack--adv:hover {
@@ -338,8 +366,42 @@
 .sim-pack p {
   font-size: .9rem;
   color: var(--zv-text-muted);
-  padding: 0 24px 20px;
+  padding: 0 24px 12px;
   line-height: 1.5
+}
+
+.sim-pack__features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 24px 20px
+}
+
+.sim-pack__feat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 8px;
+  color: rgba(255,255,255,.75);
+  font-size: .72rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all .2s
+}
+
+.sim-pack__feat:hover {
+  background: rgba(89,165,44,.12);
+  border-color: rgba(89,165,44,.25);
+  color: var(--zv-green-light)
+}
+
+.sim-pack--adv .sim-pack__feat {
+  background: rgba(89,165,44,.08);
+  border-color: rgba(89,165,44,.15)
 }
 
 .sim-pack__unlock {
@@ -1073,7 +1135,11 @@
   }
 
   .sim-hero__icons {
-    display: none
+    opacity: 0.7
+  }
+
+  .hero__icon-svg {
+    transform: scale(0.6)
   }
 
   .sim-back-bar {
@@ -1320,29 +1386,38 @@
     position: relative;
     border-radius: 8px;
     border: 1px solid var(--zv-border);
-    overflow: hidden
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch
   }
 
   .sa-table-scroll::after {
     content: '';
-    position: absolute;
+    position: sticky;
     top: 0;
     right: 0;
     bottom: 0;
-    width: 32px;
-    background: linear-gradient(to right, transparent, var(--zv-card));
+    width: 24px;
+    background: linear-gradient(to right, transparent, rgba(0,0,0,0.06));
     pointer-events: none;
-    z-index: 2
+    z-index: 2;
+    flex-shrink: 0
   }
 
   .ss-table th {
     padding: 8px 10px;
-    font-size: .62rem
+    font-size: .62rem;
+    white-space: nowrap
   }
 
   .ss-table td {
     padding: 10px 8px;
-    font-size: .72rem
+    font-size: .72rem;
+    white-space: nowrap
+  }
+
+  .ss-table {
+    min-width: 650px
   }
 
   .ss-alloc__top {
@@ -1518,19 +1593,22 @@
     border-radius: 8px;
     border: 1px solid var(--zv-border);
     position: relative;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   .sim-simple .sa-table-scroll::after {
     content: '';
-    position: absolute;
+    position: sticky;
     top: 0;
     right: 0;
     bottom: 0;
-    width: 28px;
-    background: linear-gradient(to right, transparent, var(--zv-card));
+    width: 20px;
+    background: linear-gradient(to right, transparent, rgba(0,0,0,0.06));
     pointer-events: none;
     z-index: 2;
+    flex-shrink: 0;
   }
 
   .sim-simple .ss-alloc__top {

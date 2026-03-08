@@ -31,7 +31,7 @@
       },
       "simulator": {
         "title": "Apprentissage avec Simulateur",
-        "desc": "Pratiquez le trading en conditions réelles sur 600+ cryptos avec des prix live Kraken.",
+        "desc": "Pratiquez le trading en conditions réelles sur 600+ cryptos, actions, indices, ETFs, forex et matières premières.",
         "author": "ZENVEST",
         "modules": "Pratique illimitée"
       },
@@ -70,7 +70,7 @@
     },
     "advanced": {
       "title": "Simulateur Avancé",
-      "desc": "600+ cryptomonnaies, Stop Loss & Take Profit, historique complet, alertes prix et news live.",
+      "desc": "600+ cryptos, actions, indices, ETFs, matières premières, obligations & forex. Stop Loss & Take Profit, historique complet, alertes prix et news live.",
       "price": "30€",
       "badge": "Pro"
     },
