@@ -279,21 +279,6 @@
   position: relative
 }
 
-.sim-pack--adv::before {
-  content: '★ POPULAIRE';
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  padding: 4px 12px;
-  background: var(--zv-green);
-  color: #fff;
-  font-size: .65rem;
-  font-weight: 800;
-  border-radius: 6px;
-  z-index: 10;
-  letter-spacing: .5px
-}
-
 .sim-pack--adv:hover {
   border-color: var(--zv-green);
   box-shadow: 0 16px 48px var(--zv-green-glow)
@@ -1820,31 +1805,6 @@
   color: #f59e0b
 }
 
-/* ═══════ RIBBON ═══════ */
-.sim-pack__ribbon {
-  position: absolute;
-  top: 16px;
-  right: -8px;
-  background: linear-gradient(135deg, #f59e0b, #f97316);
-  color: #fff;
-  font-size: .65rem;
-  font-weight: 900;
-  padding: 6px 20px 6px 14px;
-  letter-spacing: 1.2px;
-  z-index: 5;
-  border-radius: 4px 0 0 4px;
-  box-shadow: 0 2px 8px rgba(245,158,11,0.4)
-}
-.sim-pack__ribbon::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  bottom: -8px;
-  border: 4px solid transparent;
-  border-top-color: #b45309;
-  border-right-color: #b45309
-}
-
 /* ═══════ SEARCH DROPDOWN ═══════ */
 .sa-search-wrap {
   position: relative;
@@ -2326,11 +2286,6 @@
   .sim-pack__price-val {
     font-size: 1.6rem
   }
-  .sim-pack__ribbon {
-    font-size: .6rem;
-    padding: 5px 14px 5px 10px;
-    top: 12px
-  }
   .sa-mob-nav__btn {
     font-size: .58rem;
     padding: 8px 2px
@@ -2363,4 +2318,28 @@
     padding: 7px 12px;
     font-size: .72rem
   }
+}
+
+/* ═══════ DATA SOURCE BADGE ═══════ */
+.sa-data-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .55rem;
+  font-weight: 900;
+  letter-spacing: .8px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 8px;
+  text-transform: uppercase
+}
+.sa-data-badge--live {
+  color: var(--zv-green);
+  background: rgba(14,203,129,0.12);
+  animation: pulse 2s infinite
+}
+.sa-data-badge--sim {
+  color: var(--zv-warn);
+  background: rgba(240,185,11,0.12)
 }
