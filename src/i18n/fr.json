@@ -65,14 +65,24 @@
     "basic": {
       "title": "Simulateur Essentiel",
       "desc": "Accessible pour tester en conditions réelles — 5 cryptos majeures, interface simple et intuitive.",
-      "price": "15€",
-      "badge": "Débutant"
+      "price": "15€/mois - 150€/an",
+      "badge": "Débutant",
+      "priceMonthly": "15€",
+      "priceAnnual": "150€",
+      "priceMonthlyLabel": "/mois",
+      "priceAnnualLabel": "/an",
+      "priceAnnualSave": "Économisez 30€"
     },
     "advanced": {
       "title": "Simulateur Avancé",
       "desc": "600+ cryptos, actions, indices, ETFs, matières premières, obligations & forex. Stop Loss & Take Profit, historique complet, alertes prix et news live.",
-      "price": "30€",
-      "badge": "Pro"
+      "price": "30€/mois - 300€/an",
+      "badge": "Pro",
+      "priceMonthly": "30€",
+      "priceAnnual": "300€",
+      "priceMonthlyLabel": "/mois",
+      "priceAnnualLabel": "/an",
+      "priceAnnualSave": "Économisez 60€"
     },
     "accessCode": "Code d'accès",
     "unlock": "Accéder",

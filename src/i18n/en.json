@@ -66,13 +66,23 @@
       "title": "Essential Simulator",
       "desc": "Accessible for real-condition testing — 5 major cryptos, simple and intuitive interface.",
       "price": "€15",
-      "badge": "Beginner"
+      "badge": "Beginner",
+      "priceMonthly": "€15",
+      "priceAnnual": "€150",
+      "priceMonthlyLabel": "/mo",
+      "priceAnnualLabel": "/yr",
+      "priceAnnualSave": "Save €30"
     },
     "advanced": {
       "title": "Advanced Simulator",
       "desc": "600+ cryptos, stocks, indices, ETFs, commodities, bonds & forex. Stop Loss & Take Profit, full history, price alerts and live news.",
       "price": "€30",
-      "badge": "Pro"
+      "badge": "Pro",
+      "priceMonthly": "€30",
+      "priceAnnual": "€300",
+      "priceMonthlyLabel": "/mo",
+      "priceAnnualLabel": "/yr",
+      "priceAnnualSave": "Save €60"
     },
     "accessCode": "Access code",
     "unlock": "Access",
