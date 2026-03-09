@@ -31,7 +31,7 @@
   -webkit-mask-image: radial-gradient(circle at top, black 30%, transparent 80%);
 }
 
-/* ═══ Icônes — MÊME STYLE QUE .hero__icon-svg du simulateur ═══ */
+/* ═══ Icônes — Copie exacte du simulateur mais plus visible ═══ */
 .hero__icons-container {
   position: absolute;
   inset: 0;
@@ -41,13 +41,13 @@
 
 .hero__icon-svg {
   position: absolute;
-  color: rgba(255, 255, 255, .12);
+  color: rgba(255, 255, 255, .18);
   animation: heroFloat 10s ease-in-out infinite;
-  filter: drop-shadow(0 4px 12px rgba(89, 165, 44, .15));
-  background: linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02));
-  padding: 10px;
+  filter: drop-shadow(0 4px 16px rgba(89, 165, 44, .25));
+  background: linear-gradient(135deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03));
+  padding: 12px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .08);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
@@ -71,22 +71,22 @@
   filter: blur(100px);
   z-index: 1;
   pointer-events: none;
-  opacity: 0.15;
 }
 
 .hero__blur--green {
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
   background: #59a52c;
+  opacity: 0.18;
   top: -10%;
   right: -5%;
 }
 
 .hero__blur--orange {
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 350px;
   background: #F5793B;
-  opacity: 0.08;
+  opacity: 0.1;
   bottom: 10%;
   left: -5%;
 }
@@ -193,6 +193,23 @@
 }
 
 /* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 1024px) {
+  .hero__icon-svg {
+    padding: 10px;
+    color: rgba(255, 255, 255, .15);
+  }
+
+  .hero__blur--green {
+    width: 380px;
+    height: 380px;
+  }
+
+  .hero__blur--orange {
+    width: 260px;
+    height: 260px;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
     min-height: 600px;
@@ -201,7 +218,13 @@
 
   .hero__icon-svg {
     opacity: 0.7;
-    transform: scale(0.6);
+    padding: 8px;
+    border-radius: 10px;
+  }
+
+  .hero__icon-svg svg,
+  .hero__icon-svg {
+    transform: scale(0.7);
   }
 
   .hero__actions {
@@ -216,13 +239,15 @@
   }
 
   .hero__blur--green {
-    width: 250px;
-    height: 250px;
+    width: 280px;
+    height: 280px;
+    opacity: 0.14;
   }
 
   .hero__blur--orange {
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
+    opacity: 0.07;
   }
 }
 
@@ -237,7 +262,24 @@
   }
 
   .hero__icon-svg {
-    opacity: 0.5;
-    transform: scale(0.5);
+    opacity: 0.55;
+    padding: 6px;
+  }
+
+  .hero__icon-svg svg,
+  .hero__icon-svg {
+    transform: scale(0.55);
+  }
+
+  .hero__blur--green {
+    width: 200px;
+    height: 200px;
+    opacity: 0.1;
+  }
+
+  .hero__blur--orange {
+    width: 150px;
+    height: 150px;
+    opacity: 0.05;
   }
 }
