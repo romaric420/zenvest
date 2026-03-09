@@ -38,23 +38,21 @@ export default function Hero() {
       <div className="hero__bg" />
       <div className="hero__icons-container">
         {ICONS.map(({ Icon, size, x, y, delay }, i) => (
-          <div
+          <Icon
             key={i}
-            className="hero__float-icon"
+            className="hero__icon-svg"
+            size={size}
+            strokeWidth={1}
             style={{
               left: `${x}%`,
               top: `${y}%`,
               animationDelay: `${delay}s`,
-              animationDuration: `${8 + (i % 5) * 2}s`,
             }}
-          >
-            <Icon size={size} strokeWidth={1.2} />
-          </div>
+          />
         ))}
       </div>
       <div className="hero__blur hero__blur--green" />
       <div className="hero__blur hero__blur--orange" />
-      <div className="hero__blur hero__blur--blue" />
       <div className="hero__content">
         <span className="hero__badge">{t('hero.badge')}</span>
         <h1 className="hero__title">
