@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { ArrowLeft, Lock, Zap, Crown, TrendingUp, Globe, BarChart3, Gem, LineChart, CandlestickChart, Activity, PieChart, Wallet, Shield, Terminal, BarChart2, Landmark, Layers, Calendar, Clock, Search, Wifi, WifiOff } from 'lucide-react';
+import { ArrowLeft, Lock, Zap, Crown, TrendingUp, Globe, BarChart3, Gem, LineChart, CandlestickChart, Activity, PieChart, Wallet, Shield, Terminal, BarChart2, Landmark, Layers, Wifi, WifiOff, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { useProgress } from '../../context/ProgressContext';
-import Footer from '../../components/Footer/Footer';
-import MarketCalendar from './MarketCalendar';
-import MarketSessions from './MarketSessions';
+import { fetchStockQuote, fetchCommodityPrice, getMarketStatus, getRateLimitInfo, getCachedPrice, STOCK_AV_MAP, COMMODITY_AV_MAP } from '../../services/alphaVantageService';
 import { ALPHA_VANTAGE_KEY } from '../../config';
-import { fetchStockQuote, fetchCommodityPrice, getRateLimitInfo, getCachedPrice, STOCK_AV_MAP, COMMODITY_AV_MAP } from '../../services/alphaVantageService';
+import Footer from '../../components/Footer/Footer';
 import './Simulator.css';
 
 const FEE = 0.0016;
@@ -15,22 +13,26 @@ const STORE_SIMPLE = 'zv_sim_simple_v2';
 const STORE_ADV = 'zv_sim_adv_v3';
 const TOP = ['BTC', 'ETH', 'SOL', 'XRP', 'ADA', 'DOT', 'LINK', 'AVAX', 'DOGE', 'SHIB', 'ATOM', 'UNI', 'AAVE', 'LTC', 'BCH', 'MATIC', 'ALGO', 'APT', 'ARB', 'OP', 'SUI', 'NEAR', 'INJ', 'SEI', 'FET', 'MKR', 'GRT', 'SAND', 'AXS', 'MANA', 'CRV', 'SNX', 'COMP', 'FIL', 'RUNE', 'PEPE', 'RENDER', 'TIA', 'STX', 'IMX'];
 const SIMPLE_ASSETS = [{ k: 'btc', l: 'Bitcoin (BTC/EUR)' }, { k: 'eth', l: 'Ethereum (ETH/EUR)' }, { k: 'sol', l: 'Solana (SOL/EUR)' }, { k: 'dot', l: 'Polkadot (DOT/EUR)' }, { k: 'link', l: 'Chainlink (LINK/EUR)' }];
-const STOCK_SYMBOLS = [{ s: 'AAPL', l: 'Apple', base: 238, fh: true }, { s: 'MSFT', l: 'Microsoft', base: 409, fh: true }, { s: 'GOOGL', l: 'Google', base: 302, fh: true }, { s: 'AMZN', l: 'Amazon', base: 213, fh: true }, { s: 'TSLA', l: 'Tesla', base: 397, fh: true }, { s: 'NVDA', l: 'NVIDIA', base: 178, fh: true }, { s: 'META', l: 'Meta', base: 590, fh: true }, { s: 'JPM', l: 'JP Morgan', base: 248, fh: true }, { s: 'V', l: 'Visa', base: 340, fh: true }, { s: 'MC.PA', l: 'LVMH', base: 870 }, { s: 'OR.PA', l: "L'Oréal", base: 380 }, { s: 'TTE.PA', l: 'TotalEnergies', base: 58 }, { s: 'NFLX', l: 'Netflix', base: 99, fh: true }, { s: 'DIS', l: 'Disney', base: 102, fh: true }, { s: 'PYPL', l: 'PayPal', base: 78, fh: true }, { s: 'AMD', l: 'AMD', base: 142, fh: true }, { s: 'INTC', l: 'Intel', base: 24, fh: true }, { s: 'CRM', l: 'Salesforce', base: 315, fh: true }, { s: 'BA', l: 'Boeing', base: 231, fh: true }, { s: 'KO', l: 'Coca-Cola', base: 64, fh: true }, { s: 'PEP', l: 'PepsiCo', base: 158, fh: true }, { s: 'BN.PA', l: 'Danone', base: 68 }, { s: 'AIR.PA', l: 'Airbus', base: 175 }, { s: 'SAP.DE', l: 'SAP', base: 260 }, { s: 'SAN.PA', l: 'Sanofi', base: 102 }];
-const INDEX_SYMBOLS = [{ s: '^GSPC', l: 'S&P 500', base: 5680 }, { s: '^DJI', l: 'Dow Jones', base: 42100 }, { s: '^IXIC', l: 'NASDAQ', base: 17800 }, { s: '^FCHI', l: 'CAC 40', base: 8104 }, { s: '^GDAXI', l: 'DAX 40', base: 24340 }, { s: '^FTSE', l: 'FTSE 100', base: 8680 }, { s: '^N225', l: 'Nikkei 225', base: 50750 }, { s: '^HSI', l: 'Hang Seng', base: 25820 }, { s: '^STOXX50E', l: 'Euro Stoxx 50', base: 5746 }, { s: '^RUT', l: 'Russell 2000', base: 2080 }, { s: '^IBEX', l: 'IBEX 35', base: 13200 }, { s: '^BVSP', l: 'Bovespa', base: 124000 }, { s: '^AXJO', l: 'ASX 200', base: 8763 }, { s: '^KS11', l: 'KOSPI', base: 4130 }];
-const ETF_SYMBOLS = [{ s: 'SPY', l: 'SPDR S&P 500', base: 672, fh: true }, { s: 'QQQ', l: 'Invesco NASDAQ', base: 600, fh: true }, { s: 'IWM', l: 'iShares Russell 2000', base: 215, fh: true }, { s: 'VTI', l: 'Vanguard Total Market', base: 290, fh: true }, { s: 'VOO', l: 'Vanguard S&P 500', base: 560, fh: true }, { s: 'GLD', l: 'SPDR Gold Trust', base: 480, fh: true }, { s: 'SLV', l: 'iShares Silver', base: 78, fh: true }, { s: 'TLT', l: 'iShares 20+ Yr Bond', base: 86, fh: true }, { s: 'EEM', l: 'iShares Emerging Mkts', base: 46, fh: true }, { s: 'ARKK', l: 'ARK Innovation', base: 65, fh: true }, { s: 'XLF', l: 'Financial Select', base: 50, fh: true }, { s: 'XLE', l: 'Energy Select', base: 102, fh: true }, { s: 'VGK', l: 'Vanguard FTSE Europe', base: 72, fh: true }, { s: 'IEMG', l: 'iShares Core EM', base: 58, fh: true }];
-const COMMODITY_SYMBOLS = [{ s: 'XAU', l: 'Or (Gold)', base: 5172, unit: '$/oz' }, { s: 'XAG', l: 'Argent (Silver)', base: 84.4, unit: '$/oz' }, { s: 'BRENT', l: 'Pétrole Brent', base: 109, unit: '$/bbl' }, { s: 'WTI', l: 'Pétrole WTI', base: 91, unit: '$/bbl' }, { s: 'NATGAS', l: 'Gaz Naturel', base: 4.1, unit: '$/MMBtu' }, { s: 'COPPER', l: 'Cuivre', base: 4.55, unit: '$/lb' }, { s: 'PLATINUM', l: 'Platine', base: 1020, unit: '$/oz' }, { s: 'PALLADIUM', l: 'Palladium', base: 980, unit: '$/oz' }, { s: 'WHEAT', l: 'Blé', base: 560, unit: '¢/bu' }, { s: 'CORN', l: 'Maïs', base: 450, unit: '¢/bu' }, { s: 'SOYBEAN', l: 'Soja', base: 1050, unit: '¢/bu' }, { s: 'COTTON', l: 'Coton', base: 70, unit: '¢/lb' }, { s: 'COFFEE', l: 'Café', base: 390, unit: '¢/lb' }, { s: 'SUGAR', l: 'Sucre', base: 19, unit: '¢/lb' }, { s: 'COCOA', l: 'Cacao', base: 8800, unit: '$/t' }];
-const BOND_SYMBOLS = [{ s: 'US10Y', l: 'US Treasury 10Y', base: 4.28, unit: '%' }, { s: 'US2Y', l: 'US Treasury 2Y', base: 4.02, unit: '%' }, { s: 'US30Y', l: 'US Treasury 30Y', base: 4.52, unit: '%' }, { s: 'US5Y', l: 'US Treasury 5Y', base: 4.12, unit: '%' }, { s: 'DE10Y', l: 'Bund Allemand 10Y', base: 2.78, unit: '%' }, { s: 'FR10Y', l: 'OAT France 10Y', base: 3.45, unit: '%' }, { s: 'UK10Y', l: 'Gilt UK 10Y', base: 4.60, unit: '%' }, { s: 'JP10Y', l: 'JGB Japon 10Y', base: 1.48, unit: '%' }, { s: 'IT10Y', l: 'BTP Italie 10Y', base: 3.85, unit: '%' }, { s: 'ES10Y', l: 'Bonos Espagne 10Y', base: 3.38, unit: '%' }];
+const STOCK_SYMBOLS = [{ s: 'AAPL', l: 'Apple', base: 230 }, { s: 'MSFT', l: 'Microsoft', base: 415 }, { s: 'GOOGL', l: 'Google', base: 175 }, { s: 'AMZN', l: 'Amazon', base: 205 }, { s: 'TSLA', l: 'Tesla', base: 280 }, { s: 'NVDA', l: 'NVIDIA', base: 880 }, { s: 'META', l: 'Meta', base: 585 }, { s: 'JPM', l: 'JP Morgan', base: 230 }, { s: 'V', l: 'Visa', base: 310 }, { s: 'MC.PA', l: 'LVMH', base: 870 }, { s: 'OR.PA', l: "L'Oréal", base: 380 }, { s: 'TTE.PA', l: 'TotalEnergies', base: 55 }, { s: 'NFLX', l: 'Netflix', base: 780 }, { s: 'DIS', l: 'Disney', base: 112 }, { s: 'PYPL', l: 'PayPal', base: 72 }, { s: 'AMD', l: 'AMD', base: 165 }, { s: 'INTC', l: 'Intel', base: 22 }, { s: 'CRM', l: 'Salesforce', base: 310 }, { s: 'BA', l: 'Boeing', base: 178 }, { s: 'KO', l: 'Coca-Cola', base: 62 }, { s: 'PEP', l: 'PepsiCo', base: 168 }, { s: 'BN.PA', l: 'Danone', base: 64 }, { s: 'AIR.PA', l: 'Airbus', base: 155 }, { s: 'SAP.DE', l: 'SAP', base: 220 }, { s: 'SAN.PA', l: 'Sanofi', base: 98 }];
+const INDEX_SYMBOLS = [{ s: '^GSPC', l: 'S&P 500', base: 5950 }, { s: '^DJI', l: 'Dow Jones', base: 42800 }, { s: '^IXIC', l: 'NASDAQ', base: 19200 }, { s: '^FCHI', l: 'CAC 40', base: 7800 }, { s: '^GDAXI', l: 'DAX 40', base: 19500 }, { s: '^FTSE', l: 'FTSE 100', base: 8400 }, { s: '^N225', l: 'Nikkei 225', base: 39200 }, { s: '^HSI', l: 'Hang Seng', base: 17800 }, { s: '^STOXX50E', l: 'Euro Stoxx 50', base: 4920 }, { s: '^RUT', l: 'Russell 2000', base: 2050 }, { s: '^IBEX', l: 'IBEX 35', base: 11400 }, { s: '^BVSP', l: 'Bovespa', base: 128000 }, { s: '^AXJO', l: 'ASX 200', base: 8100 }, { s: '^KS11', l: 'KOSPI', base: 2580 }];
+const ETF_SYMBOLS = [{ s: 'SPY', l: 'SPDR S&P 500', base: 590 }, { s: 'QQQ', l: 'Invesco NASDAQ', base: 500 }, { s: 'IWM', l: 'iShares Russell 2000', base: 210 }, { s: 'VTI', l: 'Vanguard Total Market', base: 275 }, { s: 'VOO', l: 'Vanguard S&P 500', base: 545 }, { s: 'GLD', l: 'SPDR Gold Trust', base: 240 }, { s: 'SLV', l: 'iShares Silver', base: 28 }, { s: 'TLT', l: 'iShares 20+ Yr Bond', base: 88 }, { s: 'EEM', l: 'iShares Emerging Mkts', base: 42 }, { s: 'ARKK', l: 'ARK Innovation', base: 52 }, { s: 'XLF', l: 'Financial Select', base: 44 }, { s: 'XLE', l: 'Energy Select', base: 86 }, { s: 'VGK', l: 'Vanguard FTSE Europe', base: 65 }, { s: 'IEMG', l: 'iShares Core EM', base: 52 }];
+const COMMODITY_SYMBOLS = [{ s: 'XAU', l: 'Or (Gold)', base: 2650, unit: '$/oz' }, { s: 'XAG', l: 'Argent (Silver)', base: 31.5, unit: '$/oz' }, { s: 'BRENT', l: 'Pétrole Brent', base: 78, unit: '$/bbl' }, { s: 'WTI', l: 'Pétrole WTI', base: 74, unit: '$/bbl' }, { s: 'NATGAS', l: 'Gaz Naturel', base: 2.8, unit: '$/MMBtu' }, { s: 'COPPER', l: 'Cuivre', base: 4.2, unit: '$/lb' }, { s: 'PLATINUM', l: 'Platine', base: 980, unit: '$/oz' }, { s: 'PALLADIUM', l: 'Palladium', base: 1020, unit: '$/oz' }, { s: 'WHEAT', l: 'Blé', base: 580, unit: '¢/bu' }, { s: 'CORN', l: 'Maïs', base: 460, unit: '¢/bu' }, { s: 'SOYBEAN', l: 'Soja', base: 1180, unit: '¢/bu' }, { s: 'COTTON', l: 'Coton', base: 82, unit: '¢/lb' }, { s: 'COFFEE', l: 'Café', base: 245, unit: '¢/lb' }, { s: 'SUGAR', l: 'Sucre', base: 22, unit: '¢/lb' }, { s: 'COCOA', l: 'Cacao', base: 8200, unit: '$/t' }];
+const BOND_SYMBOLS = [{ s: 'US10Y', l: 'US Treasury 10Y', base: 4.35, unit: '%' }, { s: 'US2Y', l: 'US Treasury 2Y', base: 4.15, unit: '%' }, { s: 'US30Y', l: 'US Treasury 30Y', base: 4.55, unit: '%' }, { s: 'US5Y', l: 'US Treasury 5Y', base: 4.22, unit: '%' }, { s: 'DE10Y', l: 'Bund Allemand 10Y', base: 2.45, unit: '%' }, { s: 'FR10Y', l: 'OAT France 10Y', base: 3.10, unit: '%' }, { s: 'UK10Y', l: 'Gilt UK 10Y', base: 4.20, unit: '%' }, { s: 'JP10Y', l: 'JGB Japon 10Y', base: 1.05, unit: '%' }, { s: 'IT10Y', l: 'BTP Italie 10Y', base: 3.65, unit: '%' }, { s: 'ES10Y', l: 'Bonos Espagne 10Y', base: 3.25, unit: '%' }];
 
-/* ═══ ALPHA VANTAGE — Prix réels actions, ETFs & matières premières ═══ */
+function genSimData(symbols, vol = 1.8) { const d = {}; symbols.forEach(sym => { const v = (Math.random() - .48) * vol; const dec = sym.base < 10 ? 3 : 2; d[sym.s] = { price: +(sym.base * (1 + v / 100)).toFixed(dec), move: +v.toFixed(2), name: sym.l, unit: sym.unit || '' } }); return d }
+function microTick(prev, vol = 0.4) { const u = {}; Object.entries(prev).forEach(([k, v]) => { const m = (Math.random() - 0.5) * vol; const dec = v.price < 10 ? 3 : 2; u[k] = { ...v, price: +(v.price * (1 + m / 100)).toFixed(dec), move: +(v.move + m * 0.08).toFixed(2) } }); return u }
+
+/* ═══════ ALPHA VANTAGE INTEGRATION ═══════ */
 const AV_ENABLED = ALPHA_VANTAGE_KEY && ALPHA_VANTAGE_KEY !== 'YOUR_AV_KEY_HERE';
 
-function initFromCache(symbols) {
+// Initialize data from cache first, then genSimData as fallback
+function initFromCache(symbols, cachePrefix) {
   const d = {};
   symbols.forEach(sym => {
     const cached = getCachedPrice(sym.s) || getCachedPrice(STOCK_AV_MAP[sym.s]);
     if (cached && cached.price) {
-      const pct = cached.changePct || (cached.change ? (cached.change / (cached.price - cached.change)) * 100 : 0);
-      d[sym.s] = { price: cached.price, move: pct, name: sym.l, unit: sym.unit || '', source: 'cache', lastUpdate: cached.cachedAt };
+      const changePct = cached.changePct || cached.change ? (cached.change / (cached.price - cached.change)) * 100 : 0;
+      d[sym.s] = { price: cached.price, move: changePct || 0, name: sym.l, unit: sym.unit || '', source: 'cache', lastUpdate: cached.cachedAt };
     } else {
       const v = (Math.random() - .48) * 1.8;
       const dec = sym.base < 10 ? 3 : 2;
@@ -40,42 +42,81 @@ function initFromCache(symbols) {
   return d;
 }
 
-async function fetchAVPrices(symbols, setter) {
+// Fetch real prices from Alpha Vantage for a list of symbols
+async function fetchRealPrices(symbols, setter, avMap = STOCK_AV_MAP) {
   if (!AV_ENABLED) return;
+  const rateInfo = getRateLimitInfo();
+  if (!rateInfo.canCall) return;
+  
   for (const sym of symbols) {
-    const avSym = STOCK_AV_MAP[sym.s] || sym.s;
-    if (!avSym || !getRateLimitInfo().canCall) break;
+    const avSym = avMap[sym.s] || sym.s;
+    if (!avSym) continue;
+    
     try {
       const quote = await fetchStockQuote(avSym);
       if (quote && quote.price) {
-        setter(prev => ({ ...prev, [sym.s]: { ...prev[sym.s], price: quote.price, move: quote.changePct || 0, high: quote.high, low: quote.low, volume: quote.volume, lastDay: quote.lastDay, source: quote.source === 'live' ? 'live' : 'cache', lastUpdate: Date.now() } }));
+        setter(prev => ({
+          ...prev,
+          [sym.s]: {
+            ...prev[sym.s],
+            price: quote.price,
+            move: quote.changePct || 0,
+            high: quote.high,
+            low: quote.low,
+            volume: quote.volume,
+            lastDay: quote.lastDay,
+            source: quote.source === 'live' ? 'live' : 'cache',
+            lastUpdate: Date.now()
+          }
+        }));
       }
-    } catch (e) { console.warn('[AV]', sym.s, e); }
+    } catch (e) { console.warn('[AV] Error fetching', sym.s, e); }
+    
+    if (!getRateLimitInfo().canCall) break;
   }
 }
 
-async function fetchAVCommodities(symbols, setter) {
+// Fetch commodity prices from Alpha Vantage
+async function fetchRealCommodities(symbols, setter) {
   if (!AV_ENABLED) return;
+  
   for (const sym of symbols) {
     const avInfo = COMMODITY_AV_MAP[sym.s];
-    if (!avInfo || !getRateLimitInfo().canCall) break;
+    if (!avInfo) continue;
+    
     try {
       const quote = await fetchCommodityPrice(avInfo.from, avInfo.to);
       if (quote && quote.price) {
-        setter(prev => ({ ...prev, [sym.s]: { ...prev[sym.s], price: quote.price, source: quote.source === 'live' ? 'live' : 'cache', lastUpdate: Date.now() } }));
+        setter(prev => ({
+          ...prev,
+          [sym.s]: {
+            ...prev[sym.s],
+            price: quote.price,
+            source: quote.source === 'live' ? 'live' : 'cache',
+            lastUpdate: Date.now()
+          }
+        }));
       }
-    } catch (e) { console.warn('[AV]', sym.s, e); }
+    } catch (e) { console.warn('[AV] Error fetching commodity', sym.s, e); }
+    
+    if (!getRateLimitInfo().canCall) break;
   }
 }
 
+// Market status indicator component
 function MarketStatusBar({ activeTab }) {
   const [info, setInfo] = useState({ used: 0, remaining: 25, total: 25 });
   const [time, setTime] = useState(new Date());
+  
   useEffect(() => {
-    const i = setInterval(() => { setTime(new Date()); if (AV_ENABLED) setInfo(getRateLimitInfo()); }, 5000);
+    const i = setInterval(() => {
+      setTime(new Date());
+      if (AV_ENABLED) setInfo(getRateLimitInfo());
+    }, 5000);
     if (AV_ENABLED) setInfo(getRateLimitInfo());
     return () => clearInterval(i);
   }, []);
+
   const getStatus = () => {
     if (activeTab === 'crypto') return { open: true, label: 'Crypto — 24/7', color: '#0ecb81' };
     const day = time.getUTCDay();
@@ -83,7 +124,8 @@ function MarketStatusBar({ activeTab }) {
     const utcH = time.getUTCHours() + time.getUTCMinutes() / 60;
     if (activeTab === 'forex') return { open: true, label: 'Forex — 24/5', color: '#0ecb81' };
     if (['stocks', 'etfs'].includes(activeTab)) {
-      const usOpen = utcH >= 14.5 && utcH < 21, euOpen = utcH >= 8 && utcH < 16.5;
+      const usOpen = utcH >= 14.5 && utcH < 21;
+      const euOpen = utcH >= 8 && utcH < 16.5;
       if (usOpen && euOpen) return { open: true, label: 'US + EU — Ouverts', color: '#0ecb81' };
       if (usOpen) return { open: true, label: 'NYSE/NASDAQ — Ouvert', color: '#0ecb81' };
       if (euOpen) return { open: true, label: 'Euronext — Ouvert', color: '#0ecb81' };
@@ -91,26 +133,41 @@ function MarketStatusBar({ activeTab }) {
     }
     return { open: true, label: '', color: '#888' };
   };
+
   const st = getStatus();
-  return (<div className="sa-market-status">
-    <div className="sa-market-status__left">{st.open ? <Wifi size={12} /> : <WifiOff size={12} />}<span className="sa-market-status__dot" style={{ background: st.color }} /><span>{st.label}</span></div>
-    <div className="sa-market-status__right">
-      {AV_ENABLED ? <span className="sa-market-status__api" title={`Alpha Vantage: ${info.used}/${info.total} appels`}><span className="sa-av-badge">AV</span> {info.remaining}/{info.total}</span>
-        : <span className="sa-market-status__api sa-market-status__api--sim" title="Configurer Alpha Vantage dans config.js"><span className="sa-av-badge sa-av-badge--sim">SIM</span> Prix simulés</span>}
-      <Clock size={11} style={{ opacity: 0.5 }} />
-      <span style={{ fontFamily: 'var(--zv-mono)', fontSize: '0.7rem', opacity: 0.6 }}>{time.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} UTC+{-time.getTimezoneOffset() / 60}</span>
+  
+  return (
+    <div className="sa-market-status">
+      <div className="sa-market-status__left">
+        {st.open ? <Wifi size={12} /> : <WifiOff size={12} />}
+        <span className="sa-market-status__dot" style={{ background: st.color }} />
+        <span>{st.label}</span>
+      </div>
+      <div className="sa-market-status__right">
+        {AV_ENABLED ? (
+          <span className="sa-market-status__api" title={`Alpha Vantage: ${info.used}/${info.total} appels utilisés aujourd'hui`}>
+            <span className="sa-av-badge">AV</span> {info.remaining}/{info.total}
+          </span>
+        ) : (
+          <span className="sa-market-status__api sa-market-status__api--sim" title="Configurer Alpha Vantage dans config.js pour les prix réels">
+            <span className="sa-av-badge sa-av-badge--sim">SIM</span> Prix simulés
+          </span>
+        )}
+        <Clock size={11} style={{ opacity: 0.5 }} />
+        <span style={{ fontFamily: 'var(--zv-mono)', fontSize: '0.7rem', opacity: 0.6 }}>
+          {time.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} UTC+{-time.getTimezoneOffset() / 60}
+        </span>
+      </div>
     </div>
-  </div>);
+  );
 }
 
+// Price source badge for the market grid
 function SourceBadge({ source }) {
   if (!source || source === 'simulated') return null;
   const cfg = source === 'live' ? { label: 'LIVE', bg: '#0ecb81' } : source === 'cache' ? { label: 'CACHED', bg: '#f59e0b' } : { label: 'STALE', bg: '#888' };
   return <span className="sa-source-badge" style={{ background: cfg.bg }}>{cfg.label}</span>;
 }
-
-function genSimData(symbols, vol = 1.8) { const d = {}; symbols.forEach(sym => { const v = (Math.random() - .48) * vol; const dec = sym.base < 10 ? 3 : 2; d[sym.s] = { price: +(sym.base * (1 + v / 100)).toFixed(dec), move: +v.toFixed(2), name: sym.l, unit: sym.unit || '' } }); return d }
-function microTick(prev, vol = 0.4) { const u = {}; Object.entries(prev).forEach(([k, v]) => { const m = (Math.random() - 0.5) * vol; const dec = v.price < 10 ? 3 : 2; u[k] = { ...v, price: +(v.price * (1 + m / 100)).toFixed(dec), move: +(v.move + m * 0.08).toFixed(2) } }); return u }
 function fmt(v, d) { if (v == null) return '—'; const dd = d !== undefined ? d : Math.abs(v) < .01 ? 6 : Math.abs(v) < 1 ? 4 : Math.abs(v) < 100 ? 3 : 2; return v.toLocaleString('fr-FR', { minimumFractionDigits: dd, maximumFractionDigits: dd }) }
 function fE(v) { return fmt(v, 2) + ' €' }
 function fS(v, s = '€') { return (v >= 0 ? '+' : '') + fmt(v, 2) + (s ? ' ' + s : '') }
@@ -137,9 +194,9 @@ function SimpleSimulator() {
 function AdvancedSimulator() {
   const [st, setSt] = useState(() => { try { const s = localStorage.getItem(STORE_ADV); if (s) return JSON.parse(s) } catch { } return { initCap: 10000, cash: 10000, trades: [], closedTrades: [], alerts: [], history: [], nextId: 1 } });
   const [mk, setMk] = useState({}); const [allPairs, setAllPairs] = useState({}); const [marketTab, setMarketTab] = useState('crypto');
-  const [forexData, setForexData] = useState({}); const [stockData, setStockData] = useState(() => AV_ENABLED ? initFromCache(STOCK_SYMBOLS) : genSimData(STOCK_SYMBOLS, 2.5));
-  const [indexData, setIndexData] = useState(() => genSimData(INDEX_SYMBOLS, 1.5)); const [etfData, setEtfData] = useState(() => AV_ENABLED ? initFromCache(ETF_SYMBOLS) : genSimData(ETF_SYMBOLS, 1.8));
-  const [commodityData, setCommodityData] = useState(() => AV_ENABLED ? initFromCache(COMMODITY_SYMBOLS) : genSimData(COMMODITY_SYMBOLS, 1.8)); const [bondData, setBondData] = useState(() => genSimData(BOND_SYMBOLS, 0.8));
+  const [forexData, setForexData] = useState({}); const [stockData, setStockData] = useState(() => AV_ENABLED ? initFromCache(STOCK_SYMBOLS, 'stock') : genSimData(STOCK_SYMBOLS, 2.5));
+  const [indexData, setIndexData] = useState(() => genSimData(INDEX_SYMBOLS, 1.5)); const [etfData, setEtfData] = useState(() => AV_ENABLED ? initFromCache(ETF_SYMBOLS, 'etf') : genSimData(ETF_SYMBOLS, 1.8));
+  const [commodityData, setCommodityData] = useState(() => AV_ENABLED ? initFromCache(COMMODITY_SYMBOLS, 'commodity') : genSimData(COMMODITY_SYMBOLS, 1.8)); const [bondData, setBondData] = useState(() => genSimData(BOND_SYMBOLS, 0.8));
   const [news, setNews] = useState([]); const [newsL, setNewsL] = useState(true); const [toast, setToast] = useState(''); const [tv, setTv] = useState(false);
   const [showHist, setShowHist] = useState(false); const [search, setSearch] = useState('');
   const [fAsset, setFA] = useState('BTC'); const [fType, setFT] = useState('long'); const [fEntry, setFE] = useState(''); const [fAmt, setFAm] = useState('');
@@ -152,22 +209,61 @@ function AdvancedSimulator() {
   const syncMk = useCallback(async () => { if (!Object.keys(allPairs).length) return; const need = new Set(TOP); st.trades.forEach(t => need.add(t.asset)); st.alerts.forEach(a => need.add(a.asset)); const kp = []; need.forEach(s => { if (allPairs[s]) kp.push(allPairs[s]) }); if (!kp.length) return; const batches = []; for (let i = 0; i < kp.length; i += 30)batches.push(kp.slice(i, i + 30)); const nm = { ...mkRef.current }; for (const b of batches) { try { const r = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${b.join(',')}`); const d = await r.json(); if (d.result) { Object.entries(d.result).forEach(([pair, info]) => { let sym = null; for (const [s, p] of Object.entries(allPairs)) { if (p === pair) { sym = s; break } } if (!sym && pair.includes('XBT')) sym = 'BTC'; if (sym) { const price = parseFloat(info.c[0]); const open = parseFloat(info.o); nm[sym] = { price, open, high: parseFloat(info.h[1]), low: parseFloat(info.l[1]), vol: parseFloat(info.v[1]), move: ((price - open) / open) * 100, pair } } }) } } catch (e) { } } setMk(nm) }, [allPairs, st.trades, st.alerts]);
   useEffect(() => { if (!Object.keys(allPairs).length) return; syncMk(); const i = setInterval(syncMk, 8000); return () => clearInterval(i) }, [allPairs, syncMk]);
   useEffect(() => { const fn = async () => { try { const r = await fetch('https://open.er-api.com/v6/latest/EUR'); const d = await r.json(); if (d.rates) { const R = d.rates; setForexData({ 'EUR/USD': { price: R.USD, move: (Math.random() - .48) * .6 }, 'GBP/USD': { price: R.USD / R.GBP, move: (Math.random() - .48) * .5 }, 'USD/JPY': { price: R.JPY / R.USD, move: (Math.random() - .48) * .7 }, 'USD/CHF': { price: R.CHF / R.USD, move: (Math.random() - .48) * .4 }, 'AUD/USD': { price: R.AUD ? R.USD / R.AUD : 0, move: (Math.random() - .48) * .6 }, 'USD/CAD': { price: R.CAD / R.USD, move: (Math.random() - .48) * .5 }, 'NZD/USD': { price: R.NZD ? R.USD / R.NZD : 0, move: (Math.random() - .48) * .6 }, 'EUR/GBP': { price: R.GBP, move: (Math.random() - .48) * .3 }, 'EUR/JPY': { price: R.JPY, move: (Math.random() - .48) * .6 }, 'EUR/CHF': { price: R.CHF, move: (Math.random() - .48) * .3 }, 'GBP/JPY': { price: R.JPY / R.GBP, move: (Math.random() - .48) * .8 }, 'EUR/CAD': { price: R.CAD, move: (Math.random() - .48) * .4 }, 'AUD/JPY': { price: R.AUD ? R.JPY / R.AUD : 0, move: (Math.random() - .48) * .7 }, 'EUR/AUD': { price: R.AUD || 0, move: (Math.random() - .48) * .5 } }) } } catch (e) { } }; fn(); const i = setInterval(fn, 30000); return () => clearInterval(i) }, []);
-  // ── Stocks: AV real prices or simulated ticks ──
-  useEffect(() => { if (AV_ENABLED) { fetchAVPrices(STOCK_SYMBOLS.slice(0, 8), setStockData); } }, []);// eslint-disable-line
-  useEffect(() => { if (AV_ENABLED) { const i = setInterval(() => { if (getRateLimitInfo().canCall) { const tradeAssets = st.trades.map(t => t.asset); const active = STOCK_SYMBOLS.filter(s => tradeAssets.includes(s.s) || s.s === fAsset); if (active.length > 0) fetchAVPrices(active, setStockData); } }, 300000); return () => clearInterval(i); } else { const i = setInterval(() => setStockData(p => microTick(p, 0.4)), 8000); return () => clearInterval(i); } }, [st.trades, fAsset]);// eslint-disable-line
-  // ── Indices: always simulated (no free API) ──
+  // ── Alpha Vantage: fetch real stock prices on mount + interval ──
+  const avFetchedRef = useRef(false);
+  useEffect(() => {
+    if (AV_ENABLED && !avFetchedRef.current) {
+      avFetchedRef.current = true;
+      // Priority: fetch active trade assets first
+      const tradeSymbols = st.trades.filter(t => ['stock', 'etf'].includes(t.cat)).map(t => t.asset);
+      const priorityStocks = STOCK_SYMBOLS.filter(s => tradeSymbols.includes(s.s)).concat(STOCK_SYMBOLS.filter(s => !tradeSymbols.includes(s.s)));
+      fetchRealPrices(priorityStocks.slice(0, 8), setStockData);
+    }
+  }, []);// eslint-disable-line
+  useEffect(() => {
+    if (AV_ENABLED) {
+      // Refresh real data every 5 minutes (conserving API calls)
+      const i = setInterval(() => {
+        const info = getRateLimitInfo();
+        if (info.canCall) {
+          // Smart refresh: only assets user cares about
+          const tradeAssets = st.trades.map(t => t.asset);
+          const activeStocks = STOCK_SYMBOLS.filter(s => tradeAssets.includes(s.s) || s.s === fAsset);
+          if (activeStocks.length > 0) fetchRealPrices(activeStocks, setStockData);
+          const activeEtfs = ETF_SYMBOLS.filter(s => tradeAssets.includes(s.s) || s.s === fAsset);
+          if (activeEtfs.length > 0) fetchRealPrices(activeEtfs, setEtfData);
+        }
+      }, 300000); // 5 min
+      return () => clearInterval(i);
+    } else {
+      // Fallback: simulated ticks when no AV key
+      const i = setInterval(() => setStockData(p => microTick(p, 0.4)), 8000);
+      return () => clearInterval(i);
+    }
+  }, [st.trades, fAsset]);// eslint-disable-line
+  // ETFs: real fetch on tab switch, simulated tick otherwise
+  useEffect(() => {
+    if (AV_ENABLED && marketTab === 'etfs' && getRateLimitInfo().canCall) {
+      fetchRealPrices(ETF_SYMBOLS.slice(0, 6), setEtfData);
+    }
+  }, [marketTab]);// eslint-disable-line
+  useEffect(() => { if (!AV_ENABLED) { const i = setInterval(() => setEtfData(p => microTick(p, 0.35)), 8500); return () => clearInterval(i) } }, []);
+  // Commodities: AV for gold/silver/platinum/palladium
+  useEffect(() => {
+    if (AV_ENABLED && getRateLimitInfo().canCall) {
+      fetchRealCommodities(COMMODITY_SYMBOLS, setCommodityData);
+    }
+  }, []);// eslint-disable-line
+  useEffect(() => {
+    if (AV_ENABLED && marketTab === 'commodities' && getRateLimitInfo().canCall) {
+      fetchRealCommodities(COMMODITY_SYMBOLS, setCommodityData);
+    }
+  }, [marketTab]);// eslint-disable-line
+  useEffect(() => { if (!AV_ENABLED) { const i = setInterval(() => setCommodityData(p => microTick(p, 0.5)), 9000); return () => clearInterval(i) } }, []);
+  // Indices: always simulated (AV free tier doesn't support index symbols like ^GSPC)
   useEffect(() => { const i = setInterval(() => setIndexData(p => microTick(p, 0.3)), 7000); return () => clearInterval(i) }, []);
-  // ── ETFs: AV real or simulated ──
-  useEffect(() => { if (AV_ENABLED && marketTab === 'etfs' && getRateLimitInfo().canCall) { fetchAVPrices(ETF_SYMBOLS.slice(0, 6), setEtfData); } }, [marketTab]);// eslint-disable-line
-  useEffect(() => { if (!AV_ENABLED) { const i = setInterval(() => setEtfData(p => microTick(p, 0.35)), 8500); return () => clearInterval(i); } }, []);
-  // ── Commodities: AV for gold/silver/platinum/palladium ──
-  useEffect(() => { if (AV_ENABLED && getRateLimitInfo().canCall) { fetchAVCommodities(COMMODITY_SYMBOLS, setCommodityData); } }, []);// eslint-disable-line
-  useEffect(() => { if (!AV_ENABLED) { const i = setInterval(() => setCommodityData(p => microTick(p, 0.5)), 9000); return () => clearInterval(i); } }, []);
-  // ── Bonds: always simulated ──
+  // Bonds: always simulated (no free API for bond yields)
   useEffect(() => { const i = setInterval(() => setBondData(p => microTick(p, 0.15)), 10000); return () => clearInterval(i) }, []);
-  // ── Fetch real prices on tab switch ──
-  useEffect(() => { if (AV_ENABLED && marketTab === 'stocks' && getRateLimitInfo().canCall) { fetchAVPrices(STOCK_SYMBOLS.slice(0, 6), setStockData); } }, [marketTab]);// eslint-disable-line
-  useEffect(() => { if (AV_ENABLED && marketTab === 'commodities' && getRateLimitInfo().canCall) { fetchAVCommodities(COMMODITY_SYMBOLS, setCommodityData); } }, [marketTab]);// eslint-disable-line
   const getPrice = useCallback((asset) => mk[asset]?.price || forexData[asset]?.price || stockData[asset]?.price || indexData[asset]?.price || etfData[asset]?.price || commodityData[asset]?.price || bondData[asset]?.price || 0, [mk, forexData, stockData, indexData, etfData, commodityData, bondData]);
   const getMove = (asset) => mk[asset]?.move || forexData[asset]?.move || stockData[asset]?.move || indexData[asset]?.move || etfData[asset]?.move || commodityData[asset]?.move || bondData[asset]?.move || 0;
   useEffect(() => { if (!st.trades.length) return; let ch = false; const rem = []; const nc = [...st.closedTrades]; let cd = 0; st.trades.forEach(trade => { const p = getPrice(trade.asset); if (!p) { rem.push(trade); return } let trig = null; if (trade.sl > 0) { if (trade.type === 'long' && p <= trade.sl) trig = 'SL'; if (trade.type === 'short' && p >= trade.sl) trig = 'SL' } if (trade.tp > 0) { if (trade.type === 'long' && p >= trade.tp) trig = 'TP'; if (trade.type === 'short' && p <= trade.tp) trig = 'TP' } if (trig) { const m = calc(trade, p); cd += m.val; nc.push({ ...trade, exitPrice: p, exitTime: Date.now(), pnl: m.net, pnlPct: m.pct, reason: trig }); ch = true; show(`${trig === 'SL' ? '🛑' : '🎯'} ${trig}: ${trade.asset} ${fS(m.net)}`) } else rem.push(trade) }); if (ch) setSt(prev => ({ ...prev, trades: rem, closedTrades: nc, cash: prev.cash + cd })) }, [mk, forexData, stockData, indexData, etfData, commodityData, bondData]);//eslint-disable-line
@@ -183,17 +279,23 @@ function AdvancedSimulator() {
   const assetList = useMemo(() => { let keys = []; switch (marketTab) { case 'crypto': keys = Object.keys(allPairs).sort((a, b) => { const ai = TOP.indexOf(a), bi = TOP.indexOf(b); if (ai !== -1 && bi !== -1) return ai - bi; if (ai !== -1) return -1; if (bi !== -1) return 1; return a.localeCompare(b) }); break; case 'forex': keys = Object.keys(forexData); break; case 'stocks': keys = STOCK_SYMBOLS.map(s => s.s); break; case 'indices': keys = INDEX_SYMBOLS.map(s => s.s); break; case 'etfs': keys = ETF_SYMBOLS.map(s => s.s); break; case 'commodities': keys = COMMODITY_SYMBOLS.map(s => s.s); break; case 'bonds': keys = BOND_SYMBOLS.map(s => s.s); break; default: keys = [] }if (!search) return keys; const s = search.toUpperCase(); return keys.filter(k => { const data = forexData[k] || stockData[k] || indexData[k] || etfData[k] || commodityData[k] || bondData[k]; const label = data?.name || k; return k.toUpperCase().includes(s) || label.toUpperCase().includes(s) }) }, [allPairs, search, forexData, stockData, indexData, etfData, commodityData, bondData, marketTab]);
 
   useEffect(() => { setSearch(''); switch (marketTab) { case 'crypto': setFA('BTC'); break; case 'forex': setFA('EUR/USD'); break; case 'stocks': setFA('AAPL'); break; case 'indices': setFA('^GSPC'); break; case 'etfs': setFA('SPY'); break; case 'commodities': setFA('XAU'); break; case 'bonds': setFA('US10Y'); break; default: break } }, [marketTab]);
+  // Fetch real prices when switching to stocks tab
+  useEffect(() => { if (AV_ENABLED && marketTab === 'stocks' && getRateLimitInfo().canCall) { fetchRealPrices(STOCK_SYMBOLS.slice(0, 6), setStockData); } }, [marketTab]);// eslint-disable-line
 
   const getAssetLabel = (a) => { if (marketTab === 'crypto') return a + '/EUR'; if (forexData[a]) return a; const d = stockData[a] || indexData[a] || etfData[a] || commodityData[a] || bondData[a]; return d ? `${d.name} (${a})` : a };
-  const getAssetPrice = (a) => { if (forexData[a]) return forexData[a].price.toFixed(4); const p = getPrice(a); if (!p) return ''; if (bondData[a]) return p.toFixed(2) + '%'; return fmt(p) + (a.includes('.PA') || a.includes('.DE') ? '€' : marketTab === 'crypto' ? '€' : '$') };
-  // Fetch real price when selecting an asset
+  // Fetch real price when user selects a specific asset to trade
   useEffect(() => {
     if (!AV_ENABLED || !fAsset || !getRateLimitInfo().canCall) return;
-    if (STOCK_AV_MAP[fAsset]) {
+    const avSym = STOCK_AV_MAP[fAsset];
+    if (avSym && (stockData[fAsset]?.source !== 'live' || etfData[fAsset]?.source !== 'live')) {
       const sym = STOCK_SYMBOLS.find(s => s.s === fAsset) || ETF_SYMBOLS.find(s => s.s === fAsset);
-      if (sym) { const setter = STOCK_SYMBOLS.find(s => s.s === fAsset) ? setStockData : setEtfData; fetchAVPrices([sym], setter); }
+      if (sym) {
+        const setter = STOCK_SYMBOLS.find(s => s.s === fAsset) ? setStockData : setEtfData;
+        fetchRealPrices([sym], setter);
+      }
     }
   }, [fAsset]);// eslint-disable-line
+  const getAssetPrice = (a) => { if (forexData[a]) return forexData[a].price.toFixed(4); const p = getPrice(a); if (!p) return ''; if (bondData[a]) return p.toFixed(2) + '%'; return fmt(p) + (a.includes('.PA') || a.includes('.DE') ? '€' : marketTab === 'crypto' ? '€' : '$') };
 
   const openTrade = () => { const amount = parseFloat(fAmt); if (!amount || amount <= 0) return show('❌ Montant invalide'); if (amount > st.cash) return show('❌ Cash insuffisant'); const eI = parseFloat(fEntry); const price = eI > 0 ? eI : getPrice(fAsset); if (!price) return show('⏳ Prix indisponible'); const sl = parseFloat(fSL) || 0; const tp = parseFloat(fTP) || 0; const cat = mk[fAsset] ? 'crypto' : forexData[fAsset] ? 'forex' : commodityData[fAsset] ? 'commodity' : bondData[fAsset] ? 'bond' : indexData[fAsset] ? 'index' : etfData[fAsset] ? 'etf' : 'stock'; setSt(prev => ({ ...prev, cash: prev.cash - amount, nextId: prev.nextId + 1, trades: [...prev.trades, { id: prev.nextId, asset: fAsset, cat, type: fType, entry: price, amount, sl, tp, time: Date.now() }] })); setFE(''); setFAm(''); setFSL(''); setFTP(''); show(`✅ ${fType.toUpperCase()} ${fAsset} @ ${fmt(price)}`) };
   const closeTrade = (id) => { const trade = st.trades.find(t => t.id === id); if (!trade) return; const p = getPrice(trade.asset) || trade.entry; const m = calc(trade, p); setSt(prev => ({ ...prev, cash: prev.cash + m.val, trades: prev.trades.filter(t => t.id !== id), closedTrades: [...prev.closedTrades, { ...trade, exitPrice: p, exitTime: Date.now(), pnl: m.net, pnlPct: m.pct, reason: 'manual' }] })); show(`💼 ${trade.asset} clôturé ${fS(m.net)}`) };
@@ -205,17 +307,16 @@ function AdvancedSimulator() {
   return (<div className="sim-adv">
     <TickerMarquee items={tickerItems} />
     <MarketStatusBar activeTab={marketTab} />
-    <div className="sa-portfolio"><div><div className="sa-portfolio__label">Portefeuille <span className={`sa-data-badge ${AV_ENABLED ? 'sa-data-badge--live' : 'sa-data-badge--sim'}`}>{AV_ENABLED ? '● ALPHA VANTAGE' : '◌ SIMULATION'}</span></div><div className="sa-portfolio__val">{fE(totalVal)}</div></div><div className="sa-portfolio__right"><div className={`sa-portfolio__pnl ${totalPnl >= 0 ? 'sa-portfolio__pnl--up' : 'sa-portfolio__pnl--dn'}`}>{fS(totalPnl)} ({fS(totalPnlPct, '%')})</div><div className="sa-portfolio__meta">Capital: {fE(st.initCap)} · Cash: {fE(st.cash)}</div></div></div>
-    <div className="sa-mob-nav"><button className={`sa-mob-nav__btn ${mobileSection === 'trade' ? 'sa-mob-nav__btn--act' : ''}`} onClick={() => setMobileSection('trade')}><Terminal size={16} /> Trade</button><button className={`sa-mob-nav__btn ${mobileSection === 'markets' ? 'sa-mob-nav__btn--act' : ''}`} onClick={() => setMobileSection('markets')}><BarChart3 size={16} /> Marchés</button><button className={`sa-mob-nav__btn ${mobileSection === 'portfolio' ? 'sa-mob-nav__btn--act' : ''}`} onClick={() => setMobileSection('portfolio')}><PieChart size={16} /> Portfolio</button><button className={`sa-mob-nav__btn ${mobileSection === 'agenda' ? 'sa-mob-nav__btn--act' : ''}`} onClick={() => setMobileSection('agenda')}><Calendar size={16} /> Agenda</button><button className={`sa-mob-nav__btn ${mobileSection === 'news' ? 'sa-mob-nav__btn--act' : ''}`} onClick={() => setMobileSection('news')}><Globe size={16} /> News</button></div>
+    <div className="sa-portfolio"><div><div className="sa-portfolio__label">Portefeuille</div><div className="sa-portfolio__val">{fE(totalVal)}</div></div><div className="sa-portfolio__right"><div className={`sa-portfolio__pnl ${totalPnl >= 0 ? 'sa-portfolio__pnl--up' : 'sa-portfolio__pnl--dn'}`}>{fS(totalPnl)} ({fS(totalPnlPct, '%')})</div><div className="sa-portfolio__meta">Capital: {fE(st.initCap)} · Cash: {fE(st.cash)}</div></div></div>
+    <div className="sa-mob-nav"><button className={`sa-mob-nav__btn ${mobileSection === 'trade' ? 'sa-mob-nav__btn--act' : ''}`} onClick={() => setMobileSection('trade')}><Terminal size={16} /> Trade</button><button className={`sa-mob-nav__btn ${mobileSection === 'markets' ? 'sa-mob-nav__btn--act' : ''}`} onClick={() => setMobileSection('markets')}><BarChart3 size={16} /> Marchés</button><button className={`sa-mob-nav__btn ${mobileSection === 'portfolio' ? 'sa-mob-nav__btn--act' : ''}`} onClick={() => setMobileSection('portfolio')}><PieChart size={16} /> Portfolio</button><button className={`sa-mob-nav__btn ${mobileSection === 'news' ? 'sa-mob-nav__btn--act' : ''}`} onClick={() => setMobileSection('news')}><Globe size={16} /> News</button></div>
     <div className="sa-layout"><div className="sa-main-col">
       <div className={`sa-card sa-section-markets ${mobileSection !== 'markets' ? 'sa-mob-hidden' : ''}`}><div className="sa-card__t sa-card__t--tabs"><span className="sa-card__t-label">Marchés</span><div className="sa-mkt-tabs">{TABS.map(tab => <button key={tab.id} className={`sa-mkt-tab ${marketTab === tab.id ? 'sa-mkt-tab--act' : ''}`} onClick={() => setMarketTab(tab.id)}><tab.Icon size={13} /> {tab.label}</button>)}</div></div>{renderMarketGrid()}</div>
       <div className={`sa-grid2 sa-section-portfolio ${mobileSection !== 'portfolio' ? 'sa-mob-hidden' : ''}`}><div className="sa-card"><div className="sa-card__t">Allocation <span style={{ fontSize: '0.7rem', color: 'var(--zv-text-muted)', fontWeight: 'normal' }}>{st.trades.length} pos.</span></div>{trC.map(({ trade, m }) => { const pct = (m.val / (totalVal || 1)) * 100; const up = m.pct >= 0; return (<div key={trade.id} className="ss-alloc"><div className="ss-alloc__top"><div><strong>{trade.asset}</strong><span className={`sa-badge sa-badge--${trade.type}`}>{trade.type.toUpperCase()}</span><span className="ss-alloc__val">{fE(m.val)} <small>({pct.toFixed(1)}%)</small></span></div><span style={{ color: up ? 'var(--zv-green)' : 'var(--zv-danger)', fontWeight: 700, fontFamily: 'var(--zv-mono)' }}>{fS(m.pct, '%')}</span></div><div className="ss-bar"><div className="ss-bar__fill" style={{ width: `${Math.max(pct, .5)}%` }} /></div></div>) })}<div className="ss-alloc"><div className="ss-alloc__top"><span style={{ color: 'var(--zv-text-muted)', fontSize: '.8rem' }}>CASH</span><span style={{ fontWeight: 700, fontFamily: 'var(--zv-mono)' }}>{fE(st.cash)}</span></div><div className="ss-bar"><div className="ss-bar__fill ss-bar__fill--cash" style={{ width: `${(st.cash / (totalVal || 1)) * 100}%` }} /></div></div>{st.trades.length === 0 && <div className="ss-empty">📊 Ouvrez un trade</div>}</div><div className="sa-card"><div className="sa-card__t">Performance</div><div style={{ height: 200 }}><canvas ref={chartRef} />{st.history.length < 2 && <div className="ss-empty">📈 En attente</div>}</div></div></div>
       <div className={`sa-card sa-section-portfolio ${mobileSection !== 'portfolio' ? 'sa-mob-hidden' : ''}`}><div className="sa-card__t">Positions <button className="sa-btn-hist" onClick={() => setShowHist(!showHist)}>{showHist ? 'Actives' : 'Historique'} ({st.closedTrades.length})</button></div>{!showHist ? (st.trades.length === 0 ? <div className="ss-empty">💼 Aucune position ouverte</div> : <div className="sa-table-scroll"><table className="ss-table"><thead><tr><th>Actif</th><th>Type</th><th>Qté</th><th>Entrée</th><th>Actuel</th><th>SL</th><th>TP</th><th>Frais</th><th>P&L</th><th>%</th><th></th></tr></thead><tbody>{trC.map(({ trade, price, m }) => { const up = m.pct >= 0; return (<tr key={trade.id}><td><strong>{trade.asset}</strong></td><td><span className={`sa-badge sa-badge--${trade.type}`}>{trade.type.toUpperCase()}</span></td><td style={{ fontSize: '.75rem' }}>{m.qty.toFixed(4)}</td><td>{fmt(trade.entry)}</td><td><strong>{fmt(price)}</strong></td><td style={{ color: 'var(--zv-text-muted)', fontSize: '.7rem' }}>{trade.sl ? fmt(trade.sl) : '—'}</td><td style={{ color: 'var(--zv-text-muted)', fontSize: '.7rem' }}>{trade.tp ? fmt(trade.tp) : '—'}</td><td style={{ color: 'var(--zv-text-muted)', fontSize: '.7rem' }}>{fmt(m.fees)}</td><td style={{ color: up ? 'var(--zv-green)' : 'var(--zv-danger)', fontWeight: 700 }}>{fS(m.net)}</td><td style={{ color: up ? 'var(--zv-green)' : 'var(--zv-danger)', fontWeight: 700 }}>{fS(m.pct, '%')}</td><td><button className="ss-btn-close" onClick={() => closeTrade(trade.id)}>✕</button></td></tr>) })}</tbody></table></div>) : (st.closedTrades.length === 0 ? <div className="ss-empty">Aucun historique</div> : <div className="sa-table-scroll"><table className="ss-table"><thead><tr><th>Actif</th><th>Type</th><th>Entrée</th><th>Sortie</th><th>P&L</th><th>%</th><th>Raison</th></tr></thead><tbody>{[...st.closedTrades].reverse().slice(0, 30).map((t, i) => { const up = t.pnl >= 0; return (<tr key={i}><td><strong>{t.asset}</strong></td><td><span className={`sa-badge sa-badge--${t.type}`}>{t.type.toUpperCase()}</span></td><td>{fmt(t.entry)}</td><td>{fmt(t.exitPrice)}</td><td style={{ color: up ? 'var(--zv-green)' : 'var(--zv-danger)', fontWeight: 700 }}>{fS(t.pnl)}</td><td style={{ color: up ? 'var(--zv-green)' : 'var(--zv-danger)', fontWeight: 700 }}>{fS(t.pnlPct, '%')}</td><td><span className={`sa-reason sa-reason--${t.reason}`}>{t.reason?.toUpperCase()}</span></td></tr>) })}</tbody></table></div>)}</div>
       <div className={`sa-card sa-section-news ${mobileSection !== 'news' ? 'sa-mob-hidden' : ''}`}><div className="sa-card__t">News 🌍 <span style={{ fontSize: '0.7rem', color: 'var(--zv-text-muted)', fontWeight: 'normal' }}>Live Feed</span></div><div className="sa-news">{newsL ? <div className="ss-empty">Chargement...</div> : news.map((item, i) => { const b = badge(item.title); const time = new Date(item.pubDate).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); return (<div key={i} className="sa-news-item"><div className="sa-news-meta"><span className="sa-news-badge" style={{ background: b.bg }}>{b.c}</span><span className="sa-news-time">🕒 {time} · {item.author || 'Global'}</span></div><a href={item.link} target="_blank" rel="noopener noreferrer" className="sa-news-title">{item.title}</a></div>) })}</div></div>
-      <div className={`sa-section-agenda ${mobileSection !== 'agenda' && mobileSection !== 'markets' ? 'sa-mob-hidden' : ''}`}><MarketSessions /><MarketCalendar /></div>
     </div>
       <aside className={`sa-sidebar ${mobileSection !== 'trade' ? 'sa-mob-hidden' : ''}`}>
-        <div className="sa-card"><div className="sa-card__t">Nouveau Trade</div><div className="ss-form"><label>Actif — {TABS.find(t => t.id === marketTab)?.label} ({assetList.length})</label><div className="sa-search-wrap"><Search size={14} className="sa-search-icon" /><input type="text" placeholder="Rechercher un actif..." value={search} onChange={e => setSearch(e.target.value)} className="sa-search-input" />{search && <button className="sa-search-clear" onClick={() => setSearch('')}>✕</button>}</div>{search && assetList.length > 0 && <div className="sa-search-dropdown">{assetList.slice(0, 8).map(a => <div key={a} className={`sa-search-item ${fAsset === a ? 'sa-search-item--sel' : ''}`} onClick={() => { setFA(a); setSearch(''); const p = getPrice(a); if (p > 0) setFE(p.toString()); }}><span className="sa-search-item__name">{getAssetLabel(a)}</span><span className="sa-search-item__price">{getAssetPrice(a)}</span></div>)}</div>}{!search && <select value={fAsset} onChange={e => { setFA(e.target.value); const p = getPrice(e.target.value); if (p > 0) setFE(p.toString()); }}>{assetList.slice(0, 200).map(a => <option key={a} value={a}>{getAssetLabel(a)} {getAssetPrice(a) ? `— ${getAssetPrice(a)}` : ''}</option>)}</select>}</div><div className="ss-form"><label>Direction</label><div className="sa-dir"><button className={`sa-dir__btn sa-dir__btn--long ${fType === 'long' ? 'sa-dir__btn--act' : ''}`} onClick={() => setFT('long')}>▲ LONG</button><button className={`sa-dir__btn sa-dir__btn--short ${fType === 'short' ? 'sa-dir__btn--act' : ''}`} onClick={() => setFT('short')}>▼ SHORT</button></div></div>{getPrice(fAsset) > 0 && <div className="sa-mkinfo"><span>Prix: <strong>{forexData[fAsset] ? forexData[fAsset].price.toFixed(4) : bondData[fAsset] ? bondData[fAsset].price.toFixed(2) + '%' : fmt(getPrice(fAsset))}</strong></span><span>Var: <strong style={{ color: getMove(fAsset) >= 0 ? 'var(--zv-green)' : 'var(--zv-danger)' }}>{getMove(fAsset) >= 0 ? '+' : ''}{getMove(fAsset).toFixed(2)}%</strong></span></div>}<div className="sa-row"><div className="ss-form" style={{ flex: 1 }}><label>Prix entrée</label><input type="number" value={fEntry} onChange={e => setFE(e.target.value)} placeholder="Auto" step="any" /></div><div className="ss-form" style={{ flex: 1 }}><label>Montant (€)</label><input type="number" value={fAmt} onChange={e => setFAm(e.target.value)} placeholder="500" /></div></div><div className="sa-row"><div className="ss-form" style={{ flex: 1 }}><label>Stop Loss</label><input type="number" value={fSL} onChange={e => setFSL(e.target.value)} placeholder="Optionnel" step="any" /></div><div className="ss-form" style={{ flex: 1 }}><label>Take Profit</label><input type="number" value={fTP} onChange={e => setFTP(e.target.value)} placeholder="Optionnel" step="any" /></div></div><button className="ss-btn-exec" onClick={openTrade}>⚡ Exécuter</button><div className="ss-cash">Cash: <strong style={{ color: '#fff' }}>{fE(st.cash)}</strong></div></div>
+        <div className="sa-card"><div className="sa-card__t">Nouveau Trade</div><div className="ss-form"><label>Actif — {TABS.find(t => t.id === marketTab)?.label} ({assetList.length})</label><input type="text" placeholder="Rechercher..." value={search} onChange={e => setSearch(e.target.value)} style={{ marginBottom: 6 }} /><select value={fAsset} onChange={e => setFA(e.target.value)}>{assetList.slice(0, 200).map(a => <option key={a} value={a}>{getAssetLabel(a)} {getAssetPrice(a) ? `— ${getAssetPrice(a)}` : ''}</option>)}</select></div><div className="ss-form"><label>Direction</label><div className="sa-dir"><button className={`sa-dir__btn sa-dir__btn--long ${fType === 'long' ? 'sa-dir__btn--act' : ''}`} onClick={() => setFT('long')}>▲ LONG</button><button className={`sa-dir__btn sa-dir__btn--short ${fType === 'short' ? 'sa-dir__btn--act' : ''}`} onClick={() => setFT('short')}>▼ SHORT</button></div></div>{getPrice(fAsset) > 0 && <div className="sa-mkinfo"><span>Prix: <strong>{forexData[fAsset] ? forexData[fAsset].price.toFixed(4) : bondData[fAsset] ? bondData[fAsset].price.toFixed(2) + '%' : fmt(getPrice(fAsset))}</strong></span><span>Var: <strong style={{ color: getMove(fAsset) >= 0 ? 'var(--zv-green)' : 'var(--zv-danger)' }}>{getMove(fAsset) >= 0 ? '+' : ''}{getMove(fAsset).toFixed(2)}%</strong></span></div>}<div className="sa-row"><div className="ss-form" style={{ flex: 1 }}><label>Prix entrée</label><input type="number" value={fEntry} onChange={e => setFE(e.target.value)} placeholder="Auto" step="any" /></div><div className="ss-form" style={{ flex: 1 }}><label>Montant (€)</label><input type="number" value={fAmt} onChange={e => setFAm(e.target.value)} placeholder="500" /></div></div><div className="sa-row"><div className="ss-form" style={{ flex: 1 }}><label>Stop Loss</label><input type="number" value={fSL} onChange={e => setFSL(e.target.value)} placeholder="Optionnel" step="any" /></div><div className="ss-form" style={{ flex: 1 }}><label>Take Profit</label><input type="number" value={fTP} onChange={e => setFTP(e.target.value)} placeholder="Optionnel" step="any" /></div></div><button className="ss-btn-exec" onClick={openTrade}>⚡ Exécuter</button><div className="ss-cash">Cash: <strong style={{ color: '#fff' }}>{fE(st.cash)}</strong></div></div>
         <div className="sa-card"><div className="sa-card__t">Alertes 🔔</div><div style={{ display: 'flex', gap: 8, marginBottom: 8 }}><select value={aAsset} onChange={e => setAA(e.target.value)} className="ss-form" style={{ flex: '0 0 90px', padding: '8px' }}>{TOP.slice(0, 20).map(a => allPairs[a] ? <option key={a} value={a}>{a}</option> : null)}</select><input type="number" className="ss-form" value={aPrice} onChange={e => setAP(e.target.value)} placeholder="Prix cible" step="any" style={{ flex: 1, padding: '8px' }} /></div><button className="ss-btn-alert" onClick={() => { const target = parseFloat(aPrice); if (target > 0) { const dir = target >= (mk[aAsset]?.price || 0) ? 'above' : 'below'; setSt(prev => ({ ...prev, alerts: [...prev.alerts, { asset: aAsset, target, direction: dir, id: Date.now() }] })); setAP(''); show(`🔔 Alerte ${aAsset}`) } }}>Créer alerte</button>{st.alerts.map(a => <div key={a.id} className="ss-alert-item"><span><strong>{a.asset}</strong> {a.direction === 'above' ? '≥' : '≤'} {fmt(a.target)}</span><button onClick={() => setSt(prev => ({ ...prev, alerts: prev.alerts.filter(x => x.id !== a.id) }))}>✕</button></div>)}</div>
         <div className="sa-card" style={{ borderTop: '3px solid var(--zv-danger)' }}><div className="sa-card__t">Compte</div><div className="ss-form"><label>Capital (€)</label><input type="number" value={capIn} onChange={e => setCI(e.target.value)} placeholder={st.initCap.toString()} /></div><button className="ss-btn-update" onClick={() => { const v = parseFloat(capIn); if (v > 0) { setSt(prev => ({ ...prev, cash: prev.cash + (v - prev.initCap), initCap: v })); setCI(''); show('💰 OK') } }}>Mettre à jour</button><button className="ss-btn-reset" onClick={() => { if (window.confirm('Effacer toutes les données ?')) { localStorage.removeItem(STORE_ADV); setSt({ initCap: 10000, cash: 10000, trades: [], closedTrades: [], alerts: [], history: [], nextId: 1 }); if (chartInst.current) { chartInst.current.destroy(); chartInst.current = null } show('🗑️ Reset effectué') } }}>🗑️ Reset Data</button></div>
       </aside></div>
@@ -225,56 +326,9 @@ function AdvancedSimulator() {
 
 const FLOATING_ICONS = [LineChart, CandlestickChart, Activity, PieChart, Wallet, Globe, Shield, BarChart2, Terminal];
 export default function SimulatorPage() {
-  const { t, lang } = useLanguage(); const { isUnlocked, unlock } = useProgress(); const navigate = useNavigate();
-  const [codeBasic, setCodeBasic] = useState(''); const [codeAdv, setCodeAdv] = useState('');
-  const [errBasic, setErrBasic] = useState(false); const [errAdv, setErrAdv] = useState(false);
-  const [activeTab, setActiveTab] = useState(null);
-  const [billingCycle, setBillingCycle] = useState('monthly');
+  const { t, lang } = useLanguage(); const { isUnlocked, unlock } = useProgress(); const navigate = useNavigate(); const [codeBasic, setCodeBasic] = useState(''); const [codeAdv, setCodeAdv] = useState(''); const [errBasic, setErrBasic] = useState(false); const [errAdv, setErrAdv] = useState(false); const [activeTab, setActiveTab] = useState(null);
   const tryUnlock = (type, code) => { const ok = unlock(type, code); if (!ok) { if (type === 'simBasic') setErrBasic(true); else setErrAdv(true); setTimeout(() => { setErrBasic(false); setErrAdv(false) }, 2000) } else { setActiveTab(type === 'simBasic' ? 'basic' : 'advanced') } };
   if (activeTab === 'basic' && isUnlocked('simBasic')) return (<div className="sim-container"><div className="sim-back-bar"><div className="container"><button className="sim-back-btn" onClick={() => setActiveTab(null)}><ArrowLeft size={16} /> Retour</button></div></div><SimpleSimulator /><Footer /></div>);
   if (activeTab === 'advanced' && isUnlocked('simAdvanced')) return (<div className="sim-container"><div className="sim-back-bar"><div className="container"><button className="sim-back-btn" onClick={() => setActiveTab(null)}><ArrowLeft size={16} /> Retour</button></div></div><AdvancedSimulator /><Footer /></div>);
-
-  const basicPrice = billingCycle === 'monthly' ? t('sim.basic.priceMonthly') : t('sim.basic.priceAnnual');
-  const basicLabel = billingCycle === 'monthly' ? t('sim.basic.priceMonthlyLabel') : t('sim.basic.priceAnnualLabel');
-  const advPrice = billingCycle === 'monthly' ? t('sim.advanced.priceMonthly') : t('sim.advanced.priceAnnual');
-  const advLabel = billingCycle === 'monthly' ? t('sim.advanced.priceMonthlyLabel') : t('sim.advanced.priceAnnualLabel');
-
-  return (<div className="sim-container">
-    <div className="sim-hero"><div className="sim-hero__bg" /><div className="sim-hero__icons">{FLOATING_ICONS.map((Icon, i) => <Icon key={i} className="hero__icon-svg" size={32 + (i % 3) * 16} strokeWidth={1} style={{ left: `${5 + (i * 12) % 85}%`, top: `${10 + (i * 15) % 70}%`, animationDelay: `${i * 0.6}s` }} />)}</div>
-      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        <button className="sim-back-btn" onClick={() => navigate('/')}><ArrowLeft size={16} /> {t('nav.home')}</button>
-        <h1 className="sim-hero__title">{t('sim.title')}</h1>
-        <p className="sim-hero__sub">{t('sim.subtitle')}</p>
-        <div className="sim-billing-toggle">
-          <button className={`sim-billing-btn ${billingCycle === 'monthly' ? 'sim-billing-btn--act' : ''}`} onClick={() => setBillingCycle('monthly')}>Mensuel</button>
-          <button className={`sim-billing-btn ${billingCycle === 'annual' ? 'sim-billing-btn--act' : ''}`} onClick={() => setBillingCycle('annual')}>Annuel <span className="sim-billing-save">-17%</span></button>
-        </div>
-      </div>
-    </div>
-    <div className="container"><div className="sim-packs">
-      <div className="sim-pack sim-pack--basic">
-        <div className="sim-pack__img"><img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=600&h=300&fit=crop&q=80" alt="Basic" /></div>
-        <div className="sim-pack__head"><span className="sim-pack__badge"><Zap size={14} /> {t('sim.basic.badge')}</span>
-          <div className="sim-pack__pricing"><span className="sim-pack__price-val">{basicPrice}</span><span className="sim-pack__price-label">{basicLabel}</span></div>
-          {billingCycle === 'annual' && <span className="sim-pack__save">{t('sim.basic.priceAnnualSave')}</span>}
-        </div>
-        <h3>{t('sim.basic.title')}</h3><p>{t('sim.basic.desc')}</p>
-        <div className="sim-pack__features"><span className="sim-pack__feat">✓ 5 cryptos majeures</span><span className="sim-pack__feat">✓ Prix live Kraken</span><span className="sim-pack__feat">✓ Graphique performance</span></div>
-        {isUnlocked('simBasic') ? <button className="sim-pack__btn" onClick={() => setActiveTab('basic')}>Ouvrir →</button> : (<div className="sim-pack__unlock"><input type="text" value={codeBasic} onChange={e => setCodeBasic(e.target.value)} placeholder={t('sim.accessCode')} className={errBasic ? 'sim-pack__input--err' : ''} onKeyDown={e => e.key === 'Enter' && tryUnlock('simBasic', codeBasic)} /><button className="sim-pack__btn-unlock" onClick={() => tryUnlock('simBasic', codeBasic)}><Lock size={16} /> {t('sim.unlock')}</button></div>)}
-        {errBasic && <span className="sim-pack__err">{t('sim.wrongCode')}</span>}
-      </div>
-      <div className="sim-pack sim-pack--adv">
-        <div className="sim-pack__img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=300&fit=crop&q=80" alt="Advanced" /></div>
-        <div className="sim-pack__head"><span className="sim-pack__badge sim-pack__badge--pro"><Crown size={14} /> {t('sim.advanced.badge')}</span>
-          <div className="sim-pack__pricing"><span className="sim-pack__price-val">{advPrice}</span><span className="sim-pack__price-label">{advLabel}</span></div>
-          {billingCycle === 'annual' && <span className="sim-pack__save">{t('sim.advanced.priceAnnualSave')}</span>}
-        </div>
-        <h3>{t('sim.advanced.title')}</h3><p>{t('sim.advanced.desc')}</p>
-        <div className="sim-pack__features"><span className="sim-pack__feat"><TrendingUp size={13}/> Crypto</span><span className="sim-pack__feat"><BarChart3 size={13}/> Actions</span><span className="sim-pack__feat"><Globe size={13}/> Indices</span><span className="sim-pack__feat"><Layers size={13}/> ETFs</span><span className="sim-pack__feat"><Gem size={13}/> Matières</span><span className="sim-pack__feat"><Landmark size={13}/> Obligations</span><span className="sim-pack__feat"><Calendar size={13}/> Agenda marchés</span><span className="sim-pack__feat"><Clock size={13}/> Sessions live</span></div>
-        {isUnlocked('simAdvanced') ? <button className="sim-pack__btn sim-pack__btn--pro" onClick={() => setActiveTab('advanced')}>Ouvrir →</button> : (<div className="sim-pack__unlock"><input type="text" value={codeAdv} onChange={e => setCodeAdv(e.target.value)} placeholder={t('sim.accessCode')} className={errAdv ? 'sim-pack__input--err' : ''} onKeyDown={e => e.key === 'Enter' && tryUnlock('simAdvanced', codeAdv)} /><button className="sim-pack__btn-unlock" onClick={() => tryUnlock('simAdvanced', codeAdv)}><Lock size={16} /> {t('sim.unlock')}</button></div>)}
-        {errAdv && <span className="sim-pack__err">{t('sim.wrongCode')}</span>}
-      </div>
-    </div></div>
-    <Footer />
-  </div>)
+  return (<div className="sim-container"><div className="sim-hero"><div className="sim-hero__bg" /><div className="sim-hero__icons">{FLOATING_ICONS.map((Icon, i) => <Icon key={i} className="hero__icon-svg" size={32 + (i % 3) * 16} strokeWidth={1} style={{ left: `${5 + (i * 12) % 85}%`, top: `${10 + (i * 15) % 70}%`, animationDelay: `${i * 0.6}s` }} />)}</div><div className="container" style={{ position: 'relative', zIndex: 2 }}><button className="sim-back-btn" onClick={() => navigate('/')}><ArrowLeft size={16} /> {t('nav.home')}</button><h1 className="sim-hero__title">{t('sim.title')}</h1><p className="sim-hero__sub">{t('sim.subtitle')}</p></div></div><div className="container"><div className="sim-packs"><div className="sim-pack sim-pack--basic"><div className="sim-pack__img"><img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=600&h=300&fit=crop&q=80" alt="Basic" /></div><div className="sim-pack__head"><span className="sim-pack__badge"><Zap size={14} /> {t('sim.basic.badge')}</span><div className="sim-pack__price">{t('sim.basic.price')}</div></div><h3>{t('sim.basic.title')}</h3><p>{t('sim.basic.desc')}</p><div className="sim-pack__features"><span className="sim-pack__feat">✓ 5 cryptos majeures</span><span className="sim-pack__feat">✓ Prix live Kraken</span><span className="sim-pack__feat">✓ Graphique performance</span></div>{isUnlocked('simBasic') ? <button className="sim-pack__btn" onClick={() => setActiveTab('basic')}>Ouvrir →</button> : (<div className="sim-pack__unlock"><input type="text" value={codeBasic} onChange={e => setCodeBasic(e.target.value)} placeholder={t('sim.accessCode')} className={errBasic ? 'sim-pack__input--err' : ''} onKeyDown={e => e.key === 'Enter' && tryUnlock('simBasic', codeBasic)} /><button className="sim-pack__btn-unlock" onClick={() => tryUnlock('simBasic', codeBasic)}><Lock size={16} /> {t('sim.unlock')}</button></div>)}{errBasic && <span className="sim-pack__err">{t('sim.wrongCode')}</span>}</div><div className="sim-pack sim-pack--adv"><div className="sim-pack__img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=300&fit=crop&q=80" alt="Advanced" /></div><div className="sim-pack__head"><span className="sim-pack__badge sim-pack__badge--pro"><Crown size={14} /> {t('sim.advanced.badge')}</span><div className="sim-pack__price">{t('sim.advanced.price')}</div></div><h3>{t('sim.advanced.title')}</h3><p>{t('sim.advanced.desc')}</p><div className="sim-pack__features"><span className="sim-pack__feat"><TrendingUp size={13}/> Crypto</span><span className="sim-pack__feat"><BarChart3 size={13}/> Actions</span><span className="sim-pack__feat"><Globe size={13}/> Indices</span><span className="sim-pack__feat"><Layers size={13}/> ETFs</span><span className="sim-pack__feat"><Gem size={13}/> Matières</span><span className="sim-pack__feat"><Landmark size={13}/> Obligations</span></div>{isUnlocked('simAdvanced') ? <button className="sim-pack__btn sim-pack__btn--pro" onClick={() => setActiveTab('advanced')}>Ouvrir →</button> : (<div className="sim-pack__unlock"><input type="text" value={codeAdv} onChange={e => setCodeAdv(e.target.value)} placeholder={t('sim.accessCode')} className={errAdv ? 'sim-pack__input--err' : ''} onKeyDown={e => e.key === 'Enter' && tryUnlock('simAdvanced', codeAdv)} /><button className="sim-pack__btn-unlock" onClick={() => tryUnlock('simAdvanced', codeAdv)}><Lock size={16} /> {t('sim.unlock')}</button></div>)}{errAdv && <span className="sim-pack__err">{t('sim.wrongCode')}</span>}</div></div></div><Footer /></div>)
 }
