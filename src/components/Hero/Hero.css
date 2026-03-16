@@ -41,15 +41,15 @@
 
 .hero__icon-svg {
   position: absolute;
-  color: rgba(255, 255, 255, .18);
+  color: rgba(255, 255, 255, .42);
   animation: heroFloat 10s ease-in-out infinite;
-  filter: drop-shadow(0 4px 16px rgba(89, 165, 44, .25));
-  background: linear-gradient(135deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03));
-  padding: 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, .08);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  filter: drop-shadow(0 6px 24px rgba(89, 165, 44, .45));
+  background: linear-gradient(135deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, .05));
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 @keyframes heroFloat {

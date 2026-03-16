@@ -7,7 +7,7 @@ import Footer from '../../components/Footer/Footer';
 import MarketCalendar from './MarketCalendar';
 import MarketSessions from './MarketSessions';
 import { ALPHA_VANTAGE_KEY } from '../../config';
-import { fetchStockQuote, fetchCommodityPrice, getRateLimitInfo, getCachedPrice, STOCK_AV_MAP, COMMODITY_AV_MAP } from '../../services/alphaVantageService';
+import { fetchStockQuote, fetchCommodityPrice, fetchIndexQuote, fetchCommodityEndpoint, fetchTreasuryYield, getRateLimitInfo, getCachedPrice, STOCK_AV_MAP, COMMODITY_AV_MAP, INDEX_AV_MAP, COMMODITY_ENDPOINT_MAP, TREASURY_YIELD_MAP } from '../../services/alphaVantageService';
 import './Simulator.css';
 
 const FEE = 0.0016;
@@ -15,11 +15,70 @@ const STORE_SIMPLE = 'zv_sim_simple_v2';
 const STORE_ADV = 'zv_sim_adv_v3';
 const TOP = ['BTC', 'ETH', 'SOL', 'XRP', 'ADA', 'DOT', 'LINK', 'AVAX', 'DOGE', 'SHIB', 'ATOM', 'UNI', 'AAVE', 'LTC', 'BCH', 'MATIC', 'ALGO', 'APT', 'ARB', 'OP', 'SUI', 'NEAR', 'INJ', 'SEI', 'FET', 'MKR', 'GRT', 'SAND', 'AXS', 'MANA', 'CRV', 'SNX', 'COMP', 'FIL', 'RUNE', 'PEPE', 'RENDER', 'TIA', 'STX', 'IMX'];
 const SIMPLE_ASSETS = [{ k: 'btc', l: 'Bitcoin (BTC/EUR)' }, { k: 'eth', l: 'Ethereum (ETH/EUR)' }, { k: 'sol', l: 'Solana (SOL/EUR)' }, { k: 'dot', l: 'Polkadot (DOT/EUR)' }, { k: 'link', l: 'Chainlink (LINK/EUR)' }];
-const STOCK_SYMBOLS = [{ s: 'AAPL', l: 'Apple', base: 238, fh: true }, { s: 'MSFT', l: 'Microsoft', base: 409, fh: true }, { s: 'GOOGL', l: 'Google', base: 302, fh: true }, { s: 'AMZN', l: 'Amazon', base: 213, fh: true }, { s: 'TSLA', l: 'Tesla', base: 397, fh: true }, { s: 'NVDA', l: 'NVIDIA', base: 178, fh: true }, { s: 'META', l: 'Meta', base: 590, fh: true }, { s: 'JPM', l: 'JP Morgan', base: 248, fh: true }, { s: 'V', l: 'Visa', base: 340, fh: true }, { s: 'MC.PA', l: 'LVMH', base: 870 }, { s: 'OR.PA', l: "L'Oréal", base: 380 }, { s: 'TTE.PA', l: 'TotalEnergies', base: 58 }, { s: 'NFLX', l: 'Netflix', base: 99, fh: true }, { s: 'DIS', l: 'Disney', base: 102, fh: true }, { s: 'PYPL', l: 'PayPal', base: 78, fh: true }, { s: 'AMD', l: 'AMD', base: 142, fh: true }, { s: 'INTC', l: 'Intel', base: 24, fh: true }, { s: 'CRM', l: 'Salesforce', base: 315, fh: true }, { s: 'BA', l: 'Boeing', base: 231, fh: true }, { s: 'KO', l: 'Coca-Cola', base: 64, fh: true }, { s: 'PEP', l: 'PepsiCo', base: 158, fh: true }, { s: 'BN.PA', l: 'Danone', base: 68 }, { s: 'AIR.PA', l: 'Airbus', base: 175 }, { s: 'SAP.DE', l: 'SAP', base: 260 }, { s: 'SAN.PA', l: 'Sanofi', base: 102 }];
-const INDEX_SYMBOLS = [{ s: '^GSPC', l: 'S&P 500', base: 5680 }, { s: '^DJI', l: 'Dow Jones', base: 42100 }, { s: '^IXIC', l: 'NASDAQ', base: 17800 }, { s: '^FCHI', l: 'CAC 40', base: 8104 }, { s: '^GDAXI', l: 'DAX 40', base: 24340 }, { s: '^FTSE', l: 'FTSE 100', base: 8680 }, { s: '^N225', l: 'Nikkei 225', base: 50750 }, { s: '^HSI', l: 'Hang Seng', base: 25820 }, { s: '^STOXX50E', l: 'Euro Stoxx 50', base: 5746 }, { s: '^RUT', l: 'Russell 2000', base: 2080 }, { s: '^IBEX', l: 'IBEX 35', base: 13200 }, { s: '^BVSP', l: 'Bovespa', base: 124000 }, { s: '^AXJO', l: 'ASX 200', base: 8763 }, { s: '^KS11', l: 'KOSPI', base: 4130 }];
-const ETF_SYMBOLS = [{ s: 'SPY', l: 'SPDR S&P 500', base: 672, fh: true }, { s: 'QQQ', l: 'Invesco NASDAQ', base: 600, fh: true }, { s: 'IWM', l: 'iShares Russell 2000', base: 215, fh: true }, { s: 'VTI', l: 'Vanguard Total Market', base: 290, fh: true }, { s: 'VOO', l: 'Vanguard S&P 500', base: 560, fh: true }, { s: 'GLD', l: 'SPDR Gold Trust', base: 480, fh: true }, { s: 'SLV', l: 'iShares Silver', base: 78, fh: true }, { s: 'TLT', l: 'iShares 20+ Yr Bond', base: 86, fh: true }, { s: 'EEM', l: 'iShares Emerging Mkts', base: 46, fh: true }, { s: 'ARKK', l: 'ARK Innovation', base: 65, fh: true }, { s: 'XLF', l: 'Financial Select', base: 50, fh: true }, { s: 'XLE', l: 'Energy Select', base: 102, fh: true }, { s: 'VGK', l: 'Vanguard FTSE Europe', base: 72, fh: true }, { s: 'IEMG', l: 'iShares Core EM', base: 58, fh: true }];
-const COMMODITY_SYMBOLS = [{ s: 'XAU', l: 'Or (Gold)', base: 5172, unit: '$/oz' }, { s: 'XAG', l: 'Argent (Silver)', base: 84.4, unit: '$/oz' }, { s: 'BRENT', l: 'Pétrole Brent', base: 109, unit: '$/bbl' }, { s: 'WTI', l: 'Pétrole WTI', base: 91, unit: '$/bbl' }, { s: 'NATGAS', l: 'Gaz Naturel', base: 4.1, unit: '$/MMBtu' }, { s: 'COPPER', l: 'Cuivre', base: 4.55, unit: '$/lb' }, { s: 'PLATINUM', l: 'Platine', base: 1020, unit: '$/oz' }, { s: 'PALLADIUM', l: 'Palladium', base: 980, unit: '$/oz' }, { s: 'WHEAT', l: 'Blé', base: 560, unit: '¢/bu' }, { s: 'CORN', l: 'Maïs', base: 450, unit: '¢/bu' }, { s: 'SOYBEAN', l: 'Soja', base: 1050, unit: '¢/bu' }, { s: 'COTTON', l: 'Coton', base: 70, unit: '¢/lb' }, { s: 'COFFEE', l: 'Café', base: 390, unit: '¢/lb' }, { s: 'SUGAR', l: 'Sucre', base: 19, unit: '¢/lb' }, { s: 'COCOA', l: 'Cacao', base: 8800, unit: '$/t' }];
-const BOND_SYMBOLS = [{ s: 'US10Y', l: 'US Treasury 10Y', base: 4.28, unit: '%' }, { s: 'US2Y', l: 'US Treasury 2Y', base: 4.02, unit: '%' }, { s: 'US30Y', l: 'US Treasury 30Y', base: 4.52, unit: '%' }, { s: 'US5Y', l: 'US Treasury 5Y', base: 4.12, unit: '%' }, { s: 'DE10Y', l: 'Bund Allemand 10Y', base: 2.78, unit: '%' }, { s: 'FR10Y', l: 'OAT France 10Y', base: 3.45, unit: '%' }, { s: 'UK10Y', l: 'Gilt UK 10Y', base: 4.60, unit: '%' }, { s: 'JP10Y', l: 'JGB Japon 10Y', base: 1.48, unit: '%' }, { s: 'IT10Y', l: 'BTP Italie 10Y', base: 3.85, unit: '%' }, { s: 'ES10Y', l: 'Bonos Espagne 10Y', base: 3.38, unit: '%' }];
+const STOCK_SYMBOLS = [
+  // US TECH
+  { s: 'AAPL', l: 'Apple', base: 238, fh: true }, { s: 'MSFT', l: 'Microsoft', base: 409, fh: true }, { s: 'GOOGL', l: 'Google', base: 175, fh: true }, { s: 'AMZN', l: 'Amazon', base: 213, fh: true }, { s: 'TSLA', l: 'Tesla', base: 280, fh: true }, { s: 'NVDA', l: 'NVIDIA', base: 135, fh: true }, { s: 'META', l: 'Meta', base: 590, fh: true }, { s: 'NFLX', l: 'Netflix', base: 960, fh: true }, { s: 'AVGO', l: 'Broadcom', base: 235, fh: true }, { s: 'ORCL', l: 'Oracle', base: 155, fh: true }, { s: 'ADBE', l: 'Adobe', base: 390, fh: true }, { s: 'QCOM', l: 'Qualcomm', base: 165, fh: true }, { s: 'TXN', l: 'Texas Instruments', base: 190, fh: true }, { s: 'AMD', l: 'AMD', base: 115, fh: true }, { s: 'INTC', l: 'Intel', base: 20, fh: true }, { s: 'CRM', l: 'Salesforce', base: 315, fh: true }, { s: 'CSCO', l: 'Cisco', base: 55, fh: true }, { s: 'IBM', l: 'IBM', base: 225, fh: true }, { s: 'UBER', l: 'Uber', base: 72, fh: true }, { s: 'SPOT', l: 'Spotify', base: 500, fh: true }, { s: 'NET', l: 'Cloudflare', base: 120, fh: true }, { s: 'SNOW', l: 'Snowflake', base: 170, fh: true }, { s: 'PLTR', l: 'Palantir', base: 80, fh: true }, { s: 'COIN', l: 'Coinbase', base: 250, fh: true }, { s: 'RBLX', l: 'Roblox', base: 45, fh: true }, { s: 'ABNB', l: 'Airbnb', base: 140, fh: true }, { s: 'BKNG', l: 'Booking Holdings', base: 4800, fh: true }, { s: 'DIS', l: 'Disney', base: 102, fh: true }, { s: 'PYPL', l: 'PayPal', base: 78, fh: true }, { s: 'SQ', l: 'Block', base: 90, fh: true }, { s: 'MSTR', l: 'MicroStrategy', base: 320, fh: true }, { s: 'V', l: 'Visa', base: 340, fh: true }, { s: 'MA', l: 'Mastercard', base: 550, fh: true }, { s: 'SHOP', l: 'Shopify', base: 115, fh: true }, { s: 'DDOG', l: 'Datadog', base: 148, fh: true }, { s: 'ZM', l: 'Zoom', base: 76, fh: true }, { s: 'DOCU', l: 'DocuSign', base: 85, fh: true },
+  // US FINANCE
+  { s: 'JPM', l: 'JP Morgan', base: 248, fh: true }, { s: 'BAC', l: 'Bank of America', base: 46, fh: true }, { s: 'WFC', l: 'Wells Fargo', base: 76, fh: true }, { s: 'GS', l: 'Goldman Sachs', base: 590, fh: true }, { s: 'MS', l: 'Morgan Stanley', base: 130, fh: true }, { s: 'BLK', l: 'BlackRock', base: 1020, fh: true }, { s: 'C', l: 'Citigroup', base: 78, fh: true }, { s: 'AXP', l: 'American Express', base: 310, fh: true }, { s: 'SCHW', l: 'Charles Schwab', base: 75, fh: true }, { s: 'CME', l: 'CME Group', base: 240, fh: true },
+  // US HEALTHCARE
+  { s: 'JNJ', l: 'Johnson & Johnson', base: 155, fh: true }, { s: 'LLY', l: 'Eli Lilly', base: 830, fh: true }, { s: 'UNH', l: 'UnitedHealth', base: 490, fh: true }, { s: 'PFE', l: 'Pfizer', base: 25, fh: true }, { s: 'ABBV', l: 'AbbVie', base: 190, fh: true }, { s: 'AMGN', l: 'Amgen', base: 280, fh: true }, { s: 'GILD', l: 'Gilead Sciences', base: 100, fh: true }, { s: 'TMO', l: 'Thermo Fisher', base: 500, fh: true }, { s: 'MRK', l: 'Merck', base: 115, fh: true }, { s: 'BMY', l: 'Bristol-Myers', base: 60, fh: true },
+  // US CONSUMER / RETAIL
+  { s: 'WMT', l: 'Walmart', base: 100, fh: true }, { s: 'COST', l: 'Costco', base: 1000, fh: true }, { s: 'HD', l: 'Home Depot', base: 405, fh: true }, { s: 'NKE', l: 'Nike', base: 74, fh: true }, { s: 'MCD', l: "McDonald's", base: 295, fh: true }, { s: 'SBUX', l: 'Starbucks', base: 89, fh: true }, { s: 'KO', l: 'Coca-Cola', base: 64, fh: true }, { s: 'PEP', l: 'PepsiCo', base: 158, fh: true }, { s: 'TGT', l: 'Target', base: 128, fh: true }, { s: 'LOW', l: "Lowe's", base: 270, fh: true }, { s: 'CMG', l: 'Chipotle', base: 55, fh: true },
+  // US ENERGY / INDUSTRIAL
+  { s: 'XOM', l: 'ExxonMobil', base: 112, fh: true }, { s: 'CVX', l: 'Chevron', base: 155, fh: true }, { s: 'BA', l: 'Boeing', base: 185, fh: true }, { s: 'GE', l: 'GE Aerospace', base: 218, fh: true }, { s: 'CAT', l: 'Caterpillar', base: 375, fh: true }, { s: 'HON', l: 'Honeywell', base: 220, fh: true }, { s: 'UPS', l: 'UPS', base: 132, fh: true }, { s: 'LMT', l: 'Lockheed Martin', base: 490, fh: true }, { s: 'RTX', l: 'RTX Corp', base: 126, fh: true }, { s: 'DE', l: 'Deere & Co', base: 430, fh: true }, { s: 'FDX', l: 'FedEx', base: 280, fh: true },
+  // FRANCE
+  { s: 'MC.PA', l: 'LVMH', base: 870 }, { s: 'OR.PA', l: "L'Oréal", base: 380 }, { s: 'TTE.PA', l: 'TotalEnergies', base: 58 }, { s: 'BN.PA', l: 'Danone', base: 68 }, { s: 'AIR.PA', l: 'Airbus', base: 175 }, { s: 'SAN.PA', l: 'Sanofi', base: 102 }, { s: 'BNP.PA', l: 'BNP Paribas', base: 65 }, { s: 'AI.PA', l: 'Air Liquide', base: 168 }, { s: 'RI.PA', l: 'Pernod Ricard', base: 87 }, { s: 'DG.PA', l: 'Vinci', base: 125 }, { s: 'CAP.PA', l: 'Capgemini', base: 175 }, { s: 'ORA.PA', l: 'Orange', base: 10.5 }, { s: 'KER.PA', l: 'Kering', base: 250 }, { s: 'STE.PA', l: 'Stellantis', base: 12 }, { s: 'ACA.PA', l: 'Crédit Agricole', base: 14.5 }, { s: 'CS.PA', l: 'AXA', base: 32 },
+  // ALLEMAGNE
+  { s: 'SAP.DE', l: 'SAP', base: 260 }, { s: 'SIE.DE', l: 'Siemens', base: 235 }, { s: 'BAYN.DE', l: 'Bayer', base: 18 }, { s: 'BMW.DE', l: 'BMW', base: 80 }, { s: 'ADS.DE', l: 'Adidas', base: 222 }, { s: 'BAS.DE', l: 'BASF', base: 42 }, { s: 'ALV.DE', l: 'Allianz', base: 320 }, { s: 'DTE.DE', l: 'Deutsche Telekom', base: 28 }, { s: 'VOW.DE', l: 'Volkswagen', base: 82 }, { s: 'DB.DE', l: 'Deutsche Bank', base: 18 },
+  // UK
+  { s: 'SHEL.L', l: 'Shell', base: 26.5 }, { s: 'BP.L', l: 'BP', base: 4.1 }, { s: 'HSBA.L', l: 'HSBC', base: 8.5 }, { s: 'AZN.L', l: 'AstraZeneca', base: 118 }, { s: 'ULVR.L', l: 'Unilever', base: 44 }, { s: 'GSK.L', l: 'GSK', base: 17.5 }, { s: 'RIO.L', l: 'Rio Tinto', base: 48 }, { s: 'BATS.L', l: 'BAT', base: 28 },
+];
+const INDEX_SYMBOLS = [
+  // AMÉRIQUES
+  { s: '^GSPC', l: 'S&P 500', base: 5680 }, { s: '^DJI', l: 'Dow Jones', base: 42100 }, { s: '^IXIC', l: 'NASDAQ Composite', base: 17800 }, { s: '^NDX', l: 'NASDAQ 100', base: 19800 }, { s: '^RUT', l: 'Russell 2000', base: 2080 }, { s: '^MID', l: 'S&P 400 MidCap', base: 3100 }, { s: '^BVSP', l: 'Bovespa (Brésil)', base: 124000 }, { s: '^MXX', l: 'IPC Mexico', base: 53000 },
+  // EUROPE
+  { s: '^FCHI', l: 'CAC 40 (Paris)', base: 8104 }, { s: '^GDAXI', l: 'DAX 40 (Frankfurt)', base: 24340 }, { s: '^FTSE', l: 'FTSE 100 (Londres)', base: 8680 }, { s: '^STOXX50E', l: 'Euro Stoxx 50', base: 5746 }, { s: '^IBEX', l: 'IBEX 35 (Madrid)', base: 13200 }, { s: '^FTSEMIB', l: 'FTSE MIB (Milan)', base: 38000 }, { s: '^AEX', l: 'AEX (Amsterdam)', base: 920 }, { s: '^SSMI', l: 'SMI (Zurich)', base: 12500 }, { s: '^OMXS30', l: 'OMX Stockholm 30', base: 2650 }, { s: '^BFX', l: 'BEL 20 (Bruxelles)', base: 4200 }, { s: '^PSI20', l: 'PSI 20 (Lisbonne)', base: 6700 }, { s: '^ATX', l: 'ATX (Vienne)', base: 3900 },
+  // ASIE-PACIFIQUE
+  { s: '^N225', l: 'Nikkei 225 (Tokyo)', base: 38500 }, { s: '^HSI', l: 'Hang Seng (HK)', base: 21000 }, { s: '^KS11', l: 'KOSPI (Séoul)', base: 2450 }, { s: '^AXJO', l: 'ASX 200 (Sydney)', base: 8400 }, { s: '^TWII', l: 'TAIEX (Taiwan)', base: 23000 }, { s: '^STI', l: 'Straits Times (SG)', base: 3900 }, { s: '^SENSEX', l: 'BSE Sensex (Inde)', base: 75000 }, { s: '^NSEI', l: 'Nifty 50 (Inde)', base: 22800 }, { s: '^KLCI', l: 'KLCI (Malaisie)', base: 1580 }, { s: '^SET', l: 'SET (Thaïlande)', base: 1380 },
+  // MOYEN-ORIENT / AFRIQUE
+  { s: '^TA125', l: 'TA-125 (Tel Aviv)', base: 2800 }, { s: '^TASI', l: 'Tadawul (Arabie)', base: 12500 },
+];
+const ETF_SYMBOLS = [
+  // US BROAD MARKET
+  { s: 'SPY', l: 'SPDR S&P 500', base: 580, fh: true }, { s: 'QQQ', l: 'Invesco NASDAQ 100', base: 490, fh: true }, { s: 'IWM', l: 'iShares Russell 2000', base: 215, fh: true }, { s: 'VTI', l: 'Vanguard Total Market', base: 275, fh: true }, { s: 'VOO', l: 'Vanguard S&P 500', base: 530, fh: true }, { s: 'IVV', l: 'iShares Core S&P 500', base: 582, fh: true }, { s: 'VEA', l: 'Vanguard Dev Markets', base: 52, fh: true }, { s: 'VXUS', l: 'Vanguard Total Intl', base: 62, fh: true }, { s: 'MGK', l: 'Vanguard Mega Cap Gr', base: 340, fh: true }, { s: 'VUG', l: 'Vanguard Growth', base: 390, fh: true }, { s: 'VTV', l: 'Vanguard Value', base: 165, fh: true }, { s: 'SCHB', l: 'Schwab US Broad Mkt', base: 62, fh: true },
+  // SECTORIELS US
+  { s: 'XLF', l: 'Financial Select', base: 50, fh: true }, { s: 'XLE', l: 'Energy Select', base: 95, fh: true }, { s: 'XLK', l: 'Technology Select', base: 235, fh: true }, { s: 'XLV', l: 'Health Care Select', base: 148, fh: true }, { s: 'XLU', l: 'Utilities Select', base: 68, fh: true }, { s: 'XLC', l: 'Comm Services Select', base: 98, fh: true }, { s: 'XLI', l: 'Industrials Select', base: 130, fh: true }, { s: 'XLB', l: 'Materials Select', base: 90, fh: true }, { s: 'XLP', l: 'Consumer Staples', base: 78, fh: true }, { s: 'XLY', l: 'Consumer Disc Select', base: 210, fh: true }, { s: 'XLRE', l: 'Real Estate Select', base: 40, fh: true },
+  // OBLIGATAIRES
+  { s: 'TLT', l: 'iShares 20+ Yr Bond', base: 88, fh: true }, { s: 'AGG', l: 'iShares Core US Bond', base: 95, fh: true }, { s: 'BND', l: 'Vanguard Total Bond', base: 73, fh: true }, { s: 'IEF', l: 'iShares 7-10yr Bond', base: 93, fh: true }, { s: 'SHY', l: 'iShares 1-3yr Bond', base: 82, fh: true }, { s: 'LQD', l: 'iShares Corp Bond', base: 108, fh: true }, { s: 'HYG', l: 'iShares High Yield', base: 76, fh: true }, { s: 'EMB', l: 'iShares EM Bond', base: 90, fh: true }, { s: 'MUB', l: 'iShares Muni Bond', base: 106, fh: true },
+  // MATIÈRES PREMIÈRES
+  { s: 'GLD', l: 'SPDR Gold Trust', base: 280, fh: true }, { s: 'IAU', l: 'iShares Gold', base: 56, fh: true }, { s: 'SLV', l: 'iShares Silver', base: 32, fh: true }, { s: 'GDX', l: 'VanEck Gold Miners', base: 40, fh: true }, { s: 'GDXJ', l: 'VanEck Jr Gold Miners', base: 48, fh: true }, { s: 'USO', l: 'US Oil Fund', base: 78, fh: true }, { s: 'UNG', l: 'US Natural Gas Fund', base: 15, fh: true }, { s: 'PDBC', l: 'Invesco Commodity', base: 14, fh: true },
+  // INTERNATIONAUX
+  { s: 'EEM', l: 'iShares Emerging Mkts', base: 46, fh: true }, { s: 'VGK', l: 'Vanguard FTSE Europe', base: 72, fh: true }, { s: 'IEMG', l: 'iShares Core EM', base: 58, fh: true }, { s: 'EWJ', l: 'iShares Japan', base: 68, fh: true }, { s: 'EWZ', l: 'iShares Brazil', base: 28, fh: true }, { s: 'FXI', l: 'iShares China Large', base: 30, fh: true }, { s: 'EWT', l: 'iShares Taiwan', base: 58, fh: true }, { s: 'EWY', l: 'iShares South Korea', base: 58, fh: true }, { s: 'EWA', l: 'iShares Australia', base: 26, fh: true }, { s: 'INDA', l: 'iShares India', base: 52, fh: true }, { s: 'MCHI', l: 'iShares MSCI China', base: 50, fh: true },
+  // THÉMATIQUES / TECH
+  { s: 'ARKK', l: 'ARK Innovation', base: 55, fh: true }, { s: 'ARKG', l: 'ARK Genomic Rev', base: 28, fh: true }, { s: 'ARKF', l: 'ARK Fintech', base: 22, fh: true }, { s: 'SOXX', l: 'iShares Semiconductors', base: 240, fh: true }, { s: 'SMH', l: 'VanEck Semiconductors', base: 265, fh: true }, { s: 'BOTZ', l: 'Global Robotics/AI', base: 32, fh: true }, { s: 'CIBR', l: 'ETFMG Cybersecurity', base: 32, fh: true }, { s: 'CLOU', l: 'Global Cloud Comp', base: 26, fh: true }, { s: 'FINX', l: 'Global FinTech', base: 30, fh: true }, { s: 'KBWB', l: 'Invesco KBW Banking', base: 72, fh: true },
+];
+const COMMODITY_SYMBOLS = [
+  // MÉTAUX PRÉCIEUX (prix réels via AV)
+  { s: 'XAU', l: 'Or (Gold)', base: 3100, unit: '$/oz' }, { s: 'XAG', l: 'Argent (Silver)', base: 35, unit: '$/oz' }, { s: 'PLATINUM', l: 'Platine', base: 1000, unit: '$/oz' }, { s: 'PALLADIUM', l: 'Palladium', base: 950, unit: '$/oz' },
+  // MÉTAUX INDUSTRIELS
+  { s: 'COPPER', l: 'Cuivre', base: 4.6, unit: '$/lb' }, { s: 'ALUMINUM', l: 'Aluminium', base: 2550, unit: '$/t' }, { s: 'ZINC', l: 'Zinc', base: 2900, unit: '$/t' }, { s: 'NICKEL', l: 'Nickel', base: 16500, unit: '$/t' }, { s: 'LEAD', l: 'Plomb', base: 2100, unit: '$/t' }, { s: 'TIN', l: 'Étain', base: 32000, unit: '$/t' }, { s: 'IRON', l: 'Minerai de Fer', base: 108, unit: '$/t' },
+  // ÉNERGIE
+  { s: 'BRENT', l: 'Pétrole Brent', base: 78, unit: '$/bbl' }, { s: 'WTI', l: 'Pétrole WTI', base: 74, unit: '$/bbl' }, { s: 'NATGAS', l: 'Gaz Naturel (US)', base: 2.5, unit: '$/MMBtu' }, { s: 'GASOLINE', l: 'Essence (RBOB)', base: 2.3, unit: '$/gal' }, { s: 'HEATING_OIL', l: 'Fioul', base: 2.6, unit: '$/gal' }, { s: 'URANIUM', l: 'Uranium', base: 95, unit: '$/lb' },
+  // AGRI — CÉRÉALES
+  { s: 'WHEAT', l: 'Blé', base: 550, unit: '¢/bu' }, { s: 'CORN', l: 'Maïs', base: 430, unit: '¢/bu' }, { s: 'SOYBEAN', l: 'Soja', base: 1000, unit: '¢/bu' }, { s: 'RICE', l: 'Riz', base: 550, unit: '¢/cwt' }, { s: 'OATS', l: 'Avoine', base: 380, unit: '¢/bu' }, { s: 'CANOLA', l: 'Canola', base: 650, unit: '¢/bu' },
+  // AGRI — SOFT
+  { s: 'COFFEE', l: 'Café', base: 380, unit: '¢/lb' }, { s: 'SUGAR', l: 'Sucre', base: 20, unit: '¢/lb' }, { s: 'COCOA', l: 'Cacao', base: 10000, unit: '$/t' }, { s: 'COTTON', l: 'Coton', base: 72, unit: '¢/lb' }, { s: 'OJ', l: 'Jus d\'Orange', base: 480, unit: '¢/lb' }, { s: 'LUMBER', l: 'Bois de Construction', base: 520, unit: '$/Mbf' },
+  // AGRI — BÉTAIL
+  { s: 'LIVE_CATTLE', l: 'Bétail Vivant', base: 195, unit: '¢/lb' }, { s: 'LEAN_HOGS', l: 'Porcs', base: 88, unit: '¢/lb' },
+];
+const BOND_SYMBOLS = [
+  // US TREASURIES
+  { s: 'US1Y', l: 'US Treasury 1Y', base: 4.55, unit: '%' }, { s: 'US2Y', l: 'US Treasury 2Y', base: 4.28, unit: '%' }, { s: 'US3Y', l: 'US Treasury 3Y', base: 4.20, unit: '%' }, { s: 'US5Y', l: 'US Treasury 5Y', base: 4.18, unit: '%' }, { s: 'US7Y', l: 'US Treasury 7Y', base: 4.25, unit: '%' }, { s: 'US10Y', l: 'US Treasury 10Y', base: 4.35, unit: '%' }, { s: 'US20Y', l: 'US Treasury 20Y', base: 4.58, unit: '%' }, { s: 'US30Y', l: 'US Treasury 30Y', base: 4.62, unit: '%' },
+  // EUROPE
+  { s: 'DE2Y', l: 'Bund Allemand 2Y', base: 2.42, unit: '%' }, { s: 'DE10Y', l: 'Bund Allemand 10Y', base: 2.78, unit: '%' }, { s: 'FR10Y', l: 'OAT France 10Y', base: 3.45, unit: '%' }, { s: 'UK10Y', l: 'Gilt UK 10Y', base: 4.60, unit: '%' }, { s: 'IT10Y', l: 'BTP Italie 10Y', base: 3.85, unit: '%' }, { s: 'ES10Y', l: 'Bonos Espagne 10Y', base: 3.38, unit: '%' }, { s: 'CH10Y', l: 'OIS Suisse 10Y', base: 0.82, unit: '%' }, { s: 'NL10Y', l: 'DSL Pays-Bas 10Y', base: 2.90, unit: '%' }, { s: 'AT10Y', l: 'RAGB Autriche 10Y', base: 3.10, unit: '%' }, { s: 'BE10Y', l: 'OLO Belgique 10Y', base: 3.20, unit: '%' }, { s: 'PT10Y', l: 'OT Portugal 10Y', base: 3.15, unit: '%' }, { s: 'SE10Y', l: 'SGB Suède 10Y', base: 2.35, unit: '%' }, { s: 'NO10Y', l: 'NGB Norvège 10Y', base: 3.80, unit: '%' },
+  // ASIE / ÉMERGENTS
+  { s: 'JP10Y', l: 'JGB Japon 10Y', base: 1.48, unit: '%' }, { s: 'AU10Y', l: 'ACGB Australie 10Y', base: 4.35, unit: '%' }, { s: 'CN10Y', l: 'CGB Chine 10Y', base: 2.10, unit: '%' }, { s: 'IN10Y', l: 'Inde Govt 10Y', base: 6.85, unit: '%' }, { s: 'BR10Y', l: 'NTN-F Brésil 10Y', base: 13.5, unit: '%' }, { s: 'MX10Y', l: 'Mbono Mexique 10Y', base: 10.2, unit: '%' },
+];
 
 /* ═══ ALPHA VANTAGE — Prix réels actions, ETFs & matières premières ═══ */
 const AV_ENABLED = ALPHA_VANTAGE_KEY && ALPHA_VANTAGE_KEY !== 'YOUR_AV_KEY_HERE';
@@ -68,6 +127,49 @@ async function fetchAVCommodities(symbols, setter) {
   }
 }
 
+// Indices via GLOBAL_QUOTE AV (^GSPC, ^FCHI, ^N225…)
+async function fetchAVIndices(symbols, setter) {
+  if (!AV_ENABLED) return;
+  for (const sym of symbols) {
+    const avSym = INDEX_AV_MAP[sym.s];
+    if (!avSym || !getRateLimitInfo().canCall) break;
+    try {
+      const quote = await fetchIndexQuote(avSym);
+      if (quote && quote.price) {
+        setter(prev => ({ ...prev, [sym.s]: { ...prev[sym.s], price: quote.price, move: quote.changePct || 0, high: quote.high, low: quote.low, lastDay: quote.lastDay, source: quote.source === 'live' ? 'live' : 'cache', lastUpdate: Date.now() } }));
+      }
+    } catch (e) { console.warn('[AV-IDX]', sym.s, e); }
+  }
+}
+
+// Matières via endpoints dédiés AV (WTI, BRENT, WHEAT, CORN…)
+async function fetchAVCommodityEP(symbols, setter) {
+  if (!AV_ENABLED) return;
+  for (const sym of symbols) {
+    if (!COMMODITY_ENDPOINT_MAP[sym.s] || !getRateLimitInfo().canCall) continue;
+    try {
+      const quote = await fetchCommodityEndpoint(sym.s);
+      if (quote && quote.price) {
+        setter(prev => ({ ...prev, [sym.s]: { ...prev[sym.s], price: quote.price, source: quote.source === 'live' ? 'live' : 'cache', lastUpdate: Date.now() } }));
+      }
+    } catch (e) { console.warn('[AV-COMMO-EP]', sym.s, e); }
+  }
+}
+
+// Taux US Treasuries via TREASURY_YIELD AV (US2Y, US5Y, US10Y, US30Y)
+async function fetchAVTreasury(symbols, setter) {
+  if (!AV_ENABLED) return;
+  for (const sym of symbols) {
+    if (!TREASURY_YIELD_MAP[sym.s] || !getRateLimitInfo().canCall) break;
+    try {
+      const quote = await fetchTreasuryYield(sym.s);
+      if (quote && quote.price) {
+        setter(prev => ({ ...prev, [sym.s]: { ...prev[sym.s], price: quote.price, source: quote.source === 'live' ? 'live' : 'cache', lastUpdate: Date.now() } }));
+      }
+    } catch (e) { console.warn('[AV-BOND]', sym.s, e); }
+  }
+}
+
 function MarketStatusBar({ activeTab }) {
   const [info, setInfo] = useState({ used: 0, remaining: 25, total: 25 });
   const [time, setTime] = useState(new Date());
@@ -81,13 +183,41 @@ function MarketStatusBar({ activeTab }) {
     const day = time.getUTCDay();
     if (day === 0 || day === 6) return { open: false, label: 'Weekend — Marchés fermés', color: '#f6465d' };
     const utcH = time.getUTCHours() + time.getUTCMinutes() / 60;
-    if (activeTab === 'forex') return { open: true, label: 'Forex — 24/5', color: '#0ecb81' };
-    if (['stocks', 'etfs'].includes(activeTab)) {
-      const usOpen = utcH >= 14.5 && utcH < 21, euOpen = utcH >= 8 && utcH < 16.5;
-      if (usOpen && euOpen) return { open: true, label: 'US + EU — Ouverts', color: '#0ecb81' };
-      if (usOpen) return { open: true, label: 'NYSE/NASDAQ — Ouvert', color: '#0ecb81' };
-      if (euOpen) return { open: true, label: 'Euronext — Ouvert', color: '#0ecb81' };
-      return { open: false, label: 'Marchés fermés', color: '#f6465d' };
+    if (activeTab === 'forex') {
+      // Sessions Forex en heure UTC : Sydney 22h-07h · Tokyo 00h-09h · Londres 08h-17h · New York 13h-22h
+      const sessions = [];
+      if (utcH >= 22 || utcH < 7) sessions.push('Sydney 22h-07h');
+      if (utcH >= 0 && utcH < 9) sessions.push('Tokyo 00h-09h');
+      if (utcH >= 8 && utcH < 17) sessions.push('Londres 08h-17h');
+      if (utcH >= 13 && utcH < 22) sessions.push('New York 13h-22h');
+      return { open: true, label: sessions.length ? `Forex · ${sessions.join(' + ')}` : 'Forex 24/5 — Entre sessions', color: '#0ecb81' };
+    }
+    if (['stocks', 'etfs', 'indices'].includes(activeTab)) {
+      // Bourses en UTC : Tokyo 00h-06h · EU (Euronext/Xetra/LSE) 08h-16h30 · NYSE/NASDAQ 14h30-21h
+      const sessions = [];
+      if (utcH >= 0 && utcH < 6) sessions.push('Tokyo 00h-06h');
+      if (utcH >= 1.5 && utcH < 7) sessions.push('HK/Sydney 01h30-07h');
+      if (utcH >= 8 && utcH < 16.5) sessions.push('EU 08h-16h30');
+      if (utcH >= 14.5 && utcH < 21) sessions.push('NYSE/NASDAQ 14h30-21h');
+      if (sessions.length) return { open: true, label: sessions.join(' · '), color: '#0ecb81' };
+      return { open: false, label: 'Actions — Marchés fermés', color: '#f6465d' };
+    }
+    if (activeTab === 'commodities') {
+      // CME/NYMEX : 23h-22h (23h/24, pause 1h) · CBOT agri : 01h30-19h20 UTC
+      const pause = utcH >= 22 && utcH < 23;
+      const agriOpen = utcH >= 1.5 && utcH < 19.33;
+      if (pause) return { open: false, label: 'Matières — Pause 22h-23h UTC', color: '#f59e0b' };
+      if (agriOpen) return { open: true, label: 'Métaux/Énergie 23h/24 · Agri 01h30-19h20 UTC', color: '#0ecb81' };
+      return { open: true, label: 'Or/Argent/Pétrole ouverts 23h/24 UTC', color: '#0ecb81' };
+    }
+    if (activeTab === 'bonds') {
+      // Obligations : Europe 07h-18h UTC · US Treasuries 12h30-21h UTC
+      const euOpen = utcH >= 7 && utcH < 18;
+      const usOpen = utcH >= 12.5 && utcH < 21;
+      if (euOpen && usOpen) return { open: true, label: 'Oblig EU 07h-18h · US 12h30-21h UTC', color: '#0ecb81' };
+      if (euOpen) return { open: true, label: 'Oblig Europe ouvert 07h-18h UTC', color: '#0ecb81' };
+      if (usOpen) return { open: true, label: 'US Treasuries ouverts 12h30-21h UTC', color: '#0ecb81' };
+      return { open: false, label: 'Obligations — Marchés fermés', color: '#f6465d' };
     }
     return { open: true, label: '', color: '#888' };
   };
@@ -98,7 +228,7 @@ function MarketStatusBar({ activeTab }) {
       {AV_ENABLED ? <span className="sa-market-status__api" title={`Alpha Vantage: ${info.used}/${info.total} appels`}><span className="sa-av-badge">AV</span> {info.remaining}/{info.total}</span>
         : <span className="sa-market-status__api sa-market-status__api--sim" title="Configurer Alpha Vantage dans config.js"><span className="sa-av-badge sa-av-badge--sim">SIM</span> Prix simulés</span>}
       <Clock size={11} style={{ opacity: 0.5 }} />
-      <span style={{ fontFamily: 'var(--zv-mono)', fontSize: '0.7rem', opacity: 0.6 }}>{time.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} UTC+{-time.getTimezoneOffset() / 60}</span>
+      <span style={{ fontFamily: 'var(--zv-mono)', fontSize: '0.7rem', opacity: 0.6 }}>{time.toLocaleTimeString('en-GB', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' })} UTC · {time.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} Local</span>
     </div>
   </div>);
 }
@@ -151,23 +281,44 @@ function AdvancedSimulator() {
   useEffect(() => { (async () => { try { const r = await fetch('https://api.kraken.com/0/public/AssetPairs'); const d = await r.json(); if (!d.result) return; const map = {}; Object.entries(d.result).forEach(([k, v]) => { if (v.wsname && v.wsname.endsWith('/EUR') && !k.includes('.d')) { const base = v.wsname.split('/')[0]; if (base && !map[base]) map[base] = k } }); if (map['XBT'] && !map['BTC']) { map['BTC'] = map['XBT']; delete map['XBT'] } setAllPairs(map) } catch (e) { console.error(e) } })() }, []);
   const syncMk = useCallback(async () => { if (!Object.keys(allPairs).length) return; const need = new Set(TOP); st.trades.forEach(t => need.add(t.asset)); st.alerts.forEach(a => need.add(a.asset)); const kp = []; need.forEach(s => { if (allPairs[s]) kp.push(allPairs[s]) }); if (!kp.length) return; const batches = []; for (let i = 0; i < kp.length; i += 30)batches.push(kp.slice(i, i + 30)); const nm = { ...mkRef.current }; for (const b of batches) { try { const r = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${b.join(',')}`); const d = await r.json(); if (d.result) { Object.entries(d.result).forEach(([pair, info]) => { let sym = null; for (const [s, p] of Object.entries(allPairs)) { if (p === pair) { sym = s; break } } if (!sym && pair.includes('XBT')) sym = 'BTC'; if (sym) { const price = parseFloat(info.c[0]); const open = parseFloat(info.o); nm[sym] = { price, open, high: parseFloat(info.h[1]), low: parseFloat(info.l[1]), vol: parseFloat(info.v[1]), move: ((price - open) / open) * 100, pair } } }) } } catch (e) { } } setMk(nm) }, [allPairs, st.trades, st.alerts]);
   useEffect(() => { if (!Object.keys(allPairs).length) return; syncMk(); const i = setInterval(syncMk, 8000); return () => clearInterval(i) }, [allPairs, syncMk]);
-  useEffect(() => { const fn = async () => { try { const r = await fetch('https://open.er-api.com/v6/latest/EUR'); const d = await r.json(); if (d.rates) { const R = d.rates; setForexData({ 'EUR/USD': { price: R.USD, move: (Math.random() - .48) * .6 }, 'GBP/USD': { price: R.USD / R.GBP, move: (Math.random() - .48) * .5 }, 'USD/JPY': { price: R.JPY / R.USD, move: (Math.random() - .48) * .7 }, 'USD/CHF': { price: R.CHF / R.USD, move: (Math.random() - .48) * .4 }, 'AUD/USD': { price: R.AUD ? R.USD / R.AUD : 0, move: (Math.random() - .48) * .6 }, 'USD/CAD': { price: R.CAD / R.USD, move: (Math.random() - .48) * .5 }, 'NZD/USD': { price: R.NZD ? R.USD / R.NZD : 0, move: (Math.random() - .48) * .6 }, 'EUR/GBP': { price: R.GBP, move: (Math.random() - .48) * .3 }, 'EUR/JPY': { price: R.JPY, move: (Math.random() - .48) * .6 }, 'EUR/CHF': { price: R.CHF, move: (Math.random() - .48) * .3 }, 'GBP/JPY': { price: R.JPY / R.GBP, move: (Math.random() - .48) * .8 }, 'EUR/CAD': { price: R.CAD, move: (Math.random() - .48) * .4 }, 'AUD/JPY': { price: R.AUD ? R.JPY / R.AUD : 0, move: (Math.random() - .48) * .7 }, 'EUR/AUD': { price: R.AUD || 0, move: (Math.random() - .48) * .5 } }) } } catch (e) { } }; fn(); const i = setInterval(fn, 30000); return () => clearInterval(i) }, []);
+  useEffect(() => { const fn = async () => { try { const r = await fetch('https://open.er-api.com/v6/latest/EUR'); const d = await r.json(); if (d.rates) { const R = d.rates; const rnd = (v) => (Math.random() - .48) * v; setForexData({
+    // Paires majeures
+    'EUR/USD': { price: R.USD, move: rnd(.6) }, 'GBP/USD': { price: R.USD / R.GBP, move: rnd(.5) }, 'USD/JPY': { price: R.JPY / R.USD, move: rnd(.7) }, 'USD/CHF': { price: R.CHF / R.USD, move: rnd(.4) }, 'AUD/USD': { price: R.AUD ? R.USD / R.AUD : 0.64, move: rnd(.6) }, 'USD/CAD': { price: R.CAD / R.USD, move: rnd(.5) }, 'NZD/USD': { price: R.NZD ? R.USD / R.NZD : 0.60, move: rnd(.6) },
+    // Croisements EUR
+    'EUR/GBP': { price: R.GBP, move: rnd(.3) }, 'EUR/JPY': { price: R.JPY, move: rnd(.6) }, 'EUR/CHF': { price: R.CHF, move: rnd(.3) }, 'EUR/CAD': { price: R.CAD, move: rnd(.4) }, 'EUR/AUD': { price: R.AUD || 1.66, move: rnd(.5) }, 'EUR/NZD': { price: R.NZD || 1.77, move: rnd(.5) }, 'EUR/SEK': { price: R.SEK || 11.2, move: rnd(.3) }, 'EUR/NOK': { price: R.NOK || 11.8, move: rnd(.4) }, 'EUR/DKK': { price: R.DKK || 7.46, move: rnd(.1) }, 'EUR/PLN': { price: R.PLN || 4.22, move: rnd(.5) }, 'EUR/HUF': { price: R.HUF || 408, move: rnd(.5) }, 'EUR/CZK': { price: R.CZK || 25.2, move: rnd(.4) }, 'EUR/RON': { price: R.RON || 5.0, move: rnd(.4) },
+    // Croisements GBP
+    'GBP/JPY': { price: R.JPY / R.GBP, move: rnd(.8) }, 'GBP/CHF': { price: R.CHF / R.GBP, move: rnd(.4) }, 'GBP/CAD': { price: R.CAD / R.GBP, move: rnd(.5) }, 'GBP/AUD': { price: R.AUD ? R.AUD / R.GBP : 1.98, move: rnd(.6) }, 'GBP/NZD': { price: R.NZD ? R.NZD / R.GBP : 2.09, move: rnd(.6) },
+    // Croisements AUD / NZD
+    'AUD/JPY': { price: R.AUD ? R.JPY / R.AUD : 97, move: rnd(.7) }, 'AUD/CAD': { price: R.AUD ? R.CAD / R.AUD : 0.91, move: rnd(.5) }, 'AUD/NZD': { price: R.AUD && R.NZD ? R.NZD / R.AUD : 1.08, move: rnd(.4) }, 'NZD/JPY': { price: R.NZD ? R.JPY / R.NZD : 88, move: rnd(.7) }, 'NZD/CAD': { price: R.NZD ? R.CAD / R.NZD : 0.85, move: rnd(.5) },
+    // Croisements CAD / CHF
+    'CAD/JPY': { price: R.JPY / R.CAD, move: rnd(.6) }, 'CHF/JPY': { price: R.JPY / R.CHF, move: rnd(.5) },
+    // USD — Marchés émergents
+    'USD/CNY': { price: R.CNY / R.USD || 7.25, move: rnd(.2) }, 'USD/MXN': { price: R.MXN / R.USD || 17.2, move: rnd(.7) }, 'USD/BRL': { price: R.BRL / R.USD || 5.1, move: rnd(.8) }, 'USD/ZAR': { price: R.ZAR / R.USD || 18.5, move: rnd(1.0) }, 'USD/TRY': { price: R.TRY / R.USD || 32, move: rnd(1.0) }, 'USD/SGD': { price: R.SGD / R.USD || 1.34, move: rnd(.3) }, 'USD/HKD': { price: R.HKD / R.USD || 7.82, move: rnd(.1) }, 'USD/INR': { price: R.INR / R.USD || 84, move: rnd(.3) }, 'USD/KRW': { price: R.KRW / R.USD || 1330, move: rnd(.5) }, 'USD/TWD': { price: R.TWD / R.USD || 32.5, move: rnd(.4) }, 'USD/THB': { price: R.THB / R.USD || 35, move: rnd(.4) }, 'USD/IDR': { price: R.IDR / R.USD || 15600, move: rnd(.5) }, 'USD/PHP': { price: R.PHP / R.USD || 56, move: rnd(.4) }, 'USD/MYR': { price: R.MYR / R.USD || 4.7, move: rnd(.4) },
+    // EUR — Émergents
+    'EUR/TRY': { price: R.TRY || 34, move: rnd(1.2) }, 'EUR/PLN': { price: R.PLN || 4.22, move: rnd(.5) },
+    // Exotiques / Matières
+    'USD/NOK': { price: R.NOK / R.USD || 10.6, move: rnd(.4) }, 'USD/SEK': { price: R.SEK / R.USD || 10.5, move: rnd(.4) }, 'USD/DKK': { price: R.DKK / R.USD || 6.9, move: rnd(.2) }, 'USD/AED': { price: R.AED / R.USD || 3.67, move: rnd(.05) }, 'USD/SAR': { price: R.SAR / R.USD || 3.75, move: rnd(.05) },
+  }) } } catch (e) { } }; fn(); const i = setInterval(fn, 30000); return () => clearInterval(i) }, []);
   // ── Stocks: AV real prices or simulated ticks ──
   useEffect(() => { if (AV_ENABLED) { fetchAVPrices(STOCK_SYMBOLS.slice(0, 8), setStockData); } }, []);// eslint-disable-line
   useEffect(() => { if (AV_ENABLED) { const i = setInterval(() => { if (getRateLimitInfo().canCall) { const tradeAssets = st.trades.map(t => t.asset); const active = STOCK_SYMBOLS.filter(s => tradeAssets.includes(s.s) || s.s === fAsset); if (active.length > 0) fetchAVPrices(active, setStockData); } }, 300000); return () => clearInterval(i); } else { const i = setInterval(() => setStockData(p => microTick(p, 0.4)), 8000); return () => clearInterval(i); } }, [st.trades, fAsset]);// eslint-disable-line
-  // ── Indices: always simulated (no free API) ──
+  // ── Indices: AV GLOBAL_QUOTE pour les principaux, sinon simulated ──
+  useEffect(() => { if (AV_ENABLED && getRateLimitInfo().canCall) { fetchAVIndices(INDEX_SYMBOLS.slice(0, 5), setIndexData); } }, []);// eslint-disable-line
   useEffect(() => { const i = setInterval(() => setIndexData(p => microTick(p, 0.3)), 7000); return () => clearInterval(i) }, []);
   // ── ETFs: AV real or simulated ──
   useEffect(() => { if (AV_ENABLED && marketTab === 'etfs' && getRateLimitInfo().canCall) { fetchAVPrices(ETF_SYMBOLS.slice(0, 6), setEtfData); } }, [marketTab]);// eslint-disable-line
   useEffect(() => { if (!AV_ENABLED) { const i = setInterval(() => setEtfData(p => microTick(p, 0.35)), 8500); return () => clearInterval(i); } }, []);
-  // ── Commodities: AV for gold/silver/platinum/palladium ──
-  useEffect(() => { if (AV_ENABLED && getRateLimitInfo().canCall) { fetchAVCommodities(COMMODITY_SYMBOLS, setCommodityData); } }, []);// eslint-disable-line
+  // ── Commodities: AV métaux précieux + endpoints WTI/BRENT/WHEAT… ──
+  useEffect(() => { if (AV_ENABLED && getRateLimitInfo().canCall) { fetchAVCommodities(COMMODITY_SYMBOLS, setCommodityData); fetchAVCommodityEP(COMMODITY_SYMBOLS, setCommodityData); } }, []);// eslint-disable-line
   useEffect(() => { if (!AV_ENABLED) { const i = setInterval(() => setCommodityData(p => microTick(p, 0.5)), 9000); return () => clearInterval(i); } }, []);
-  // ── Bonds: always simulated ──
+  // ── Bonds: AV TREASURY_YIELD pour US Treasuries, reste simulé ──
+  useEffect(() => { if (AV_ENABLED && getRateLimitInfo().canCall) { fetchAVTreasury(BOND_SYMBOLS, setBondData); } }, []);// eslint-disable-line
   useEffect(() => { const i = setInterval(() => setBondData(p => microTick(p, 0.15)), 10000); return () => clearInterval(i) }, []);
   // ── Fetch real prices on tab switch ──
   useEffect(() => { if (AV_ENABLED && marketTab === 'stocks' && getRateLimitInfo().canCall) { fetchAVPrices(STOCK_SYMBOLS.slice(0, 6), setStockData); } }, [marketTab]);// eslint-disable-line
-  useEffect(() => { if (AV_ENABLED && marketTab === 'commodities' && getRateLimitInfo().canCall) { fetchAVCommodities(COMMODITY_SYMBOLS, setCommodityData); } }, [marketTab]);// eslint-disable-line
+  useEffect(() => { if (AV_ENABLED && marketTab === 'indices' && getRateLimitInfo().canCall) { fetchAVIndices(INDEX_SYMBOLS.slice(0, 5), setIndexData); } }, [marketTab]);// eslint-disable-line
+  useEffect(() => { if (AV_ENABLED && marketTab === 'commodities' && getRateLimitInfo().canCall) { fetchAVCommodities(COMMODITY_SYMBOLS, setCommodityData); fetchAVCommodityEP(COMMODITY_SYMBOLS, setCommodityData); } }, [marketTab]);// eslint-disable-line
+  useEffect(() => { if (AV_ENABLED && marketTab === 'bonds' && getRateLimitInfo().canCall) { fetchAVTreasury(BOND_SYMBOLS, setBondData); } }, [marketTab]);// eslint-disable-line
   const getPrice = useCallback((asset) => mk[asset]?.price || forexData[asset]?.price || stockData[asset]?.price || indexData[asset]?.price || etfData[asset]?.price || commodityData[asset]?.price || bondData[asset]?.price || 0, [mk, forexData, stockData, indexData, etfData, commodityData, bondData]);
   const getMove = (asset) => mk[asset]?.move || forexData[asset]?.move || stockData[asset]?.move || indexData[asset]?.move || etfData[asset]?.move || commodityData[asset]?.move || bondData[asset]?.move || 0;
   useEffect(() => { if (!st.trades.length) return; let ch = false; const rem = []; const nc = [...st.closedTrades]; let cd = 0; st.trades.forEach(trade => { const p = getPrice(trade.asset); if (!p) { rem.push(trade); return } let trig = null; if (trade.sl > 0) { if (trade.type === 'long' && p <= trade.sl) trig = 'SL'; if (trade.type === 'short' && p >= trade.sl) trig = 'SL' } if (trade.tp > 0) { if (trade.type === 'long' && p >= trade.tp) trig = 'TP'; if (trade.type === 'short' && p <= trade.tp) trig = 'TP' } if (trig) { const m = calc(trade, p); cd += m.val; nc.push({ ...trade, exitPrice: p, exitTime: Date.now(), pnl: m.net, pnlPct: m.pct, reason: trig }); ch = true; show(`${trig === 'SL' ? '🛑' : '🎯'} ${trig}: ${trade.asset} ${fS(m.net)}`) } else rem.push(trade) }); if (ch) setSt(prev => ({ ...prev, trades: rem, closedTrades: nc, cash: prev.cash + cd })) }, [mk, forexData, stockData, indexData, etfData, commodityData, bondData]);//eslint-disable-line

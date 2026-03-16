@@ -20,7 +20,7 @@ function getMarketStatus(market) {
     const isOpen = h >= market.open && h < market.close;
     const day = local.getDay();
     const isWeekend = day === 0 || day === 6;
-    const time = local.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: market.tz });
+    const time = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: market.tz });
     return { isOpen: isOpen && !isWeekend, label: isOpen && !isWeekend ? 'OUVERT' : 'FERMÉ', localTime: time };
   } catch {
     return { isOpen: false, label: '—', localTime: '' };
